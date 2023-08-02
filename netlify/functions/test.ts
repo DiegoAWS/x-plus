@@ -7,9 +7,8 @@ const handler: Handler = async () => {
     const code_verifier = process.env.TWITTER_CLIENT_CODE;
     const redirect_uri = process.env.REDIRECT_URL
 
-    
 
-    const code = "V0NPZFYtZkl0VjRoUzlDckpUNzA4ZXVuVEplUDQtSVdtM2lRcFdaalR3bWQ2OjE2OTEwMDg5MjQwNDA6MToxOmFjOjE";
+    const code = "NWxDa21mOF9hWHpqWUdlaUVOR0lPQXdNQTl6Zkc0eC1vVlRLdnk0U3JfSUVLOjE2OTEwMDkyODA2MjY6MTowOmFjOjE";
 
     const params = {
         headers: {
@@ -29,17 +28,9 @@ const handler: Handler = async () => {
 
     console.log({ response });
 
-    // redirect to /
-    //   return {
-    //     statusCode: 302,
-    //     headers: {
-    //       Location: '/'
-    //     },
-
-    //   }
     return {
         statusCode: 200,
-        body: JSON.stringify({ response })
+        body: JSON.stringify({ response:"" })
     }
 };
 
