@@ -9,7 +9,7 @@ const handler: Handler = async (event: HandlerEvent) => {
 
   console.log(event?.headers)
 
-  const code = (event?.headers?.queryStringParameters as unknown as { code: string })?.code;
+  const code = event?.queryStringParameters?.code;
 
   if (!code) {
     return {
