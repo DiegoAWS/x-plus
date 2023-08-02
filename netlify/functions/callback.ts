@@ -7,7 +7,7 @@ const handler: Handler = async (event: HandlerEvent) => {
   const client_id = process.env.TWITTER_CLIENT_ID
   const redirect_uri = process.env.REDIRECT_URL
 
-  console.log(event?.headers)
+  
 
   const code = event?.queryStringParameters?.code;
 
@@ -18,6 +18,8 @@ const handler: Handler = async (event: HandlerEvent) => {
     }
   }
 
+  console.log({ code });
+  
   // get access token from code
   const response = await axios.post('https://api.twitter.com/2/oauth2/token', {}, {
     headers: {
