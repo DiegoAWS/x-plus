@@ -7,6 +7,7 @@ const handler: Handler = async (event: HandlerEvent) => {
   const client_id = process.env.TWITTER_CLIENT_ID
   const redirect_uri = process.env.REDIRECT_URL
 
+  console.log(event?.headers)
 
   const code = (event?.headers?.queryStringParameters as unknown as { code: string })?.code;
 
