@@ -19,6 +19,7 @@ const handler: Handler = async (event: HandlerEvent) => {
   }
 
   console.log({ code });
+  
   const params = {
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -31,8 +32,7 @@ const handler: Handler = async (event: HandlerEvent) => {
         redirect_uri
     }
 };
-console.log({ params })
-  // get access token from code
+
   const response = await axios.post('https://api.twitter.com/2/oauth2/token', {}, params).catch((err) => {
     console.log({ err });
   });
