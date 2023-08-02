@@ -33,7 +33,9 @@ const handler: Handler = async (event: HandlerEvent) => {
 };
 console.log({ params })
   // get access token from code
-  const response = await axios.post('https://api.twitter.com/2/oauth2/token', {}, params);
+  const response = await axios.post('https://api.twitter.com/2/oauth2/token', {}, params).catch((err) => {
+    console.log({ err });
+  });
 
   console.log({ response });
 
