@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const scopesArray = ["tweet.write"]
+const scopesArray = ["tweet.write","offline.access"]
 const scope = encodeURIComponent(scopesArray.join(" "))
 
 const prepareAuthUrl = (redirect_uri) => {

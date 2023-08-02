@@ -8,7 +8,7 @@ const handler: Handler = async () => {
     const redirect_uri = process.env.REDIRECT_URL
 
 
-    const code = "NWxDa21mOF9hWHpqWUdlaUVOR0lPQXdNQTl6Zkc0eC1vVlRLdnk0U3JfSUVLOjE2OTEwMDkyODA2MjY6MTowOmFjOjE";
+    const code = "RzVvVnZvTWNKZ2ljcUtyT2s3N2VHRmRUVGNVUUM4d1ZHWXJwODhIbG1GSUhLOjE2OTEwMDk4ODc1MjM6MToxOmFjOjE";
 
     const params = {
         headers: {

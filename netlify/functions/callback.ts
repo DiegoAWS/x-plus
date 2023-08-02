@@ -19,20 +19,21 @@ const handler: Handler = async (event: HandlerEvent) => {
   }
 
   console.log({ code });
-  
-  // get access token from code
-  const response = await axios.post('https://api.twitter.com/2/oauth2/token', {}, {
+  const params = {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded',
     },
     params: {
-      grant_type: 'authorization_code',
-      code,
-      client_id,
-      code_verifier,
-      redirect_uri
+        grant_type: 'authorization_code',
+        code,
+        client_id,
+        code_verifier,
+        redirect_uri
     }
-  });
+};
+console.log({ params })
+  // get access token from code
+  const response = await axios.post('https://api.twitter.com/2/oauth2/token', {}, params);
 
   console.log({ response });
 
