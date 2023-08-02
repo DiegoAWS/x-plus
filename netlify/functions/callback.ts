@@ -3,12 +3,12 @@ import axios from "axios";
 
 const handler: Handler = async (event: HandlerEvent) => {
 
-  const queryStringParameters = event?.headers?.queryStringParameters;
   const code_verifier = process.env.TWITTER_CLIENT_CODE;
   const client_id = process.env.TWITTER_CLIENT_ID
   const redirect_uri = process.env.REDIRECT_URL
 
-  const { code } = queryStringParameters as unknown as { code: string };
+
+  const code = (event?.headers?.queryStringParameters as unknown as { code: string })?.code;
 
   if (!code) {
     return {
