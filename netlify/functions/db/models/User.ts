@@ -2,22 +2,26 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../connection";
 
 export const User = sequelize.define('User', {
-  // Model attributes are defined here
   id:{
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
   },
-  firstName: {
+  twitterId: {
     type: DataTypes.STRING,
   },
-  lastName: {
-    type: DataTypes.STRING
+  name: {
+    type: DataTypes.STRING,
+  },
+  username: {
+    type: DataTypes.STRING,
   }
 }, {
 
 });
 
-sequelize.sync().then(() => {
+sequelize.sync({
+  force: true
+}).then(() => {
   console.log('Users table synced');
 })

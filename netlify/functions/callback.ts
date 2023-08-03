@@ -14,7 +14,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     }
     }
 
-  const { token } = await authTwitter({
+  const { token, getMe } = await authTwitter({
     authResponse: {
       code,
       state
@@ -22,7 +22,7 @@ const handler: Handler = async (event: HandlerEvent) => {
   });
 
   // encode token to string and to base64
-  const encoded = Buffer.from(JSON.stringify(token)).toString("base64");
+  const encoded = Buffer.from(JSON.stringify(token), "utf-8").toString("base64");
 
 
     return {
@@ -33,8 +33,8 @@ const handler: Handler = async (event: HandlerEvent) => {
       body: JSON.stringify({
         message: "Logged in",
         token,
-        encoded
-
+        encoded,
+        me: await getMe() 
       })
     }
 };

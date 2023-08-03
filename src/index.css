@@ -2,3 +2,13 @@ body{
   margin: 0;
   padding: 0;
 }
+
+*{
+  box-sizing: border-box;
+}
+
+/* variables for colors */
+
+:root{
+  --mask :  rgba(255, 255, 255, 0.5);;
+}
