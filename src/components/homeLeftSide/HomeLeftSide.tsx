@@ -18,7 +18,7 @@ function HomeLeftSide({ className, ...rest }: SpaceProps) {
       <Row>
         <Col span={24}>
           <Typography.Title level={1} className="bigText" >
-            Building the future of AI together
+            Building the future of X together
           </Typography.Title>
         </Col>
       </Row>
