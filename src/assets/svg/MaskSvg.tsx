@@ -15,7 +15,7 @@ function MaskSvg(props: React.SVGProps<SVGSVGElement>) {
     >
       <defs>
         <linearGradient id="Gradient" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0%" stopColor={token.colorBgBase} stopOpacity="0.9" />
+          <stop offset="0%" stopColor={token.colorBgBase} stopOpacity="1" />
           <stop offset="100%" stopColor={token.colorBgBase} stopOpacity="0.5" />
         </linearGradient>
       </defs>
