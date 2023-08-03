@@ -1,17 +1,11 @@
 
 import type { Handler } from "@netlify/functions";
-import { authClient } from "./services/auth";
+import { authTwitter } from "./services/authTwitter";
 
 const handler: Handler = async () => {
-    const authUrl = authClient.generateAuthURL({
-        state: process.env.TWITTER_STATE || "",
-        code_challenge: process.env.TWITTER_STATE || "",
-        code_challenge_method: "plain"
-    });
+    const { getAuthUrl } = await authTwitter();
 
-    console.log({
-        authUrl
-    })
+    const authUrl = getAuthUrl();
 
     // redirect to authUrl
     return {

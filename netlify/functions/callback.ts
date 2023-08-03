@@ -1,45 +1,42 @@
 import type { Handler, HandlerEvent } from "@netlify/functions";
-import { authClient } from "./services/auth";
+import { authTwitter } from "./services/authTwitter";
 
 const handler: Handler = async (event: HandlerEvent) => {
 
-  try {
     const { code, state } = event?.queryStringParameters || {};
 
-    if (!code || state !== process.env.TWITTER_STATE) {
-
-      throw new Error("State isn't matching" + JSON.stringify({ code, state }));
+  if (!code || !state) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: "Missing code or state"
+      })
+    }
     }
 
-    authClient.generateAuthURL({
-      state: process.env.TWITTER_STATE || "",
-      code_challenge: process.env.TWITTER_STATE || "",
-      code_challenge_method: "plain"
-    });
+  const { token } = await authTwitter({
+    authResponse: {
+      code,
+      state
+    }
+  });
 
+  // encode token to string and to base64
+  const encoded = Buffer.from(JSON.stringify(token)).toString("base64");
 
-    const token = await authClient.requestAccessToken(code as string);
 
     return {
       statusCode: 200,
+      headers:{
+        "Content-Type": "application/json"
+    },
       body: JSON.stringify({
-        message: "Logged in", token,
-        expire: new Date(token?.token?.expires_at as number).toLocaleString()
+        message: "Logged in",
+        token,
+        encoded
 
       })
     }
-
-  } catch (error) {
-    console.log(error);
-
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error })
-    }
-  }
-
-  // redirect to /
-
 };
 
 export { handler };

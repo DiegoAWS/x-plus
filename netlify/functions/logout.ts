@@ -1,15 +1,14 @@
 
 import type { Handler } from "@netlify/functions";
-import { authClient } from "./services/auth";
+
 
 const handler: Handler = async () => {
-
-    if (authClient.token) {
-        await authClient.revokeAccessToken();
-    }
     
     return {
-        statusCode: 200,
+        statusCode: 200, 
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify({ message: "Logged out" })
     }
 };
