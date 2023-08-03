@@ -7,13 +7,27 @@ const handler: Handler = async (event: HandlerEvent) => {
     const { code, state } = event?.queryStringParameters || {};
 
     if (!code || state !== process.env.TWITTER_STATE) {
-      console.log({ code, state, env: process.env.TWITTER_STATE })
-      throw new Error("State isn't matching");
+
+      throw new Error("State isn't matching" + JSON.stringify({ code, state }));
     }
 
-    console.log({ code });
+    authClient.generateAuthURL({
+      state: process.env.TWITTER_STATE || "",
+      code_challenge: process.env.TWITTER_STATE || "",
+      code_challenge_method: "plain"
+    });
 
-    await authClient.requestAccessToken(code as string);
+
+    const token = await authClient.requestAccessToken(code as string);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Logged in", token,
+        expire: new Date(token?.token?.expires_at as number).toLocaleString()
+
+      })
+    }
 
   } catch (error) {
     console.log(error);
@@ -25,12 +39,7 @@ const handler: Handler = async (event: HandlerEvent) => {
   }
 
   // redirect to /
-  return {
-    statusCode: 302,
-    headers: {
-      Location: "/",
-    }
-  }
+
 };
 
 export { handler };
