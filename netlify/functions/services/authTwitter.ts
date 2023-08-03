@@ -26,6 +26,10 @@ export async function authTwitter(props: Props) {
     token
   })
 
+  if(token?.expires_at && token?.expires_at < Date.now()){
+    token = (await authClient.refreshAccessToken())?.token;
+  }
+
 
   function getAuthUrl() {
     return authClient.generateAuthURL({
