@@ -26,7 +26,7 @@ export async function authTwitter(props: Props) {
     token
   })
 
-  if(token?.expires_at && token?.expires_at < Date.now()){
+  if (token?.expires_at && token?.expires_at < Date.now()) {
     token = (await authClient.refreshAccessToken())?.token;
   }
 
@@ -47,11 +47,25 @@ export async function authTwitter(props: Props) {
   const client = new Client(authClient);
 
   function logout() {
-    return authClient.revokeAccessToken();
+    if (authClient?.token)
+      return authClient.revokeAccessToken();
   }
 
   function getMe() {
-    return client.users.findMyUser();
+    if (authClient?.token)
+      return client.users.findMyUser();
+  }
+
+  function publishTweet(text: string) {
+    if (authClient?.token)
+      return client.tweets.createTweet({
+        text
+      })
+  }
+
+  function deleteTweet(id: string) {
+    if (authClient?.token)
+      return client.tweets.deleteTweetById(id)
   }
 
 
@@ -61,6 +75,8 @@ export async function authTwitter(props: Props) {
     token,
     getAuthUrl,
     logout,
-    getMe
+    getMe,
+    publishTweet,
+    deleteTweet
   }
 }
