@@ -8,8 +8,8 @@
 
 
     .whiteContainer {
+        min-height: 700px;
         max-width: 1000px;
-
         border-radius: 35px;
         overflow: hidden;
         width: 100%;
@@ -28,7 +28,7 @@
                 display: flex;
                 flex-direction: column;
                 padding: 50px;
-     
+
             }
 
             .rightSide {
@@ -53,21 +53,21 @@
                     cursor: pointer;
                 }
 
-                .bottomSearchBar{
+                .bottomSearchBar {
                     position: absolute;
                     bottom: 20px;
                     left: 50%;
                     width: 80%;
                     transform: translateX(-50%);
-                    
-                    background:  var(--mask);
-                    border-radius: 10px;
-                    
 
-                    button{
+                    background: var(--mask);
+                    border-radius: 10px;
+
+
+                    button {
                         margin-right: 5px;
                         border-radius: 10px;
-                        
+
                     }
                 }
             }
@@ -83,17 +83,24 @@
         top: 50%;
         z-index: 1;
         transform: translateY(-50%);
-        
+
 
     }
 }
 
-.dark.homeWrapper {
+#dark.homeWrapper {
     background-color: #756877;
-    
 
     .backImage {
-       filter: brightness(0.5);
+        filter: brightness(0.5);
+    }
+
+    .leftSide {
+        background-color: var(--black);
+    }
+
+    .bottomSearchBar {
+        background: var(--hard-dark-mask);
     }
 }
 
@@ -106,8 +113,23 @@
             }
 
             .leftSide {
-                background-color: rgba(255, 255, 255, 0.759);
+                .bigText{
+                    font-size: clamp(1rem,10vw, 4rem);
+                }
+                background-color: var(--hard-mask);
             }
         }
+        .backImage {
+            width: 100vw;
+            left: 0;
+        }
     }
+
+    #dark.homeWrapper .whiteContainer {
+        .leftSide {
+            background-color: var(--hard-dark-mask);
+        }
+
+    }
+
 }

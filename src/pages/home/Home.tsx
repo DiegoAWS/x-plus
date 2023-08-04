@@ -10,7 +10,7 @@ import { CaretRightOutlined } from "@ant-design/icons";
 function Home() {
   const { isDarkTheme } = useMainContext();
   return (
-    <div className={`homeWrapper ${isDarkTheme ? "dark" : ""}`}>
+    <div id={isDarkTheme ? "dark" : ""} className="homeWrapper">
       <Card className="whiteContainer" bordered={false}>
         <HomeLeftSide className="leftSide">
           Build teh future of AI together

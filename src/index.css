@@ -1,14 +1,19 @@
-body{
+body {
   margin: 0;
   padding: 0;
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
 /* variables for colors */
 
-:root{
-  --mask :  rgba(255, 255, 255, 0.5);;
+:root {
+  --white: #fff;
+  --hard-mask: rgba(255, 255, 255, 0.75);
+  --mask: rgba(255, 255, 255, 0.5);
+  --dark-mask: rgba(0, 0, 0, 0.5);
+  --hard-dark-mask: rgba(0, 0, 0, 0.75);
+  --black: #000;
 }
