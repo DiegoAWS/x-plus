@@ -1,7 +1,7 @@
 .loginWrapper{
-    width: min(90%, 300px);
+    width: min(90%, 350px);
 
-    height: 80vh;
+    min-height: 50vh;
     margin: 10vh auto;
     display: flex;
     flex-direction: column; 

@@ -7,12 +7,9 @@ const handler: Handler = async () => {
 
     const authUrl = getAuthUrl();
 
-    // redirect to authUrl
     return {
-        statusCode: 302,
-        headers: {
-            Location: authUrl
-        }
+      statusCode: 200,
+        body: JSON.stringify({ authUrl }),
     }
 };
 
