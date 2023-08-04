@@ -13,7 +13,7 @@ function Dashboard() {
       
       
 {
-  new Array(100).fill(0).map((_, index) => (
+  new Array(96).fill(0).map((_, index) => (
     <Card title="Card title" key ={index}>
         <img src={`https://picsum.photos/seed/${index+1}/600/500`} alt="profile" />
         </Card>
