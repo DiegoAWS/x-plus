@@ -6,6 +6,6 @@ export const getTheme = (isDarkMode = false): ThemeConfig => ({
     token: {
         colorPrimary: "#7e56f0",
         borderRadius: 15,
-    },
+    }
 
 })

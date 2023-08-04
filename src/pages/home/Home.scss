@@ -27,7 +27,7 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                padding: 100px 50px;
+                padding: 50px;
      
             }
 
@@ -51,6 +51,24 @@
 
                     z-index: 2;
                     cursor: pointer;
+                }
+
+                .bottomSearchBar{
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    width: 80%;
+                    transform: translateX(-50%);
+                    
+                    background:  var(--mask);
+                    border-radius: 10px;
+                    
+
+                    button{
+                        margin-right: 5px;
+                        background: white; border-radius: 10px;
+                        
+                    }
                 }
             }
         }
