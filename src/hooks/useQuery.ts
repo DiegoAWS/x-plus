@@ -1,13 +1,16 @@
+import type { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 
 type Props = {
-    fn: () => Promise<unknown>;
+    axiosFn: (params: unknown) => Promise<AxiosResponse>;
     isDisabled?: boolean;
     dependencies?: unknown;
+    params?: unknown;
 }
 
 function useQuery({
-    fn,
+    axiosFn,
+    params,
     isDisabled = false,
     dependencies,
 }: Props) {
@@ -29,15 +32,17 @@ function useQuery({
             console.log("useQuery: fetchData");
             setIsLoading(true);
             try {
-                const response = await fn();
-                setData(response);
+                const response = await axiosFn(params);
+                if (response?.statusText !== "OK") throw response;
+
+                setData(response?.data);
             } catch (error) {
                 setError(error);
             }
             setIsLoading(false);
         };
         fetchData();
-    }, [fn, isDisabled, counter, dependenciesString]);
+    }, [axiosFn, isDisabled, counter, dependenciesString, params]);
 
     return { data, isLoading, error, refresh };
 

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export async function getLoginUrl() {
-    const data = await axios.get("/.netlify/functions/login")
-    return data
+export  function getLoginUrl() {
+    return axios.get("/.netlify/functions/login")
+    
 }
