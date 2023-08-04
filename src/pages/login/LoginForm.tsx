@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo";
+
 import { HOME_PATH } from "../../router";
 import { Button, Divider, Form, Input, Spin, Typography } from "antd";
-import { GiftOutlined, LockOutlined, TwitterOutlined } from "@ant-design/icons";
+import {
+
+  GiftOutlined,
+  LeftOutlined,
+  LockOutlined,
+  TwitterOutlined,
+} from "@ant-design/icons";
 
 import "./Login.scss";
 
@@ -18,7 +24,9 @@ function LoginForm({ signInWithTwitter, isLoading, error }: Props) {
       <Spin size="large" spinning={isLoading}>
         <div className="top">
           <Link to={HOME_PATH}>
-            <Logo />
+            <Button icon={  <LeftOutlined />} title="Home">
+            
+            </Button>
           </Link>
           <Typography.Title level={1}>Sign in</Typography.Title>
           <Button

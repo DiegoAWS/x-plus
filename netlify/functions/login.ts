@@ -13,12 +13,14 @@ const handler: Handler = async (event: HandlerEvent) => {
     }
   }
 
-  const { token } = await authTwitter({
+  const { token, getMe } = await authTwitter({
     authResponse: {
       code,
       state
     }
   });
+
+  const me = await getMe();
 
 
   return {
@@ -28,6 +30,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     },
     body: JSON.stringify({
       token,
+      me
     })
   }
 };

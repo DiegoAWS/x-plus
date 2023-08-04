@@ -8,11 +8,21 @@ import Logo from "../../assets/Logo";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { LOGIN_PATH } from "../../router";
+import SunIcon from "../../assets/svg/SunIcon";
+import MoonIcon from "../../assets/svg/MoonIcon";
 
 function Home() {
-  const { isDarkTheme } = useMainContext();
+  const { isDarkTheme, setDarkTheme } = useMainContext();
   return (
     <div id={isDarkTheme ? "dark" : ""} className="homeWrapper">
+      <Button
+        icon={isDarkTheme ? <SunIcon /> : <MoonIcon />}
+        onClick={() => setDarkTheme(!isDarkTheme)}
+        className="themeButtonToggler"
+        size="large"
+        title={isDarkTheme ? "Light Mode" : "Dark Mode"}
+        
+      />
       <Card className="whiteContainer" bordered={false}>
         <HomeLeftSide className="leftSide">
           Build teh future of AI together

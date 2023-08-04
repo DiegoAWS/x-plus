@@ -1,4 +1,5 @@
 export const THEME_KEY = 'theme';
+export const TWITTER_TOKEN= 'twitter_token';
 
 export const createLocalStorage = (key: string) => ({
     get: () => localStorage.getItem(key),
@@ -6,10 +7,10 @@ export const createLocalStorage = (key: string) => ({
 
     getObject: () => {
         try {
-            return JSON.parse(localStorage.getItem(key) || '{}');
+            return JSON.parse(localStorage.getItem(key) || "null" );
         } catch (e) {
             console.log(e);
-            return {};
+            return null;
         }
     },
     setObject: (value: object | boolean | number) => {

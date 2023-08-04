@@ -1,10 +1,9 @@
-
-
-
-import { useSearchParams } from "react-router-dom";
+import {  useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import useQuery from "./useQuery.ts";
 import { getLoginUrl, login, type LoginParams } from "../services/auth.ts";
+import useMainContext from "../contexts/useMainContext.tsx";
+
 
 type AuthUrlResponse = {
     authUrl: string;
@@ -13,7 +12,9 @@ type AuthUrlResponse = {
 
 function useLogin() {
 
+    const { storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const {
         data: getUrlResponse,
         isLoading: isLoadingGetUrl,
@@ -26,9 +27,7 @@ function useLogin() {
         isLoading: isLoadingLogin,
         error: errorLogin,
         refresh: signIn,
-    } = useQuery<{token: string;}, LoginParams>({ axiosFn: login, isDisabled: true });
-
-
+    } = useQuery<{ token: object, me: object }, LoginParams>({ axiosFn: login, isDisabled: true });
 
 
     useEffect(() => {
@@ -58,10 +57,10 @@ function useLogin() {
 
     useEffect(() => {
         if (dataLogin?.token) {
-
-            console.log(dataLogin?.token);
+            storeTwitterToken(dataLogin);
+            // navigate(DASHBOARD_PATH)
         }
-    }, [dataLogin]);
+    }, [dataLogin, storeTwitterToken, navigate]);
 
 
 
