@@ -1,5 +1,5 @@
 import type { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
     axiosFn: (params: unknown) => Promise<AxiosResponse>;
@@ -8,41 +8,44 @@ type Props = {
     params?: unknown;
 }
 
-function useQuery({
+function useQuery<T>({
     axiosFn,
     params,
     isDisabled = false,
     dependencies,
 }: Props) {
 
-    const [data, setData] = useState<unknown>(null);
+    const [data, setData] = useState<T>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<unknown>(null);
-    const [counter, setCounter] = useState<number>(0);
+    const [error, setError] = useState<string>();
+
+    const fetchData = useCallback(async () => {
+        console.log("useQuery: fetchData");
+        setIsLoading(true);
+        setError('');
+
+        try {
+            const response = await axiosFn(params);
+            if (response?.statusText !== "OK") throw response;
+
+            setData(response?.data);
+        } catch (error) {
+            setError(JSON.stringify(error));
+        }
+        setIsLoading(false);
+    }, [axiosFn, params]);
 
     const refresh = () => {
-        setCounter(old => old + 1);
+        fetchData();
     }
     const dependenciesString = JSON.stringify(dependencies) || "";
 
     useEffect(() => {
-        console.log("useQuery: useEffect");
         if (isDisabled) return;
-        const fetchData = async () => {
-            console.log("useQuery: fetchData");
-            setIsLoading(true);
-            try {
-                const response = await axiosFn(params);
-                if (response?.statusText !== "OK") throw response;
 
-                setData(response?.data);
-            } catch (error) {
-                setError(error);
-            }
-            setIsLoading(false);
-        };
+
         fetchData();
-    }, [axiosFn, isDisabled, counter, dependenciesString, params]);
+    }, [fetchData, isDisabled, dependenciesString, params]);
 
     return { data, isLoading, error, refresh };
 

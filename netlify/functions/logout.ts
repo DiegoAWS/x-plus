@@ -1,6 +1,4 @@
-
 import type { Handler } from "@netlify/functions";
-
 
 const handler: Handler = async () => {
     

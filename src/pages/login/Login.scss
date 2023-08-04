@@ -1,15 +1,15 @@
-.loginWrapper{
+.loginWrapper {
     width: min(90%, 350px);
-
+    position: relative;
     min-height: 50vh;
     margin: 10vh auto;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: space-between;
 
-    .top{
+    .top {
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
         gap: 20px;
     }
 }

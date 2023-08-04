@@ -1,17 +1,27 @@
-import {  useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm.tsx";
 import { getLoginUrl } from "../../services/auth.ts";
+import useQuery from "../../hooks/useQuery.ts";
+import { useSearchParams } from 'react-router-dom';
 
+type AuthUrlResponse = {
+  authUrl: string;
+}
 function Login() {
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const {
+    data,
+    isLoading,
+    error,
+    refresh: signInWithTwitter,
+  } = useQuery<AuthUrlResponse>({ axiosFn: getLoginUrl, isDisabled: true });
 
-  const signInWithTwitter = async() => {
-    
-    const {authUrl} = await getLoginUrl();
-    console.log(loginUrl);
-  };
+  console.log(searchParams);
 
-  return <LoginForm signInWithTwitter={signInWithTwitter} />;
+  if(data?.authUrl) {
+    window.location.replace(data.authUrl);
+  }
+  
+  return <LoginForm signInWithTwitter={signInWithTwitter} isLoading={isLoading} error={error}/>;
 }
 
 export default Login;
