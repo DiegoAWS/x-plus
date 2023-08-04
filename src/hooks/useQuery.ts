@@ -25,6 +25,7 @@ function useQuery<T, K = void>({
 
         try {
             const response = await axiosFn(params);
+            console.log({response})
             if (response?.statusText !== "OK") throw response;
 
             setData(response?.data);

@@ -1,7 +1,12 @@
 import axios from "axios"
 
 export function getLoginUrl() {
-    return axios.get("/.netlify/functions/login-url")
+    return axios.get("/.netlify/functions/login-url",
+    {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
 
 }
 
