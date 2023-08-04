@@ -20,7 +20,7 @@ function Navbar() {
         <Typography.Text>{me?.data?.name}</Typography.Text>
       </Row>
 
-      <Button type="default" danger onClick={logout}>
+      <Button type="default" size="small" danger onClick={logout}>
         Logout
       </Button>
     </Row>
