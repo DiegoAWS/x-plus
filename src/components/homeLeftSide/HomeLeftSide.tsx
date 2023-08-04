@@ -22,7 +22,7 @@ function HomeLeftSide({ className, ...rest }: SpaceProps) {
         </Typography.Text>
       </Row>
       <Row>
-        <Button type="primary" className="start" size="large" disabled>
+        <Button type="primary" className="start" size="large">
         Get Started
         </Button>
       </Row>
