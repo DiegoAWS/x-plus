@@ -8,7 +8,7 @@ import { getTheme } from "../theme/theme";
 export type MainContextType = {
   isDarkTheme: boolean;
   setDarkTheme: (value: boolean) => void;
-}
+};
 
 export const MainContext = createContext<MainContextType>({
   isDarkTheme: false,
@@ -16,17 +16,19 @@ export const MainContext = createContext<MainContextType>({
 });
 
 function MainContextProvider({ children }: React.PropsWithChildren) {
-  const {getObject,setObject} =createLocalStorage(THEME_KEY)
+  const { getObject, setObject } = createLocalStorage(THEME_KEY);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(getObject() || false);
 
   const setDarkTheme = (value: boolean) => {
     setIsDarkTheme(value);
-    setObject(value)
+    setObject(value);
   };
+
+  const theme = getTheme(isDarkTheme);
 
   return (
     <MainContext.Provider value={{ isDarkTheme, setDarkTheme }}>
-      <ConfigProvider theme={getTheme(isDarkTheme)}>
+      <ConfigProvider theme={theme}>
         <Switch
           style={{ position: "absolute", top: 10, left: 10, zIndex: 10 }}
           checked={isDarkTheme}
@@ -36,7 +38,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
             setDarkTheme(value);
           }}
         />
-        {children}
+          {children}
       </ConfigProvider>
     </MainContext.Provider>
   );

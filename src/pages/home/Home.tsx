@@ -6,6 +6,8 @@ import useMainContext from "../../contexts/useMainContext";
 import HomeLeftSide from "../../components/homeLeftSide/HomeLeftSide";
 import Logo from "../../assets/Logo";
 import { CaretRightOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import { LOGIN_PATH } from "../../router";
 
 function Home() {
   const { isDarkTheme } = useMainContext();
@@ -17,11 +19,11 @@ function Home() {
         </HomeLeftSide>
         <div className="rightSide">
           <MaskSvg className="maskSvg" />
-
-          <Button type="primary" className="start" size="large">
-            Get Started
-          </Button>
-
+          <Link to={LOGIN_PATH}>
+            <Button type="primary" className="start" size="large">
+              Get Started
+            </Button>
+          </Link>
           <Row
             justify="space-between"
             align="middle"

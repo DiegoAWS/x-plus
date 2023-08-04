@@ -3,6 +3,11 @@ body {
   padding: 0;
 }
 
+a {
+  text-decoration: none !important;
+  color: transparent !important;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -17,3 +22,4 @@ body {
   --hard-dark-mask: rgba(0, 0, 0, 0.75);
   --black: #000;
 }
+
