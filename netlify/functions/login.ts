@@ -1,16 +1,35 @@
-
-import type { Handler } from "@netlify/functions";
+import type { Handler, HandlerEvent } from "@netlify/functions";
 import { authTwitter } from "./services/authTwitter";
 
-const handler: Handler = async () => {
-    const { getAuthUrl } = await authTwitter();
+const handler: Handler = async (event: HandlerEvent) => {
+  const { code, state } = JSON.parse(event?.body || "{}");
 
-    const authUrl = getAuthUrl();
-
+  if (!code || !state) {
     return {
-      statusCode: 200,
-        body: JSON.stringify({ authUrl }),
+      statusCode: 400,
+      body: JSON.stringify({
+        message: "Missing code or state"
+      })
     }
+  }
+
+  const { token } = await authTwitter({
+    authResponse: {
+      code,
+      state
+    }
+  });
+
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      token,
+    })
+  }
 };
 
 export { handler };

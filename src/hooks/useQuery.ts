@@ -1,26 +1,25 @@
 import type { AxiosResponse } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-type Props = {
-    axiosFn: (params: unknown) => Promise<AxiosResponse>;
+type Props<L> = {
+    axiosFn: (params: L) => Promise<AxiosResponse>;
     isDisabled?: boolean;
     dependencies?: unknown;
-    params?: unknown;
+    parameters?: L;
 }
 
-function useQuery<T>({
+function useQuery<T, K = void>({
     axiosFn,
-    params,
+    parameters,
     isDisabled = false,
     dependencies,
-}: Props) {
+}: Props<K>) {
 
     const [data, setData] = useState<T>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>();
 
-    const fetchData = useCallback(async () => {
-        console.log("useQuery: fetchData");
+    const fetchData = useCallback(async (params: K) => {
         setIsLoading(true);
         setError('');
 
@@ -33,19 +32,18 @@ function useQuery<T>({
             setError(JSON.stringify(error));
         }
         setIsLoading(false);
-    }, [axiosFn, params]);
+    }, [axiosFn]);
 
-    const refresh = () => {
-        fetchData();
+    const refresh = (params: K) => {
+        fetchData(params);
     }
     const dependenciesString = JSON.stringify(dependencies) || "";
 
     useEffect(() => {
         if (isDisabled) return;
 
-
-        fetchData();
-    }, [fetchData, isDisabled, dependenciesString, params]);
+        fetchData(parameters as K);
+    }, [fetchData, isDisabled, dependenciesString, parameters]);
 
     return { data, isLoading, error, refresh };
 

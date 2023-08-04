@@ -33,13 +33,13 @@ export async function authTwitter(props: Props) {
 
   function getAuthUrl() {
     return authClient.generateAuthURL({
-      state: process.env.TWITTER_STATE || "",
-      code_challenge: process.env.TWITTER_STATE || "",
+      state: process.env.VITE_TWITTER_STATE || "",
+      code_challenge: process.env.VITE_TWITTER_STATE || "",
       code_challenge_method: "plain"
     });
   }
 
-  if (code && state === process.env.TWITTER_STATE) {
+  if (code && state === process.env.VITE_TWITTER_STATE) {
     getAuthUrl();
     token = (await authClient.requestAccessToken(code as string))?.token;
   }
