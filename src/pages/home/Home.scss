@@ -6,6 +6,12 @@
     align-items: center;
     padding: 10%;
 
+    button {
+        margin-right: 5px;
+        border-radius: 10px;
+
+    }
+
 
     .whiteContainer {
         min-height: 700px;
@@ -43,7 +49,7 @@
                     height: 100%
                 }
 
-                .start {
+                .getStarterButton {
                     position: absolute;
                     right: 15%;
                     top: 7%;

@@ -1,7 +1,12 @@
+import LoginForm from "./LoginForm.tsx"
+
 function Login() {
-  return <>
-  
-  </>;
+
+  const signInWithTwitter = () => {
+    console.log("sign in with twitter");
+  }
+
+  return <LoginForm signInWithTwitter={signInWithTwitter}/>;
 }
 
 export default Login;

@@ -20,7 +20,7 @@ function Home() {
         <div className="rightSide">
           <MaskSvg className="maskSvg" />
           <Link to={LOGIN_PATH}>
-            <Button type="primary" className="start" size="large">
+            <Button type="primary" className="getStarterButton" size="large">
               Get Started
             </Button>
           </Link>
