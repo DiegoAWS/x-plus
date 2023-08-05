@@ -7,18 +7,20 @@
     top: 0;
     bottom: 0;
 
-
-
-    .titleMiniRow{
-        height: 80px;
-    }
-
-    .ant-layout-sider-children{
+    .ant-layout-sider-children {
         display: flex;
         flex-direction: column;
 
-        .sidebarDivider{
-            flex: 1;
+        .titleMiniRow {
+            height: 80px;
+
+            .ant-typography {
+                margin: 0 !important;
+            }
+        }
+
+        .sidebarDivider {
+            flex: 1 !important;
         }
     }
 }

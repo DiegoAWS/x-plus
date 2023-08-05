@@ -6,17 +6,10 @@
         margin: 20px;
     }
 
-    .dashboardContent{
-        padding: 20px;
-        display: grid;
-        gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-
-        img{
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+    .mainContent{
+       margin: 20px 20px 0;
+       overflow: auto;
+       min-height: calc(100vh - 90px);
     }
 }
 

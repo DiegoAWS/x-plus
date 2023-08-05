@@ -8,10 +8,6 @@ a {
   color: transparent !important;
 }
 
-.ant-typography {
-  margin: 0 !important;
-}
-
 .ant-menu-item-disabled {
   cursor: default !important;
 }
