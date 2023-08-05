@@ -1,4 +1,4 @@
-import {  Space, Typography, type SpaceProps, Button } from "antd";
+import { Space, Typography, type SpaceProps, Button } from "antd";
 import "./HomeLeftSide.scss";
 import Logo from "../../assets/Logo";
 import { Link } from "react-router-dom";
@@ -21,10 +21,10 @@ function HomeLeftSide({ className, ...rest }: SpaceProps) {
         constructing the future of Al as a collective.
       </Typography.Text>
       <Link to={LOGIN_PATH}>
-      <Button type="primary" className="start" size="large">
-        Get Started
-      </Button>
-      </Link> 
+        <Button type="primary" className="start" size="large" shape="round">
+          Get Started
+        </Button>
+      </Link>
     </Space>
   );
 }

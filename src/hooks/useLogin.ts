@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import useQuery from "./useQuery.ts";
 import { getLoginUrl, login, type LoginParams } from "../services/auth.ts";
 import useMainContext from "../contexts/useMainContext.tsx";
+import type { TwitterToken } from "../types/index.ts";
 
 
 type AuthUrlResponse = {
@@ -27,7 +28,7 @@ function useLogin() {
         isLoading: isLoadingLogin,
         error: errorLogin,
         refresh: signIn,
-    } = useQuery<{ token: object, me: object }, LoginParams>({ axiosFn: login, isDisabled: true });
+    } = useQuery<TwitterToken, LoginParams>({ axiosFn: login, isDisabled: true });
 
 
     useEffect(() => {
@@ -58,7 +59,6 @@ function useLogin() {
     useEffect(() => {
         if (dataLogin?.token) {
             storeTwitterToken(dataLogin);
-            // navigate(DASHBOARD_PATH)
         }
     }, [dataLogin, storeTwitterToken, navigate]);
 

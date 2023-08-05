@@ -1,6 +1,12 @@
 .navbarWrapper{
     display: flex;
     height: 80px;
-    background-color: var(--white);
     padding-inline: 20px;
+    position: sticky;
+    top: 0;
+    left: 80px;
+    z-index: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
 }

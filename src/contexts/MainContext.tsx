@@ -7,12 +7,13 @@ import {
   createLocalStorage,
 } from "../services/localStore";
 import { getTheme } from "../theme/theme";
+import type { TwitterToken } from "../types";
 
 export type MainContextType = {
   isDarkTheme: boolean;
   setDarkTheme: (value: boolean) => void;
-  twitterToken: object | null;
-  storeTwitterToken: (token: object) => void;
+  twitterToken: TwitterToken | null;
+  storeTwitterToken: (token: TwitterToken) => void;
   logout: () => void;
 };
 
@@ -37,7 +38,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
     createLocalStorage(THEME_KEY).setObject(value);
   }, []);
 
-  const storeTwitterToken = useCallback((token: object) => {
+  const storeTwitterToken = useCallback((token: TwitterToken) => {
     setTwitterToken(token);
     createLocalStorage(TWITTER_TOKEN).setObject(token);
   }, []);

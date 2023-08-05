@@ -8,6 +8,22 @@ a {
   color: transparent !important;
 }
 
+.ant-typography {
+  margin: 0 !important;
+}
+
+.ant-menu-item-disabled {
+  cursor: default !important;
+}
+.ant-menu-root{
+border: none !important;
+}
+
+button {
+  align-items: center !important;
+  display: flex !important;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -22,4 +38,3 @@ a {
   --hard-dark-mask: rgba(0, 0, 0, 0.75);
   --black: #000;
 }
-

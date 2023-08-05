@@ -6,7 +6,7 @@
     align-items: center;
     padding: 10%;
 
-    .themeButtonToggler{
+    .themeButtonToggler {
         position: absolute;
         bottom: 10px;
         left: 10px;
@@ -20,7 +20,7 @@
     }
 
     .whiteContainer {
-        
+
         height: min(80vh, 700px);
         max-width: 1000px;
         border-radius: 35px;
@@ -121,17 +121,22 @@
 @media screen and (max-width: 1200px) {
     .homeWrapper {
         .whiteContainer {
-            .rightSide {
-                display: none;
-            }
-
-            .leftSide {
-                .bigText{
-                    font-size: clamp(1rem,10vw, 4rem);
-                }
+            .ant-card-body {
                 background-color: var(--hard-mask);
+
+                .rightSide {
+                    display: none;
+                }
+
+                .leftSide {
+
+                    .bigText {
+                        font-size: clamp(1rem, 10vw, 4rem);
+                    }
+                }
             }
         }
+
         .backImage {
             width: 100vw;
             left: 0;

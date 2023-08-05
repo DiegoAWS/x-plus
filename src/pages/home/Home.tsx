@@ -21,7 +21,6 @@ function Home() {
         className="themeButtonToggler"
         size="large"
         title={isDarkTheme ? "Light Mode" : "Dark Mode"}
-        
       />
       <Card className="whiteContainer" bordered={false}>
         <HomeLeftSide className="leftSide">
@@ -30,7 +29,12 @@ function Home() {
         <div className="rightSide">
           <MaskSvg className="maskSvg" />
           <Link to={LOGIN_PATH}>
-            <Button type="primary" className="getStarterButton" size="large">
+            <Button
+              type="primary"
+              className="getStarterButton"
+              size="large"
+              shape="round"
+            >
               Get Started
             </Button>
           </Link>
