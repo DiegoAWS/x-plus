@@ -15,7 +15,7 @@ function Navbar() {
 
   const logout = () => {
     netlifyIdentity.logout();
-    // window.location.reload(); // HARD refresh
+    window.location.reload(); // HARD refresh
   };
 
   return (
