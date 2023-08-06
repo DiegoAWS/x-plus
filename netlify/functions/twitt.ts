@@ -5,7 +5,6 @@ const handler: Handler = async (event: HandlerEvent) => {
   // console.log(event)
   const { token, text } = JSON.parse(event?.body || "{}");
 
-  console.log(token, text)
   if (!token) {
     return {
       statusCode: 400,
