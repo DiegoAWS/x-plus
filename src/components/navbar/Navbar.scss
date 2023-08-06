@@ -3,4 +3,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-inline: 20px;
+.brandContainer{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+    .brandText{
+        max-width: 50vw;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }}
 }
