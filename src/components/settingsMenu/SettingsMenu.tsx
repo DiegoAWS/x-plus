@@ -63,7 +63,7 @@ function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
           title: isDarkTheme ? "Light mode" : "Dark mode",
           icon: <DarkThemeToggler isCollapsed={isCollapsed} /> ,
           disabled: !isCollapsed,
-          onClick: () => isCollapsed && setDarkTheme(!isDarkTheme),
+          onClick: () => !xl && isCollapsed && setDarkTheme(!isDarkTheme),
         },
       ]}
     />

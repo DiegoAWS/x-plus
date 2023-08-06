@@ -65,7 +65,9 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
   return (
     <MainContext.Provider value={context}>
       <ConfigProvider theme={theme}>
-      <ToastContainer />
+      <ToastContainer 
+      theme={isDarkTheme ? "dark" : "light"}
+      />
         {children}
       </ConfigProvider>
     </MainContext.Provider>

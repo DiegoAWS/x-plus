@@ -25,7 +25,7 @@ function Dashboard() {
     };
     await refresh(twitt);
     setTwittArea("");
-    toast.success("Tweet successfully sent!");
+    toast("Tweet successfully sent!");
   };
 
   return (
