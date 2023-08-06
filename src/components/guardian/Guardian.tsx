@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { HOME_PATH } from "../../router";
-import netlifyIdentity from "../../services/niw";
+import netlifyIdentity from "netlify-identity-widget";
 
 type Props = {
   children?: React.ReactNode;

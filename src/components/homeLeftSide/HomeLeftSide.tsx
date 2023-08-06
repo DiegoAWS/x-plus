@@ -1,7 +1,7 @@
 import { Space, Typography, type SpaceProps, Button } from "antd";
 import "./HomeLeftSide.scss";
 import Logo from "../../assets/Logo";
-import netlifyIdentity from "../../services/niw";
+import netlifyIdentity from "netlify-identity-widget";
 
 function HomeLeftSide({ className, ...rest }: SpaceProps) {
   return (

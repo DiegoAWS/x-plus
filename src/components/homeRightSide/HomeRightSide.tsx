@@ -2,7 +2,7 @@ import { Button, Row, Space, Typography } from "antd";
 import MaskSvg from "../../assets/svg/MaskSvg";
 import Logo from "../../assets/Logo";
 import { CaretRightOutlined } from "@ant-design/icons";
-import netlifyIdentity from "../../services/niw";
+import netlifyIdentity from "netlify-identity-widget";
 
 function HomeRightSide() {
   return (

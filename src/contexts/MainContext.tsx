@@ -1,6 +1,6 @@
 import { ConfigProvider } from "antd";
-import { createContext, useCallback, useState } from "react";
-
+import { createContext, useCallback, useEffect, useState } from "react";
+import netlifyIdentity from "netlify-identity-widget";
 import {
   THEME_KEY,
   TWITTER_TOKEN,
@@ -8,10 +8,8 @@ import {
 } from "../services/localStore";
 import { getTheme } from "../theme/theme";
 import type { TwitterToken } from "../types";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export type MainContextType = {
   isDarkTheme: boolean;
@@ -54,20 +52,43 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
 
   const theme = getTheme(isDarkTheme);
 
+
+
+
+  useEffect(() => {
+    netlifyIdentity.init();
+    netlifyIdentity.on("init", (user) => console.log("init", user));
+    netlifyIdentity.on("login", (user) => {
+      netlifyIdentity.close();
+
+      console.log("login", user);
+    });
+    netlifyIdentity.on("logout", () => console.log("Logged out"));
+    netlifyIdentity.on("error", (err) => console.error("Error", err));
+
+    return () => {
+      netlifyIdentity.off("login");
+      netlifyIdentity.off("logout");
+      netlifyIdentity.off("init");
+      netlifyIdentity.off("error");
+    };
+  }, []);
+  // // Unbind from events
+  // netlifyIdentity.off('login'); // to unbind all registered handlers
+  // netlifyIdentity.off('login', handler); // to unbind a single handler
+
   const context = {
     twitterToken,
     storeTwitterToken,
     isDarkTheme,
     setDarkTheme,
-    logout
+    logout,
   };
 
   return (
     <MainContext.Provider value={context}>
       <ConfigProvider theme={theme}>
-      <ToastContainer 
-      theme={isDarkTheme ? "dark" : "light"}
-      />
+        <ToastContainer theme={isDarkTheme ? "dark" : "light"} />
         {children}
       </ConfigProvider>
     </MainContext.Provider>

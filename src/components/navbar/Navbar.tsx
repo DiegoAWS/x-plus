@@ -2,7 +2,7 @@ import { Button, Grid, Layout, Typography, theme } from "antd";
 
 import { DingtalkOutlined } from "@ant-design/icons";
 import "./Navbar.scss";
-import netlifyIdentity from "../../services/niw";
+import netlifyIdentity from "netlify-identity-widget";
 import LogOutIcon from "../../assets/svg/LogOutIcon";
 
 function Navbar() {

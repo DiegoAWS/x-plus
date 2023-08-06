@@ -6,7 +6,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons"
 import DarkThemeToggler from "../darkThemeToggler/DarkThemeToggler";
-import netlifyIdentity from "../../services/niw";
+import netlifyIdentity from "netlify-identity-widget";
 
 const MenuKeys = {
   UNCOLLAPSE: "uncollapse",
