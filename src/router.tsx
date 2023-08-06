@@ -1,9 +1,19 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  createBrowserRouter,
+  type RouteObject,
+} from "react-router-dom";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Guardian from "./components/guardian/Guardian";
-import { BarChartOutlined, CalendarOutlined, HomeOutlined, MenuUnfoldOutlined, SnippetsOutlined } from "@ant-design/icons";
+import {
+  BarChartOutlined,
+  CalendarOutlined,
+  HomeOutlined,
+  MenuUnfoldOutlined,
+  SnippetsOutlined,
+} from "@ant-design/icons";
 import Outlet from "./pages/outlet/Outlet";
 
 export const HOME_PATH = "/";
@@ -18,10 +28,7 @@ export const routes = [
   {
     path: HOME_PATH,
     element: (
-      <Guardian
-        publicComponent={<Home />}
-        privateComponent={<Outlet />}
-      />
+      <Guardian publicComponent={<Home />} privateComponent={<Outlet />} />
     ),
     children: [
       {
@@ -32,7 +39,7 @@ export const routes = [
         path: DASHBOARD_PATH,
         title: "Dashboard",
         icon: <HomeOutlined />,
-        element: <Guardian privateComponent={<Dashboard />} />,
+        element: <Dashboard />,
       },
       {
         path: TEMPLATES_PATH,
@@ -58,18 +65,12 @@ export const routes = [
         icon: <BarChartOutlined />,
         element: <Guardian privateComponent={<Dashboard />} />,
       },
-    ]
+    ],
   },
   {
     path: LOGIN_PATH,
-    element: (
-      <Guardian
-        publicComponent={<Login />}
-        privateComponent={<Navigate to={DASHBOARD_PATH} />}
-      />
-    ),
+    element: <Login />,
   },
- 
-];
+] as RouteObject[];
 
 export const router = createBrowserRouter(routes);
