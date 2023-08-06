@@ -4,6 +4,7 @@ import Home from "./pages/home/Home";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Guardian from "./components/guardian/Guardian";
 import { BarChartOutlined, CalendarOutlined, HomeOutlined, MenuUnfoldOutlined, SnippetsOutlined } from "@ant-design/icons";
+import Outlet from "./pages/outlet/Outlet";
 
 export const HOME_PATH = "/";
 export const LOGIN_PATH = "/login";
@@ -19,9 +20,45 @@ export const routes = [
     element: (
       <Guardian
         publicComponent={<Home />}
-        privateComponent={<Navigate to={DASHBOARD_PATH} />}
+        privateComponent={<Outlet />}
       />
     ),
+    children: [
+      {
+        index: true,
+        element: <Navigate to={DASHBOARD_PATH} />,
+      },
+      {
+        path: DASHBOARD_PATH,
+        title: "Dashboard",
+        icon: <HomeOutlined />,
+        element: <Guardian privateComponent={<Dashboard />} />,
+      },
+      {
+        path: TEMPLATES_PATH,
+        title: "Templates",
+        icon: <SnippetsOutlined />,
+        element: <Guardian privateComponent={<Dashboard />} />,
+      },
+      {
+        path: TASKS_PATH,
+        title: "Tasks",
+        icon: <MenuUnfoldOutlined />,
+        element: <Guardian privateComponent={<Dashboard />} />,
+      },
+      {
+        path: RECURRENT_TASKS_PATH,
+        title: "Recurrent Tasks",
+        icon: <CalendarOutlined />,
+        element: <Guardian privateComponent={<Dashboard />} />,
+      },
+      {
+        path: ANALYTICS_PATH,
+        title: "Analytics",
+        icon: <BarChartOutlined />,
+        element: <Guardian privateComponent={<Dashboard />} />,
+      },
+    ]
   },
   {
     path: LOGIN_PATH,
@@ -32,36 +69,7 @@ export const routes = [
       />
     ),
   },
-  {
-    path: DASHBOARD_PATH,
-    title: "Dashboard",
-    icon: <HomeOutlined />,
-    element: <Guardian privateComponent={<Dashboard />} />,
-  },
-  {
-    path: TEMPLATES_PATH,
-    title: "Templates",
-    icon: <SnippetsOutlined />,
-    element: <Guardian privateComponent={<Dashboard />} />,
-  },
-  {
-    path: TASKS_PATH,
-    title: "Tasks",
-    icon: <MenuUnfoldOutlined />,
-    element: <Guardian privateComponent={<Dashboard />} />,
-  },
-  {
-    path: RECURRENT_TASKS_PATH,
-    title: "Recurrent Tasks",
-    icon: <CalendarOutlined />,
-    element: <Guardian privateComponent={<Dashboard />} />,
-  },
-  {
-    path: ANALYTICS_PATH,
-    title: "Analytics",
-    icon: <BarChartOutlined />,
-    element: <Guardian privateComponent={<Dashboard />} />,
-  },
+ 
 ];
 
 export const router = createBrowserRouter(routes);

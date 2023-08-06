@@ -1,27 +1,40 @@
-import { Menu, type MenuProps } from 'antd'
+import { Menu, type MenuProps } from "antd";
 
-import useMainContext from '../../contexts/useMainContext';
-import { routes } from '../../router';
-
+import useMainContext from "../../contexts/useMainContext";
+import { HOME_PATH } from "../../router";
+import { routes } from "../../router";
 
 function NavigationMenu() {
-    const { isDarkTheme } = useMainContext();
+  const { isDarkTheme } = useMainContext();
 
-    const items: MenuProps['items'] = routes.filter(({title})=>Boolean(title)).map(({title, path, icon})=>({
-        key: path,
-        label: title,
-        icon,
-        onClick: ()=>{}
-    }));
+  const items = (routes.find(({ path }) => path === HOME_PATH)?.children || [])
+    .filter(({ title }) => Boolean(title))
+    .map(({ title, path, icon }) => ({
+      key: path,
+      label: title,
+      icon,
+      onClick: () => {
+        console.log({
+          title,
+          path,
+        });
+      },
+    })) as MenuProps["items"];
 
   return (
     <Menu
-    theme={isDarkTheme ? "dark" : "light"}
-    mode="inline"
-    items={items}
-    selectedKeys={["1"]}
-  />
-  )
+      theme={isDarkTheme ? "dark" : "light"}
+      mode="inline"
+      items={[
+        ...(items || []),
+
+        {
+          type: "divider",
+        },
+      ]}
+      selectedKeys={["1"]}
+    />
+  );
 }
 
-export default NavigationMenu
+export default NavigationMenu;

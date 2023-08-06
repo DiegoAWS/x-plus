@@ -17,7 +17,6 @@ function Sidebar() {
 
   const [isCollapsed, setIsCollapsed] = useState(!xl);
 
-console.log({isCollapsed, xl})
   return (
     <>
       <Sider
@@ -42,7 +41,6 @@ console.log({isCollapsed, xl})
         </Row>
         <Divider className="titleDivider"/>
         <NavigationMenu />
-        <Divider />
         <div className="sidebarDivider" />
 
         <SettingsMenu

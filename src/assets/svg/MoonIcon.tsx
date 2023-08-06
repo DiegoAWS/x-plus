@@ -2,7 +2,7 @@ function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height="1rem"
+      height="16px"
       viewBox="0 0 384 512"
       {...props}
     >
