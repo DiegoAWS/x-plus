@@ -61,12 +61,13 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
   useEffect(() => {
     const storedUser = netlifyIdentity.currentUser();
 
+    console.log({ storedUser });
     if (!storedUser) {
       netlifyIdentity.init();
     } else {
       setUser(storedUser);
     }
-    
+
     netlifyIdentity.on("init", (userResult) => {
       setUser(userResult);
     });
