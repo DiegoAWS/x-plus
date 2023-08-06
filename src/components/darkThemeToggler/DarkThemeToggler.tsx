@@ -1,11 +1,23 @@
-import { Button, Space } from "antd";
+import { Button, Grid, Space } from "antd";
 import SunIcon from "../../assets/svg/SunIcon";
 import MoonIcon from "../../assets/svg/MoonIcon";
 import useMainContext from "../../contexts/useMainContext";
 
-function DarkThemeToggler() {
+type Props = {
+  isCollapsed: boolean;
+};
+
+function DarkThemeToggler({isCollapsed}: Props) {
   const { isDarkTheme, setDarkTheme } = useMainContext();
-  return (
+  const {xl} = Grid.useBreakpoint();
+
+  return   isCollapsed && !xl ? (
+    isDarkTheme ? (
+      <SunIcon />
+    ) : (
+      <MoonIcon />
+    )
+  ) : (
     <Space direction="horizontal">
       <Button
         icon={<SunIcon />}

@@ -1,9 +1,11 @@
-import { Grid, Menu, Typography, type MenuProps, Divider } from "antd";
+import { Grid, Menu, type MenuProps, Divider } from "antd";
 import useMainContext from "../../contexts/useMainContext";
 import type { TwitterToken } from "../../types";
-import { ArrowRightOutlined, QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
-import SunIcon from "../../assets/svg/SunIcon";
-import MoonIcon from "../../assets/svg/MoonIcon";
+import {
+  ArrowRightOutlined,
+  QuestionCircleOutlined,
+  SettingOutlined,
+} from "@ant-design/icons"
 import DarkThemeToggler from "../darkThemeToggler/DarkThemeToggler";
 
 const { useBreakpoint } = Grid;
@@ -16,11 +18,11 @@ const MenuKeys = {
 };
 
 type Props = {
-    isCollapsed: boolean;
-    setIsCollapsed: (isCollapsed: boolean) => void;
+  isCollapsed: boolean;
+  setIsCollapsed: (isCollapsed: boolean) => void;
 };
 
-function SettingsMenu({isCollapsed, setIsCollapsed}: Props) {
+function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
   const { isDarkTheme, setDarkTheme, twitterToken } = useMainContext();
   const { xl } = useBreakpoint();
   const { me } = twitterToken as TwitterToken;
@@ -30,6 +32,7 @@ function SettingsMenu({isCollapsed, setIsCollapsed}: Props) {
       case MenuKeys.UNCOLLAPSE:
         setIsCollapsed(false);
         break;
+
       case MenuKeys.HELP:
         window.open("http://youtube.com", "_blank");
         break;
@@ -37,10 +40,12 @@ function SettingsMenu({isCollapsed, setIsCollapsed}: Props) {
       case MenuKeys.DARKMODE:
         setDarkTheme(!isDarkTheme);
         break;
+        
       default:
         break;
     }
   }) as MenuProps["onClick"];
+
 
   return (
     <Menu
@@ -61,16 +66,9 @@ function SettingsMenu({isCollapsed, setIsCollapsed}: Props) {
           : []),
         {
           key: MenuKeys.USER,
-          disabled: true,
-          icon: <UserOutlined />,
-          label: (
-            <div className="userName">
-              <Typography.Text ellipsis>{me.data.name}</Typography.Text>
-              <Typography.Text type="secondary" ellipsis>
-                @{me.data.username}
-              </Typography.Text>
-            </div>
-          ),
+
+          icon: <SettingOutlined />,
+          label: me.data.name,
         },
         {
           key: MenuKeys.DIVIDER,
@@ -85,16 +83,7 @@ function SettingsMenu({isCollapsed, setIsCollapsed}: Props) {
         {
           key: MenuKeys.DARKMODE,
           title: isDarkTheme ? "Light mode" : "Dark mode",
-          icon:
-            isCollapsed && !xl ? (
-              isDarkTheme ? (
-                <SunIcon />
-              ) : (
-                <MoonIcon />
-              )
-            ) : (
-              <DarkThemeToggler />
-            ),
+          icon: <DarkThemeToggler isCollapsed={isCollapsed} /> ,
           disabled: !isCollapsed,
         },
       ]}

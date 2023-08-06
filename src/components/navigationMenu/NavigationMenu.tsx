@@ -1,34 +1,18 @@
 import { Menu, type MenuProps } from 'antd'
-import {
-    AppstoreOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    ShopOutlined,
-    TeamOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-  } from "@ant-design/icons";
-import { createElement } from 'react';
-import useMainContext from '../../contexts/useMainContext';
 
-const items: MenuProps["items"] = [
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    AppstoreOutlined,
-    TeamOutlined,
-    ShopOutlined,
-  ].map((icon, index) => ({
-    key: String(index + 1),
-    icon: createElement(icon),
-    label: `nav ${index + 1}`,
-  }));
+import useMainContext from '../../contexts/useMainContext';
+import { routes } from '../../router';
+
 
 function NavigationMenu() {
     const { isDarkTheme } = useMainContext();
+
+    const items: MenuProps['items'] = routes.filter(({title})=>Boolean(title)).map(({title, path, icon})=>({
+        key: path,
+        label: title,
+        icon,
+        onClick: ()=>{}
+    }));
 
   return (
     <Menu

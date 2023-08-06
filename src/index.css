@@ -11,14 +11,22 @@ a {
 .ant-menu-item-disabled {
   cursor: default !important;
 }
-.ant-menu-root{
-border: none !important;
+
+.ant-menu-root {
+  border: none !important;
 }
 
 button {
   align-items: center !important;
   display: flex !important;
 }
+
+.ant-layout-sider,
+.ant-layout-sider * {
+  transition: none !important;
+}
+
+
 
 * {
   box-sizing: border-box;
@@ -33,4 +41,6 @@ button {
   --dark-mask: rgba(0, 0, 0, 0.5);
   --hard-dark-mask: rgba(0, 0, 0, 0.75);
   --black: #000;
+
+  --navbar-height: 60px;
 }

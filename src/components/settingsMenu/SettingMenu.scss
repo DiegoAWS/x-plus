@@ -1,7 +1,7 @@
-.settingsMenuWrapper G {
+.settingsMenuWrapper {
     .userName {
         display: flex !important;
-        flex-direction: column;
+        flex-direction: column !important;
         justify-content: center;
         align-items: center;
     }

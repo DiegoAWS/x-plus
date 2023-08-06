@@ -12,11 +12,14 @@
         flex-direction: column;
 
         .titleMiniRow {
-            height: 80px;
+            height: var(--navbar-height);
 
             .ant-typography {
                 margin: 0 !important;
             }
+        }
+        .titleDivider{
+            margin-top: 0 !important;
         }
 
         .sidebarDivider {
