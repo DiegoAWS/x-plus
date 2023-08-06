@@ -8,6 +8,10 @@ import {
 } from "../services/localStore";
 import { getTheme } from "../theme/theme";
 import type { TwitterToken } from "../types";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 export type MainContextType = {
   isDarkTheme: boolean;
@@ -61,6 +65,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
   return (
     <MainContext.Provider value={context}>
       <ConfigProvider theme={theme}>
+      <ToastContainer />
         {children}
       </ConfigProvider>
     </MainContext.Provider>

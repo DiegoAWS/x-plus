@@ -2,9 +2,11 @@ import type { Handler, HandlerEvent } from "@netlify/functions";
 import { authTwitter } from "./services/authTwitter";
 
 const handler: Handler = async (event: HandlerEvent) => {
-  const { code, state, text } = JSON.parse(event?.body || "{}");
+  // console.log(event)
+  const { token, text } = JSON.parse(event?.body || "{}");
 
-  if (!code || !state) {
+  console.log(token, text)
+  if (!token) {
     return {
       statusCode: 400,
       body: JSON.stringify({
@@ -13,12 +15,9 @@ const handler: Handler = async (event: HandlerEvent) => {
     }
   }
 
-  const { publishTweet, token } = await authTwitter({
-    authResponse: {
-      code,
-      state
-    }
-  });
+  const { publishTweet, token: newToken } = await authTwitter(
+    token
+  );
 
   const tweet = await publishTweet(text);
 
@@ -30,7 +29,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     },
     body: JSON.stringify({
       tweet,
-      token
+      newToken
     })
   }
 };
