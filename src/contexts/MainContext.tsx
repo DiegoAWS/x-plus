@@ -1,6 +1,6 @@
 import { ConfigProvider } from "antd";
 import { createContext, useCallback, useEffect, useState } from "react";
-import netlifyIdentity from "netlify-identity-widget";
+import netlifyIdentity, { type User } from "netlify-identity-widget";
 import {
   THEME_KEY,
   TWITTER_TOKEN,
@@ -17,6 +17,8 @@ export type MainContextType = {
   twitterToken: TwitterToken | null;
   storeTwitterToken: (token: TwitterToken) => void;
   logout: () => void;
+  user: User | null;
+  netlifyIdentity: typeof netlifyIdentity;
 };
 
 export const MainContext = createContext<MainContextType>({
@@ -25,6 +27,8 @@ export const MainContext = createContext<MainContextType>({
   twitterToken: null,
   storeTwitterToken: () => {},
   logout: () => {},
+  user: null,
+  netlifyIdentity,
 });
 
 function MainContextProvider({ children }: React.PropsWithChildren) {
@@ -52,19 +56,32 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
 
   const theme = getTheme(isDarkTheme);
 
+  const [user, setUser] = useState<User | null>(null);
 
-
-
+  const updateUserIdentity = useCallback(() => {
+    setUser(netlifyIdentity.currentUser());
+  }, []);
   useEffect(() => {
+    console.log("init");
     netlifyIdentity.init();
-    netlifyIdentity.on("init", (user) => console.log("init", user));
+    netlifyIdentity.on("init", (user) => {
+      updateUserIdentity();
+      console.log("init", user);
+    });
+
     netlifyIdentity.on("login", (user) => {
       netlifyIdentity.close();
-
+      updateUserIdentity();
       console.log("login", user);
     });
-    netlifyIdentity.on("logout", () => console.log("Logged out"));
+    
+    netlifyIdentity.on("logout", () => {
+      updateUserIdentity();
+      console.log("Logged out");
+    });
+
     netlifyIdentity.on("error", (err) => console.error("Error", err));
+    updateUserIdentity();
 
     return () => {
       netlifyIdentity.off("login");
@@ -72,10 +89,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
       netlifyIdentity.off("init");
       netlifyIdentity.off("error");
     };
-  }, []);
-  // // Unbind from events
-  // netlifyIdentity.off('login'); // to unbind all registered handlers
-  // netlifyIdentity.off('login', handler); // to unbind a single handler
+  }, [updateUserIdentity]);
 
   const context = {
     twitterToken,
@@ -83,6 +97,8 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
     isDarkTheme,
     setDarkTheme,
     logout,
+    netlifyIdentity,
+    user,
   };
 
   return (

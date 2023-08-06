@@ -2,11 +2,12 @@ import { Button, Grid, Layout, Typography, theme } from "antd";
 
 import { DingtalkOutlined } from "@ant-design/icons";
 import "./Navbar.scss";
-import netlifyIdentity from "netlify-identity-widget";
+
 import LogOutIcon from "../../assets/svg/LogOutIcon";
+import useMainContext from "../../contexts/useMainContext";
 
 function Navbar() {
-
+  const { netlifyIdentity, user } = useMainContext();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -40,7 +41,7 @@ function Navbar() {
         )}
       </div>
       <Button shape="round" onClick={logout}>
-        {netlifyIdentity.currentUser()?.email}
+        {user?.email}
         <LogOutIcon className="logoutIcon" />
       </Button>
     </Layout.Header>

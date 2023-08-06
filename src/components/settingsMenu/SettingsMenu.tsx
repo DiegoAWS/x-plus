@@ -6,7 +6,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons"
 import DarkThemeToggler from "../darkThemeToggler/DarkThemeToggler";
-import netlifyIdentity from "netlify-identity-widget";
+
 
 const MenuKeys = {
   UNCOLLAPSE: "uncollapse",
@@ -22,10 +22,10 @@ type Props = {
 };
 
 function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
-  const { isDarkTheme, setDarkTheme } = useMainContext();
+  const { isDarkTheme, setDarkTheme, user } = useMainContext();
   const { xl } = Grid.useBreakpoint();
   
-  const user = netlifyIdentity.currentUser();
+
 
 
   return (
