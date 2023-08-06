@@ -59,8 +59,14 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    netlifyIdentity.init();
+    const storedUser = netlifyIdentity.currentUser();
 
+    if (!storedUser) {
+      netlifyIdentity.init();
+    } else {
+      setUser(storedUser);
+    }
+    
     netlifyIdentity.on("init", (userResult) => {
       setUser(userResult);
     });
@@ -68,16 +74,13 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
     netlifyIdentity.on("login", (userResult) => {
       netlifyIdentity.close();
       setUser(userResult);
-
     });
-    
+
     netlifyIdentity.on("logout", () => {
       setUser(null);
-
     });
 
     netlifyIdentity.on("error", (err) => console.error("Error", err));
-
 
     return () => {
       netlifyIdentity.off("login");
