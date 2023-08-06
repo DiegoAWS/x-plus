@@ -16,10 +16,9 @@ function HomeLeftSide({ className, ...rest }: SpaceProps) {
       <Typography.Title level={1} className="bigText">
         Building the future of X together
       </Typography.Title>
-      <Typography.Text>
-        Al is transforming the world, and we are leading the charge. We are
-        constructing the future of Al as a collective.
-      </Typography.Text>
+      <Typography.Title level={4}>
+      🚀 Dive into our dynamic web platform! Our app 📲 lets you craft ✍️ perfect tweet templates 📝, schedule ⏰ and automate 🤖 tweets for your beloved clients ❤️, and even set up recurring Twitter 🐦 magic ✨
+      </Typography.Title >
       <Link to={LOGIN_PATH}>
         <Button type="primary" className="start" size="large" shape="round">
           Get Started

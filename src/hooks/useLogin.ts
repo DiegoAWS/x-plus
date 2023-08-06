@@ -1,5 +1,5 @@
-import {  useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import useQuery from "./useQuery.ts";
 import { getLoginUrl, login, type LoginParams } from "../services/auth.ts";
 import useMainContext from "../contexts/useMainContext.tsx";
@@ -15,6 +15,7 @@ function useLogin() {
 
     const { storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [genericError, setGenericError] = useState("")
     const navigate = useNavigate();
     const {
         data: getUrlResponse,
@@ -40,18 +41,26 @@ function useLogin() {
 
     useEffect(() => {
         (async () => {
-            if (searchParams.has("state") && searchParams.has("code")) {
+            const verifyState = import.meta.env.VITE_TWITTER_STATE;
+            if (!searchParams.has("state") || searchParams.get("state") !== verifyState) return;
+
+            if (searchParams.has("code")) {
                 const state = searchParams.get("state");
                 const code = searchParams.get("code");
-                const veryfyState = import.meta.env.VITE_TWITTER_STATE;
 
-                setSearchParams({})
-
-                if (state === veryfyState && code && state) {
+                if (code && state) {
 
                     signIn({ code, state });
                 }
             }
+            if (searchParams.has("error")) {
+                const twitter_login_error = searchParams.get("error");
+                console.log({ twitter_login_error })
+                setGenericError("An error occurred while trying to login with Twitter");
+            }
+
+            setSearchParams({})
+
         })();
     }, [searchParams, setSearchParams, signIn]);
 
@@ -68,7 +77,7 @@ function useLogin() {
         signInWithTwitter,
         isLoading: isLoadingGetUrl || isLoadingLogin,
         dataLogin,
-        error: errorLogin || errorGetUrl,
+        error: genericError || errorLogin || errorGetUrl,
     }
 }
 

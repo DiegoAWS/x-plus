@@ -37,7 +37,7 @@ function Sidebar() {
       >
         <Row justify="center" align="middle" className="titleMiniRow">
           <Logo />
-          {(!isCollapsed || xl) &&  <Typography.Title level={3}>-PLUS</Typography.Title>}
+          {(!isCollapsed || xl) &&  <Typography.Title level={2}>-PLUS</Typography.Title>}
         </Row>
         <Divider className="titleDivider"/>
         <NavigationMenu />

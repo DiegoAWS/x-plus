@@ -16,30 +16,6 @@ function Dashboard() {
       >
         <Typography.Title level={3}>Welcome to -PLUS</Typography.Title>
       </div>
-      <div
-        className="cardWrapper"
-        style={{
-          background: colorBgContainer,
-        }}
-      >
-        <Typography.Title level={3}>Welcome to -PLUS</Typography.Title>
-      </div>
-      <div
-        className="cardWrapper"
-        style={{
-          background: colorBgContainer,
-        }}
-      >
-        <Typography.Title level={3}>Welcome to -PLUS</Typography.Title>
-      </div>
-      <div
-        className="cardWrapper"
-        style={{
-          background: colorBgContainer,
-        }}
-      >
-        <Typography.Title level={3}>Welcome to -PLUS</Typography.Title>
-      </div>
     </>
   );
 }
