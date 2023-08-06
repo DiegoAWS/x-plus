@@ -59,8 +59,8 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    console.log("init");
     netlifyIdentity.init();
+
     netlifyIdentity.on("init", (userResult) => {
       setUser(userResult);
     });
@@ -68,12 +68,12 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
     netlifyIdentity.on("login", (userResult) => {
       netlifyIdentity.close();
       setUser(userResult);
-      console.log("login", userResult);
+
     });
     
     netlifyIdentity.on("logout", () => {
       setUser(null);
-      console.log("Logged out");
+
     });
 
     netlifyIdentity.on("error", (err) => console.error("Error", err));
@@ -85,7 +85,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
       netlifyIdentity.off("init");
       netlifyIdentity.off("error");
     };
-  }, [ user]);
+  }, []);
 
   const context = {
     twitterToken,

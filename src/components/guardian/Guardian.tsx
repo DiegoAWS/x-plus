@@ -14,7 +14,7 @@ const {user}= useMainContext();
 
   const { pathname } = useLocation();
 
-  console.log(user);
+  console.log({user});
 
   return user ? (
     privateComponent || children || null
