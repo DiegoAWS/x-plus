@@ -147,8 +147,12 @@
     }
 
     #dark.homeWrapper .whiteContainer {
-        .leftSide {
+        .ant-card-body {
             background-color: var(--hard-dark-mask);
+        }
+
+        .leftSide {
+            background-color: transparent
         }
 
     }
