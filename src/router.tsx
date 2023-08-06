@@ -1,7 +1,6 @@
 import {
   Navigate,
   createBrowserRouter,
-  type RouteObject,
 } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
@@ -15,6 +14,7 @@ import {
   SnippetsOutlined,
 } from "@ant-design/icons";
 import Outlet from "./pages/outlet/Outlet";
+import Templates from "./pages/templates/Templates";
 
 export const HOME_PATH = "/";
 export const LOGIN_PATH = "/login";
@@ -45,25 +45,25 @@ export const routes = [
         path: TEMPLATES_PATH,
         title: "Templates",
         icon: <SnippetsOutlined />,
-        element: <Guardian privateComponent={<Dashboard />} />,
+        element: <Guardian privateComponent={<Templates />} />,
       },
       {
         path: TASKS_PATH,
         title: "Tasks",
         icon: <MenuUnfoldOutlined />,
-        element: <Guardian privateComponent={<Dashboard />} />,
+        element: <Guardian privateComponent={null} />,
       },
       {
         path: RECURRENT_TASKS_PATH,
         title: "Recurrent Tasks",
         icon: <CalendarOutlined />,
-        element: <Guardian privateComponent={<Dashboard />} />,
+        element: <Guardian privateComponent={null} />,
       },
       {
         path: ANALYTICS_PATH,
         title: "Analytics",
         icon: <BarChartOutlined />,
-        element: <Guardian privateComponent={<Dashboard />} />,
+        element: <Guardian privateComponent={null} />,
       },
     ],
   },
@@ -71,6 +71,6 @@ export const routes = [
     path: LOGIN_PATH,
     element: <Login />,
   },
-] as RouteObject[];
+];
 
 export const router = createBrowserRouter(routes);

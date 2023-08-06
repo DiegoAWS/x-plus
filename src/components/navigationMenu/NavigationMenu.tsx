@@ -3,21 +3,22 @@ import { Menu, type MenuProps } from "antd";
 import useMainContext from "../../contexts/useMainContext";
 import { HOME_PATH } from "../../router";
 import { routes } from "../../router";
+import { useNavigate } from "react-router-dom";
 
 function NavigationMenu() {
   const { isDarkTheme } = useMainContext();
+  const navigate = useNavigate();
+
+
 
   const items = (routes.find(({ path }) => path === HOME_PATH)?.children || [])
     .filter(({ title }) => Boolean(title))
-    .map(({ title, path, icon }) => ({
+    .map(({ title, path, icon } ) => ({
       key: path,
       label: title,
       icon,
       onClick: () => {
-        console.log({
-          title,
-          path,
-        });
+        navigate(path as string)
       },
     })) as MenuProps["items"];
 
@@ -27,7 +28,6 @@ function NavigationMenu() {
       mode="inline"
       items={[
         ...(items || []),
-
         {
           type: "divider",
         },
