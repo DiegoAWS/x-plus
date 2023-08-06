@@ -1,4 +1,4 @@
-export const THEME_KEY = 'theme';
+export const THEME_KEY = 'dark_theme';
 export const TWITTER_TOKEN= 'twitter_token';
 
 export const createLocalStorage = (key: string) => ({

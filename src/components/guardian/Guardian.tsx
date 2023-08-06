@@ -1,7 +1,7 @@
 import React from "react";
-import useMainContext from "../../contexts/useMainContext";
 import { Navigate, useLocation } from "react-router-dom";
 import { HOME_PATH } from "../../router";
+import netlifyIdentity from "../../services/niw";
 
 type Props = {
   children?: React.ReactNode;
@@ -9,11 +9,13 @@ type Props = {
   publicComponent?: React.ReactNode;
 };
 function Guardian({ children, publicComponent, privateComponent }: Props) {
-  const { twitterToken } = useMainContext();
+
 
   const { pathname } = useLocation();
 
-  return twitterToken ? (
+  console.log(netlifyIdentity.currentUser());
+
+  return netlifyIdentity.currentUser() ? (
     privateComponent || children || null
   ) : pathname === HOME_PATH ? (
     publicComponent || null

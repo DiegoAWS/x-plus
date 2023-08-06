@@ -1,8 +1,7 @@
 import { Space, Typography, type SpaceProps, Button } from "antd";
 import "./HomeLeftSide.scss";
 import Logo from "../../assets/Logo";
-import { Link } from "react-router-dom";
-import { LOGIN_PATH } from "../../router";
+import netlifyIdentity from "../../services/niw";
 
 function HomeLeftSide({ className, ...rest }: SpaceProps) {
   return (
@@ -21,11 +20,17 @@ function HomeLeftSide({ className, ...rest }: SpaceProps) {
         perfect tweet templates 📝, schedule ⏰ and automate 🤖 tweets for your
         beloved clients ❤️, and even set up recurring Twitter 🐦 magic ✨
       </Typography.Title>
-      <Link to={LOGIN_PATH}>
-        <Button type="primary" className="start" size="large">
-          Get Started
-        </Button>
-      </Link>
+
+      <Button
+        type="primary"
+        className="start"
+        size="large"
+        onClick={() => {
+          netlifyIdentity.open();
+        }}
+      >
+        Get Started
+      </Button>
     </Space>
   );
 }

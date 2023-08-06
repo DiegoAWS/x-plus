@@ -1,12 +1,12 @@
 import { Grid, Menu } from "antd";
 import useMainContext from "../../contexts/useMainContext";
-import type { TwitterToken } from "../../types";
 import {
   ArrowRightOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
 } from "@ant-design/icons"
 import DarkThemeToggler from "../darkThemeToggler/DarkThemeToggler";
+import netlifyIdentity from "../../services/niw";
 
 const MenuKeys = {
   UNCOLLAPSE: "uncollapse",
@@ -22,9 +22,11 @@ type Props = {
 };
 
 function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
-  const { isDarkTheme, setDarkTheme, twitterToken } = useMainContext();
+  const { isDarkTheme, setDarkTheme } = useMainContext();
   const { xl } = Grid.useBreakpoint();
-  const { me } = twitterToken as TwitterToken;
+  
+  const user = netlifyIdentity.currentUser();
+
 
   return (
     <Menu
@@ -47,7 +49,7 @@ function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
         {
           key: MenuKeys.USER,
           icon: <SettingOutlined />,
-          label: me.data.name,
+          label: user?.user_metadata?.full_name,
         },
         {
           type: 'divider', 

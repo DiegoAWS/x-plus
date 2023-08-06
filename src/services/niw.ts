@@ -1,11 +1,6 @@
 import netlifyIdentity from 'netlify-identity-widget';
 
-netlifyIdentity.init({
-//   container: '#netlify-modal', // defaults to document.body
-  locale: 'en', // defaults to 'en'
-//   APIUrl: 'https://x-plus.netlify.app/.netlify/functions/identity'
- 
-});
+netlifyIdentity.init();
 
 // netlifyIdentity.open(); // open the modal
 // netlifyIdentity.open('login'); // open the modal to the login tab
