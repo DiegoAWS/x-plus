@@ -59,6 +59,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
 
   const updateUserIdentity = useCallback(() => {
+    console.log("updateUserIdentity");
     setUser(netlifyIdentity.currentUser());
   }, []);
   useEffect(() => {
