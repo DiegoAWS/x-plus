@@ -1,8 +1,11 @@
+import { Card } from "antd"
 
 
 function Templates() {
   return (
-    <div>Templates</div>
+    <Card>
+      Templates
+    </Card>
   )
 }
 

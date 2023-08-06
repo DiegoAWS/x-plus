@@ -6,10 +6,11 @@ import useMainContext from "../../contexts/useMainContext";
 import HomeLeftSide from "../../components/homeLeftSide/HomeLeftSide";
 import Logo from "../../assets/Logo";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { LOGIN_PATH } from "../../router";
+// import { Link } from "react-router-dom";
+// import { LOGIN_PATH } from "../../router";
 import SunIcon from "../../assets/svg/SunIcon";
 import MoonIcon from "../../assets/svg/MoonIcon";
+import netlifyIdentity from "../../services/niw";
 
 function Home() {
   const { isDarkTheme, setDarkTheme } = useMainContext();
@@ -28,16 +29,19 @@ function Home() {
         </HomeLeftSide>
         <div className="rightSide">
           <MaskSvg className="maskSvg" />
-          <Link to={LOGIN_PATH}>
+          {/* <Link to={LOGIN_PATH}> */}
             <Button
               type="primary"
               className="getStarterButton"
               size="large"
               shape="round"
+              onClick={()=>{
+                netlifyIdentity.open()
+              }}
             >
               Get Started
             </Button>
-          </Link>
+          {/* </Link> */}
           <Row
             justify="space-between"
             align="middle"

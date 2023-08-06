@@ -9,8 +9,6 @@ const handler: Handler = async (event: HandlerEvent) => {
     const bearer = event.headers?.authorization;
     const tokenRaw = bearer?.split(" ")[1];
 
-
-
     try {
         const tokenText = Buffer.from(tokenRaw as string, "base64").toString("utf-8");
         if (!tokenText) throw new Error("No token provided");
