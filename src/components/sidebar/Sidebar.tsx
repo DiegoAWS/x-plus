@@ -14,7 +14,6 @@ function Sidebar() {
   const { token } = theme.useToken();
   const { isDarkTheme } = useMainContext();
   const { xl } = Grid.useBreakpoint();
-
   const [isCollapsed, setIsCollapsed] = useState(!xl);
 
   return (
@@ -26,7 +25,7 @@ function Sidebar() {
         className="sidebarWrapper"
         collapsible
         trigger={null}
-        collapsed={!xl && isCollapsed}
+        collapsed={xl!==undefined && !xl && isCollapsed}
         breakpoint="md"
         width={sidebarWidth}
         collapsedWidth={sidebarCollapsedWidth}
