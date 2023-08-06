@@ -34,7 +34,7 @@ function Home() {
               type="primary"
               className="getStarterButton"
               size="large"
-              shape="round"
+              
               onClick={()=>{
                 netlifyIdentity.open()
               }}
