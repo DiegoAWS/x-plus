@@ -6,15 +6,25 @@ import HomeLeftSide from "../../components/homeLeftSide/HomeLeftSide";
 import SunIcon from "../../assets/svg/SunIcon";
 import MoonIcon from "../../assets/svg/MoonIcon";
 import HomeRightSide from "../../components/homeRightSide/HomeRightSide";
+import { QuestionCircleFilled } from "@ant-design/icons";
 
 function Home() {
-  const { isDarkTheme, setDarkTheme } = useMainContext();
+  const { isDarkTheme, setDarkTheme, netlifyIdentity } = useMainContext();
   return (
     <div id={isDarkTheme ? "dark" : ""} className="homeWrapper">
       <Button
         icon={isDarkTheme ? <SunIcon /> : <MoonIcon />}
         onClick={() => setDarkTheme(!isDarkTheme)}
         className="themeButtonToggler"
+        size="large"
+        title={isDarkTheme ? "Light Mode" : "Dark Mode"}
+      />
+      <Button
+        icon={<QuestionCircleFilled />}
+        onClick={() => {
+          console.log(netlifyIdentity.currentUser());
+        }}
+       
         size="large"
         title={isDarkTheme ? "Light Mode" : "Dark Mode"}
       />

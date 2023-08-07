@@ -22,7 +22,7 @@ type Props = {
 };
 
 function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
-  const { isDarkTheme, setDarkTheme, user } = useMainContext();
+  const { isDarkTheme, setDarkTheme, netlifyIdentity } = useMainContext();
   const { xl } = Grid.useBreakpoint();
   
 
@@ -49,7 +49,7 @@ function SettingsMenu({ isCollapsed, setIsCollapsed }: Props) {
         {
           key: MenuKeys.USER,
           icon: <SettingOutlined />,
-          label: user?.user_metadata?.full_name,
+          label: netlifyIdentity.currentUser()?.user_metadata?.full_name,
         },
         {
           type: 'divider', 

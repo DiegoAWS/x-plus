@@ -10,13 +10,11 @@ type Props = {
   publicComponent?: React.ReactNode;
 };
 function Guardian({ children, publicComponent, privateComponent }: Props) {
-const {user}= useMainContext();
+const { netlifyIdentity}= useMainContext();
 
   const { pathname } = useLocation();
 
-  console.log({user});
-
-  return user ? (
+  return netlifyIdentity.currentUser() ? (
     privateComponent || children || null
   ) : pathname === HOME_PATH ? (
     publicComponent || null

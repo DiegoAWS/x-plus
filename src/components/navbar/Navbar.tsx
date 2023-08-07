@@ -7,7 +7,7 @@ import LogOutIcon from "../../assets/svg/LogOutIcon";
 import useMainContext from "../../contexts/useMainContext";
 
 function Navbar() {
-  const { netlifyIdentity, user } = useMainContext();
+  const { netlifyIdentity } = useMainContext();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -16,7 +16,6 @@ function Navbar() {
 
   const logout = () => {
     netlifyIdentity.logout();
-    window.location.reload(); // HARD refresh
   };
 
   return (
@@ -41,7 +40,7 @@ function Navbar() {
         )}
       </div>
       <Button shape="round" onClick={logout}>
-        {user?.email}
+        {netlifyIdentity.currentUser()?.email}
         <LogOutIcon className="logoutIcon" />
       </Button>
     </Layout.Header>

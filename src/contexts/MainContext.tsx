@@ -1,6 +1,6 @@
 import { ConfigProvider } from "antd";
 import { createContext, useCallback, useEffect, useState } from "react";
-import netlifyIdentity, { type User } from "netlify-identity-widget";
+import netlifyIdentity from "netlify-identity-widget";
 import {
   THEME_KEY,
   TWITTER_TOKEN,
@@ -17,19 +17,10 @@ export type MainContextType = {
   twitterToken: TwitterToken | null;
   storeTwitterToken: (token: TwitterToken) => void;
   logout: () => void;
-  user: User | null;
   netlifyIdentity: typeof netlifyIdentity;
 };
 
-export const MainContext = createContext<MainContextType>({
-  isDarkTheme: false,
-  setDarkTheme: () => {},
-  twitterToken: null,
-  storeTwitterToken: () => {},
-  logout: () => {},
-  user: null,
-  netlifyIdentity,
-});
+export const MainContext = createContext<MainContextType>({} as MainContextType);
 
 function MainContextProvider({ children }: React.PropsWithChildren) {
   const [twitterToken, setTwitterToken] = useState(
@@ -56,37 +47,14 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
 
   const theme = getTheme(isDarkTheme);
 
-  const [user, setUser] = useState<User | null>(null);
-
   useEffect(() => {
-    const storedUser = netlifyIdentity.currentUser();
-
-    console.log({ storedUser });
-    if (!storedUser) {
-      netlifyIdentity.init();
-    } else {
-      setUser(storedUser);
-    }
-
-    netlifyIdentity.on("init", (userResult) => {
-      setUser(userResult);
-    });
-
-    netlifyIdentity.on("login", (userResult) => {
-      netlifyIdentity.close();
-      setUser(userResult);
-    });
-
-    netlifyIdentity.on("logout", () => {
-      setUser(null);
-    });
-
+    netlifyIdentity.on("login", () => netlifyIdentity.close());
+    netlifyIdentity.on("logout", () => window.location.reload());
     netlifyIdentity.on("error", (err) => console.error("Error", err));
 
     return () => {
       netlifyIdentity.off("login");
       netlifyIdentity.off("logout");
-      netlifyIdentity.off("init");
       netlifyIdentity.off("error");
     };
   }, []);
@@ -97,8 +65,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
     isDarkTheme,
     setDarkTheme,
     logout,
-    netlifyIdentity,
-    user,
+    netlifyIdentity
   };
 
   return (
