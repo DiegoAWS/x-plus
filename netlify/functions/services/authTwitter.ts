@@ -1,5 +1,6 @@
 import { Client, auth } from "twitter-api-sdk";
 import { OAuth2UserOptions } from "twitter-api-sdk/dist/OAuth2User";
+import { scopes } from "../utils/constants";
 
 export type AuthResponse = {
   code: string;
@@ -22,7 +23,7 @@ export async function authTwitter(props: Props) {
     client_id: process.env.TWITTER_CLIENT_ID as string,
     client_secret: process.env.TWITTER_CLIENT_SECRET as string,
     callback: process.env.TWITTER_CALLBACK as string,
-    scopes: ["tweet.read", "users.read", "tweet.write", "offline.access"],
+    scopes,
     token
   })
 

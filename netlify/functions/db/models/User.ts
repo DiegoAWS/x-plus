@@ -1,27 +1,34 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../connection";
 
-export const User = sequelize.define('User', {
-  id:{
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  twitterId: {
-    type: DataTypes.STRING,
-  },
-  name: {
-    type: DataTypes.STRING,
-  },
-  username: {
-    type: DataTypes.STRING,
-  }
-}, {
 
-});
+export const getUser = async () => {
 
-sequelize.sync({
-  force: true
-}).then(() => {
-  console.log('Users table synced');
-})
+  const user = sequelize.define('User', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    clientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Clients',
+        key: 'id'
+      }
+    }
+
+  }, {
+
+  });
+
+  await sequelize.sync();
+
+  return user;
+}
