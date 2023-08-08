@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import axios from "axios";
+// import axios from "axios";
 // import { getUser } from "./db/models/User";
 // import { getClient } from "./db/models/Client";
 
@@ -38,10 +38,10 @@ const user = userContext?.user;
             Authorization: `Bearer ${identity.token}`
         }
 
-        const updatedUser = await axios.put(url,
-            body, {
-            headers
-        });
+        // const updatedUser = await axios.put(url,
+        //     body, {
+        //     headers
+        // });
 
 
         // const Client = await getClient();
@@ -61,7 +61,7 @@ const user = userContext?.user;
             body: JSON.stringify({
                 message: "OK",
                 user,
-                updatedUser,
+                // updatedUser,
                 url,
                 body,
                 headers,
