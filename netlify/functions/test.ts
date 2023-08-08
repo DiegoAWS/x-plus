@@ -10,7 +10,7 @@ export const handler: Handler = async (
 ) => {
 
     const user = context.clientContext;
-    if(!user) {
+    if (!user) {
         return {
             statusCode: 401,
             body: JSON.stringify({
@@ -20,52 +20,60 @@ export const handler: Handler = async (
     }
 
     try {
-        
- 
 
-    const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
 
-    const updatedUser = axios.put(`${process.env.URL}/.netlify/identity/user/${user.sub}`, {
-        ...user,
-        user_metadata: {
-            ...user.user_metadata,
-            test: "test"
-        }
-    }, {
-        headers: {
+
+        const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
+
+        const url = `${process.env.URL}/.netlify/identity/user/${user.sub}`;
+        const body = {
+            ...user,
+            user_metadata: {
+                ...user.user_metadata,
+                test: "test"
+            }
+        };
+        const headers = {
             Authorization: `Bearer ${identity.token}`
         }
-    });
+
+        const updatedUser = await axios.put(url,
+            body, {
+            headers
+        });
 
 
-    // const Client = await getClient();
+        // const Client = await getClient();
 
-    // const clients = await Client.findAll();
-    // const User = await getUser();
+        // const clients = await Client.findAll();
+        // const User = await getUser();
 
-    // const users = await User.findAll();
+        // const users = await User.findAll();
 
 
 
-    return {
-        statusCode: 200,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            message: "OK",
-            user,
-            updatedUser
-        })
+        return {
+            statusCode: 200,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: "OK",
+                user,
+                updatedUser,
+                url,
+                body,
+                headers,
+            })
+        }
+
+    } catch (error) {
+
+        return {
+            statusCode: 500,
+            body: JSON.stringify({
+                message: error.message || error.toString() || "Internal Server Error"
+            })
+        }
     }
-
-} catch (error) {
- 
-    return {
-        statusCode: 500,
-        body: JSON.stringify({
-            message: error.message || error.toString() || "Internal Server Error"
-        })
-    }
-}
 };
