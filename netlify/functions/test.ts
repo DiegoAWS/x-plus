@@ -72,7 +72,7 @@ export const handler: Handler = async (
         return {
             statusCode: 500,
             body: JSON.stringify({
-                message: error.message || error.toString() || "Internal Server Error"
+                message: error.toString() || "Internal Server Error"
             })
         }
     }
