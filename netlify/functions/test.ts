@@ -25,11 +25,11 @@ export const handler: Handler = async (
 
     const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
 
-    const updatedUser = axios.put(`${process.env.URL}/.netlify/identity/user`, {
+    const updatedUser = axios.put(`${process.env.URL}/.netlify/identity/user/${user.sub}`, {
         ...user,
         user_metadata: {
             ...user.user_metadata,
-            ...(event.body ? JSON.parse(event.body) : {})
+            test: "test"
         }
     }, {
         headers: {
