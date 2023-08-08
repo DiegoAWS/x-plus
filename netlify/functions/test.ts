@@ -57,10 +57,7 @@ export const handler: Handler = async (
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                message: "OK",
-                context
-            })
+            body: context.clientContext?.identity.token
         }
 
     } catch (error) {
