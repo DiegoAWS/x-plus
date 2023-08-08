@@ -6,10 +6,9 @@ import HomeLeftSide from "../../components/homeLeftSide/HomeLeftSide";
 import SunIcon from "../../assets/svg/SunIcon";
 import MoonIcon from "../../assets/svg/MoonIcon";
 import HomeRightSide from "../../components/homeRightSide/HomeRightSide";
-import { QuestionCircleFilled } from "@ant-design/icons";
 
 function Home() {
-  const { isDarkTheme, setDarkTheme, netlifyIdentity } = useMainContext();
+  const { isDarkTheme, setDarkTheme } = useMainContext();
   return (
     <div id={isDarkTheme ? "dark" : ""} className="homeWrapper">
       <Button
@@ -19,15 +18,7 @@ function Home() {
         size="large"
         title={isDarkTheme ? "Light Mode" : "Dark Mode"}
       />
-      <Button
-        icon={<QuestionCircleFilled />}
-        onClick={() => {
-          console.log(netlifyIdentity.currentUser());
-        }}
-       
-        size="large"
-        title={isDarkTheme ? "Light Mode" : "Dark Mode"}
-      />
+
       <Card className="whiteContainer" bordered={false}>
         <HomeLeftSide className="leftSide">
           Build teh future of AI together
