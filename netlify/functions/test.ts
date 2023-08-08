@@ -21,21 +21,21 @@ export const handler: Handler = async (
 
 
     try {
-        const clientToken = context.clientContext?.identity;
+        // const clientToken = context.clientContext?.identity;
 
-        const user = userContext?.user;
+        // const user = userContext?.user;
 
-        const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
+        // const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
 
-        const url = `${process.env.URL}/.netlify/identity/user/`;
-        const body = {
-            data: {
-                "test": "test"
-            }
-        };
-        const headers = {
-            Authorization: `Bearer ${identity.token}`
-        }
+        // const url = `${process.env.URL}/.netlify/identity/user`;
+        // const body = {
+        //     data: {
+        //         "test": "test"
+        //     }
+        // };
+        // const headers = {
+        //     Authorization: `Bearer ${identity.token}`
+        // }
 
         // const updatedUser = await axios.put(url,
         //     body, {
@@ -59,12 +59,7 @@ export const handler: Handler = async (
             },
             body: JSON.stringify({
                 message: "OK",
-                user,
-                // updatedUser,
-                url,
-                clientToken,
-                body,
-                headers,
+                context
             })
         }
 
