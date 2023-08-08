@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import axios from "axios";
+// import axios from "axios";
 // import { getUser } from "./db/models/User";
 // import { getClient } from "./db/models/Client";
 
@@ -9,8 +9,8 @@ export const handler: Handler = async (
     context: HandlerContext
 ) => {
 
-    const user = context.clientContext;
-    if (!user) {
+    const userContext = context.clientContext;
+    if (!userContext) {
         return {
             statusCode: 401,
             body: JSON.stringify({
@@ -19,9 +19,10 @@ export const handler: Handler = async (
         }
     }
 
+
     try {
 
-
+const user = userContext?.user;
 
         const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
 

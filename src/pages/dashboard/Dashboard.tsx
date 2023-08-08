@@ -71,6 +71,7 @@ function Dashboard() {
             })
           ).data;
           console.log(result);
+          console.log(result.headers.Authorization)
         }}
       >
         {" "}
