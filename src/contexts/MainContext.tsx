@@ -17,7 +17,6 @@ export type MainContextType = {
   twitterToken: TwitterToken | null;
   storeTwitterToken: (token: TwitterToken) => void;
   logout: () => void;
-  netlifyIdentity: typeof netlifyIdentity;
 };
 
 export const MainContext = createContext<MainContextType>(

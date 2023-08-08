@@ -4,10 +4,10 @@ import { DingtalkOutlined } from "@ant-design/icons";
 import "./Navbar.scss";
 
 import LogOutIcon from "../../assets/svg/LogOutIcon";
-import useMainContext from "../../contexts/useMainContext";
+import netlifyIdentity from "netlify-identity-widget";
 
 function Navbar() {
-  const { netlifyIdentity } = useMainContext();
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();

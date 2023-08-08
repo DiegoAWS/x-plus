@@ -1,12 +1,14 @@
 import { Button, Card, Divider, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useState } from "react";
-
+import GoTrue from "gotrue-js";
 import useQuery from "../../hooks/useQuery";
 import { sendTweet } from "../../services/twitter";
 import "./Dashboard.scss";
 import useMainContext from "../../contexts/useMainContext";
 import { toast } from "react-toastify";
+import axios from "axios";
+import netlifyIdentity from "netlify-identity-widget";
 
 function Dashboard() {
   const [twittArea, setTwittArea] = useState("");
@@ -14,14 +16,14 @@ function Dashboard() {
 
   const { refresh, isLoading } = useQuery({
     axiosFn: sendTweet,
-    isDisabled: true
+    isDisabled: true,
   });
 
   const handleSendTweet = async () => {
-    if(!twitterToken) return ;
+    if (!twitterToken) return;
     const twitt = {
       text: twittArea,
-      token: twitterToken
+      token: twitterToken,
     };
     await refresh(twitt);
     setTwittArea("");
@@ -48,6 +50,32 @@ function Dashboard() {
           onClick={handleSendTweet}
         />
       </Card>
+      <Button
+        onClick={async () => {
+          const n = netlifyIdentity.currentUser();
+
+          console.log({ n });
+          const auth = new GoTrue({
+            APIUrl: "/.netlify/identity",
+          });
+
+          const result = (
+            await axios.post("./.netlify/functions/test", {
+              test: "test",
+            },{
+              headers: {
+                Authorization: `Bearer ${
+                  auth.currentUser()?.token?.access_token
+                }`,
+              },
+            })
+          ).data;
+          console.log(result);
+        }}
+      >
+        {" "}
+        Test
+      </Button>
     </>
   );
 }

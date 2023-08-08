@@ -1,8 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { HOME_PATH } from "../../router";
-
-import useMainContext from "../../contexts/useMainContext";
+import netlifyIdentity from "netlify-identity-widget";
 
 type Props = {
   children?: React.ReactNode;
@@ -10,7 +9,6 @@ type Props = {
   publicComponent?: React.ReactNode;
 };
 function Guardian({ children, publicComponent, privateComponent }: Props) {
-const { netlifyIdentity}= useMainContext();
 
   const { pathname } = useLocation();
 

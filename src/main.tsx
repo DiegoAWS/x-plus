@@ -5,6 +5,7 @@ import "./index.scss";
 import netlifyIdentity from "netlify-identity-widget";
 
 netlifyIdentity.init({
+  logo: false
 });
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <MainContextProvider>
