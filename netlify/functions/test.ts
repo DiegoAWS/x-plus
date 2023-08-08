@@ -37,10 +37,10 @@ export const handler: Handler = async (
             Authorization: `Bearer ${identity.token}`
         }
 
-        const updatedUser = await axios.put(url,
-            body, {
-            headers
-        });
+        // const updatedUser = await axios.put(url,
+        //     body, {
+        //     headers
+        // });
 
 
         // const Client = await getClient();
@@ -60,7 +60,7 @@ export const handler: Handler = async (
             body: JSON.stringify({
                 message: "OK",
                 user,
-                updatedUser,
+                // updatedUser,
                 url,
                 body,
                 headers,
