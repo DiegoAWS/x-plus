@@ -25,7 +25,7 @@ export const handler: Handler = async (
 
         const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
 
-        const url = `${process.env.URL}/.netlify/identity/user/${user.sub}`;
+        const url = `${process.env.URL}/.netlify/identity/user/`;
         const body = {
             ...user,
             user_metadata: {
