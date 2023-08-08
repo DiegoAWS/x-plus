@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-// import axios from "axios";
+import axios from "axios";
 // import { getUser } from "./db/models/User";
 // import { getClient } from "./db/models/Client";
 
@@ -21,27 +21,26 @@ export const handler: Handler = async (
 
 
     try {
+        const clientToken = context.clientContext?.identity;
 
-const user = userContext?.user;
+        const user = userContext?.user;
 
         const { identity } = context.clientContext as NonNullable<HandlerContext["clientContext"]>;
 
         const url = `${process.env.URL}/.netlify/identity/user/`;
         const body = {
-            ...user,
-            user_metadata: {
-                ...user.user_metadata,
-                test: "test"
+            data: {
+                "test": "test"
             }
         };
         const headers = {
             Authorization: `Bearer ${identity.token}`
         }
 
-        // const updatedUser = await axios.put(url,
-        //     body, {
-        //     headers
-        // });
+        const updatedUser = await axios.put(url,
+            body, {
+            headers
+        });
 
 
         // const Client = await getClient();
@@ -61,8 +60,9 @@ const user = userContext?.user;
             body: JSON.stringify({
                 message: "OK",
                 user,
-                // updatedUser,
+                updatedUser,
                 url,
+                clientToken,
                 body,
                 headers,
             })

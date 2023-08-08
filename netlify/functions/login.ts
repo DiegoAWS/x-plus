@@ -23,6 +23,7 @@ const handler: Handler = async (event: HandlerEvent) => {
   const me = await getMe();
 
 
+
   return {
     statusCode: 200,
     headers: {
