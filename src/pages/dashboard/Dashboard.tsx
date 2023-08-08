@@ -1,7 +1,6 @@
 import { Button, Card, Divider, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import GoTrue from "gotrue-js";
 import useQuery from "../../hooks/useQuery";
 import { sendTweet } from "../../services/twitter";
 import "./Dashboard.scss";
@@ -55,9 +54,9 @@ function Dashboard() {
           const n = netlifyIdentity.currentUser();
 
           console.log({ n });
-          const auth = new GoTrue({
-            APIUrl: "/.netlify/identity",
-          });
+          // const auth = new GoTrue({
+          //   APIUrl: "/.netlify/identity",
+          // });
 
           const result = (
             await axios.post("./.netlify/functions/test", {
@@ -65,7 +64,7 @@ function Dashboard() {
             },{
               headers: {
                 Authorization: `Bearer ${
-                  auth.currentUser()?.token?.access_token
+                  netlifyIdentity.currentUser()?.token?.access_token
                 }`,
               },
             })
