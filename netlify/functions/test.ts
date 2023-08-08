@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import axios from "axios";
+// import axios from "axios";
 // import { getUser } from "./db/models/User";
 // import { getClient } from "./db/models/Client";
 
