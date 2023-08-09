@@ -15,6 +15,7 @@ export const handler: Handler = async (
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            test:"auth",
             access_token: context.clientContext?.identity?.token,
             refresh_token: context.clientContext?.identity?.token,
             identity: context.clientContext?.identity,
