@@ -31,7 +31,9 @@ export const getClient = async () => {
         },
     });
 
-    await sequelize.sync();
+    await sequelize.sync({
+        alter: true,
+    });
 
     return client;
 }

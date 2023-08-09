@@ -32,7 +32,9 @@ export const getUser = async () => {
 
   });
 
-  await sequelize.sync();
+  await sequelize.sync({
+    alter: true,
+  });
 
   return user;
 }

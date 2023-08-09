@@ -13,7 +13,11 @@ function CreateClientAccount() {
           Let's first link your organization with his twitter account... 🚀
         </Typography.Title>
         <Divider />
-        <Form layout="vertical" onFinish={signInWithTwitter}>
+        <Form layout="vertical"
+        initialValues={{
+          companyName: "Lorem Ipsum LCC",
+        }}
+        onFinish={signInWithTwitter}>
           <Form.Item
             name={["companyName"]}
             label="Organization name"

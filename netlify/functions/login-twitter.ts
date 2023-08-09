@@ -10,7 +10,14 @@ const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext) => {
   const user = context.clientContext?.user;
- 
+  let adminToken = context.clientContext?.identity?.token;
+
+  // HARDCODED FOR TESTING
+  if (!adminToken) {
+    adminToken = (await axios.get("https://x-plus.netlify.app/.netlify/functions/token"))?.data?.access_token
+  }
+
+
   if (!user) {
     return {
       statusCode: 401,
@@ -44,20 +51,44 @@ const handler: Handler = async (
     companyName,
   })) as unknown as Client;
 
+
+
   const User = await getUser();
 
-  const admin = await User.create({
+  const userToInsert = {
     email: user.email || "",
     role: "admin",
     clientId: client.id
+  }
+
+  console.log({ userToInsert })
+
+  const admin = await User.findOrCreate({
+
+    where: {
+      email: user.email || "",
+    },
+    defaults: userToInsert
   })
 
-  const updatedClient = await axios.put(`${process.env.VITE_API_URL}/admin/clients/${user.id}`, {
+  console.log({
+    url: process.env.VITE_API_URL,
+    id: user.id,
+    admin,
+  })
+
+
+
+  const updatedClient = await axios.put(`/.netlify/identity/admin/clients/${user.id}`, {
     app_metadata: {
       companyName,
       comppanyRole: "admin",
     }
 
+  }, {
+    headers: {
+      Authorization: `Bearer ${adminToken}`
+    }
   })
 
 
