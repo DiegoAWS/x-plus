@@ -68,11 +68,10 @@ function useLogin() {
         if (dataLogin) {
 
             toast("Please login again to continue to company dashboard",{
-                onClose: () => {
-                    netlifyIdentity.logout();
+                onClose: async() => {
+                   await  netlifyIdentity.logout()
                 }
             })
-
 
 
         }
