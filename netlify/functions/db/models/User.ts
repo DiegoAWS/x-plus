@@ -31,7 +31,9 @@ export const User = sequelize.define<Model<FullUser>>('User', {
     references: {
       model: 'Clients',
       key: 'id'
-    }
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
   }
   
 

@@ -5,6 +5,7 @@ import { login, type LoginParams } from "../services/auth.ts";
 import type { TwitterToken } from "../types/index.ts";
 import { TWITTER_STATE, createLocalStorage } from "../services/localStore.ts";
 import { getTwitterOauthUrl } from "../services/twitter.ts";
+import useMainContext from "../contexts/useMainContext.tsx";
 
 
 const COMPANY_NAME_STORAGE_KEY = "companyNameStorageKey";
@@ -14,6 +15,7 @@ function useLogin() {
     // const {? storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const [genericError, setGenericError] = useState("")
+    const {netlifyIdentity}=useMainContext();
 
     const {
         data: dataLogin,
@@ -27,8 +29,8 @@ function useLogin() {
     useEffect(() => {
         (async () => {
             const stateStorage = createLocalStorage(TWITTER_STATE)
-            const verifyState =stateStorage.get()
-        
+            const verifyState = stateStorage.get()
+
             if (!searchParams.has("state") || searchParams.get("state") !== verifyState) return;
 
             stateStorage.clear();
@@ -61,11 +63,13 @@ function useLogin() {
     }, [searchParams, setSearchParams, signIn]);
 
 
-    // useEffect(() => {
-    //     if (dataLogin?.token) {
-    //         storeTwitterToken(dataLogin);
-    //     }
-    // }, [dataLogin, storeTwitterToken, navigate]);
+    useEffect(() => {
+        if (dataLogin) {
+            console.log({ dataLogin })
+            netlifyIdentity.refresh();
+            
+        }
+    }, [dataLogin,netlifyIdentity]);
 
     type Params = {
         companyName: string;
