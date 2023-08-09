@@ -1,11 +1,9 @@
 import useLogin from "../../hooks/useLogin.ts";
 import { Button, Card, Divider, Form, Input, Spin, Typography } from "antd";
 import { TwitterOutlined } from "@ant-design/icons";
-// import "./CreateClientAccount.scss";
 
 function CreateClientAccount() {
   const { signInWithTwitter, isLoading, error } = useLogin();
-
   return (
     <Card>
       <Spin size="large" spinning={isLoading}>
@@ -61,6 +59,7 @@ function CreateClientAccount() {
             >
               <Typography.Text strong>Link Twitter account</Typography.Text>
             </Button>
+
           </Form.Item>
         </Form>
       </Spin>

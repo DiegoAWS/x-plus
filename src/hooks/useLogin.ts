@@ -6,6 +6,7 @@ import type { TwitterToken } from "../types/index.ts";
 import { TWITTER_STATE, createLocalStorage } from "../services/localStore.ts";
 import { getTwitterOauthUrl } from "../services/twitter.ts";
 import useMainContext from "../contexts/useMainContext.tsx";
+import { toast } from "react-toastify";
 
 
 const COMPANY_NAME_STORAGE_KEY = "companyNameStorageKey";
@@ -15,7 +16,7 @@ function useLogin() {
     // const {? storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const [genericError, setGenericError] = useState("")
-    const {netlifyIdentity}=useMainContext();
+    const { netlifyIdentity } = useMainContext();
 
     const {
         data: dataLogin,
@@ -65,11 +66,17 @@ function useLogin() {
 
     useEffect(() => {
         if (dataLogin) {
-            console.log({ dataLogin })
-            netlifyIdentity.refresh();
-            
+
+            toast("Please login again to continue to company dashboard",{
+                onClose: () => {
+                    netlifyIdentity.logout();
+                }
+            })
+
+
+
         }
-    }, [dataLogin,netlifyIdentity]);
+    }, [dataLogin, netlifyIdentity]);
 
     type Params = {
         companyName: string;

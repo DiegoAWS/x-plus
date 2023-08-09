@@ -16,3 +16,8 @@ export function login(params: LoginParams) {
     })
 
 }
+
+export function updateLocalUser (){
+
+}
+

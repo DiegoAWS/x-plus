@@ -12,9 +12,9 @@ function Guardian() {
   const navigate = useNavigate();
 
   const user = netlifyIdentity.currentUser() as XUser;
-  const companyName = user?.app_metadata?.companyName;
+  const companyName = user?.app_metadata?.clientName;
 
-  console.log(user, companyName);
+  
 
   useEffect(() => {
     if (!user && pathname !== HOME_PATH) {
