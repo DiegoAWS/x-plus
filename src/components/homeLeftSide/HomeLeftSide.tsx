@@ -1,10 +1,10 @@
 import { Space, Typography, type SpaceProps, Button } from "antd";
 import "./HomeLeftSide.scss";
 import Logo from "../../assets/Logo";
-import netlifyIdentity from "netlify-identity-widget";
+import useMainContext from "../../contexts/useMainContext";
 
 function HomeLeftSide({ className, ...rest }: SpaceProps) {
-
+  const { netlifyIdentity } = useMainContext();
   return (
     <Space
       direction="vertical"

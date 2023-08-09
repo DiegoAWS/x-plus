@@ -17,6 +17,7 @@ export type MainContextType = {
   twitterToken: TwitterToken | null;
   storeTwitterToken: (token: TwitterToken) => void;
   logout: () => void;
+  netlifyIdentity: typeof netlifyIdentity;
 };
 
 export const MainContext = createContext<MainContextType>(
@@ -56,12 +57,12 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
       setLoginCounter(loginCounter + 1);
     });
 
-  netlifyIdentity.on("init", (user) => {
-    // if (!user) {
-    //   netlifyIdentity.open();
-    // }
-    console.log("init", user);
-  });
+    netlifyIdentity.on("init", (user) => {
+      // if (!user) {
+      //   netlifyIdentity.open();
+      // }
+      console.log("init", user);
+    });
 
     netlifyIdentity.on("logout", () => window.location.reload());
     netlifyIdentity.on("error", (err) => console.error("Error", err));
@@ -75,11 +76,11 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
 
   const context = {
     twitterToken,
+    netlifyIdentity,
     storeTwitterToken,
     isDarkTheme,
     setDarkTheme,
     logout,
-    netlifyIdentity,
   };
 
   return (

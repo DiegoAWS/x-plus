@@ -1,3 +1,5 @@
+import type { User } from "netlify-identity-widget";
+
 export interface TwitterToken {
     token: Token;
     me: Me;
@@ -16,4 +18,12 @@ export interface Data {
     id: string;
     name: string;
     username: string;
+}
+
+export interface XUser extends User {
+    app_metadata: {
+        companyName?: string;
+        provider: string;
+        roles: string[];
+    }
 }

@@ -1,24 +1,22 @@
 import { Menu, type MenuProps } from "antd";
 
 import useMainContext from "../../contexts/useMainContext";
-import { HOME_PATH } from "../../router";
-import { routes } from "../../router";
+// import { HOME_PATH } from "../../router";
+// import { routes } from "../../router";
 import { useNavigate } from "react-router-dom";
 
 function NavigationMenu() {
   const { isDarkTheme } = useMainContext();
   const navigate = useNavigate();
 
-
-
-  const items = (routes.find(({ path }) => path === HOME_PATH)?.children || [])
+  const items = []
     .filter(({ title }) => Boolean(title))
-    .map(({ title, path, icon } ) => ({
+    .map(({ title, path, icon }) => ({
       key: path,
       label: title,
       icon,
       onClick: () => {
-        navigate(path as string)
+        navigate(path as string);
       },
     })) as MenuProps["items"];
 

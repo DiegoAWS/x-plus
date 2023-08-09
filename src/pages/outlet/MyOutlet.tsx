@@ -1,12 +1,12 @@
 import { Grid, Layout, Typography } from "antd";
 import { Outlet as RouterOutlet, useLocation } from "react-router-dom";
-import "./Outlet.scss";
+import "./MyOutlet.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { sidebarCollapsedWidth, sidebarWidth } from "../../constants";
 import { HOME_PATH, routes } from "../../router";
 
-function Outlet() {
+function MyOutlet() {
   const { xl } = Grid.useBreakpoint();
   const { pathname } = useLocation();
 
@@ -15,7 +15,7 @@ function Outlet() {
     .find(({ path }) => path === pathname)?.title;
 
   return (
-    <Layout hasSider className="outletWrapper">
+    <Layout hasSider className="myOutletWrapper">
       <Sidebar />
 
       <Layout
@@ -36,4 +36,4 @@ function Outlet() {
   );
 }
 
-export default Outlet;
+export default MyOutlet;

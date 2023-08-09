@@ -1,24 +1,33 @@
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { HOME_PATH } from "../../router";
-import netlifyIdentity from "netlify-identity-widget";
+import useMainContext from "../../contexts/useMainContext";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { CREATE_CLIENT_ACCOUNT_PATH, HOME_PATH } from "../../router";
+import type { XUser } from "../../types";
+import MyOutlet from "../../pages/outlet/MyOutlet";
+import Home from "../../pages/home/Home";
 
-type Props = {
-  children?: React.ReactNode;
-  privateComponent?: React.ReactNode;
-  publicComponent?: React.ReactNode;
-};
-function Guardian({ children, publicComponent, privateComponent }: Props) {
-
+function Guardian() {
+  const { netlifyIdentity } = useMainContext();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  return netlifyIdentity.currentUser() ? (
-    privateComponent || children || null
-  ) : pathname === HOME_PATH ? (
-    publicComponent || null
-  ) : (
-    <Navigate to={HOME_PATH} />
-  );
+  const user = netlifyIdentity.currentUser() as XUser;
+
+  console.log({ user, pathname, navigate });
+
+  if (!user) {
+    navigate(HOME_PATH);
+    return <Home />;
+  }
+
+  if (
+    user &&
+    !user.app_metadata?.companyName &&
+    pathname !== CREATE_CLIENT_ACCOUNT_PATH
+  ) {
+    return <Navigate to={CREATE_CLIENT_ACCOUNT_PATH} />;
+  }
+
+  return <MyOutlet />;
 }
 
 export default Guardian;

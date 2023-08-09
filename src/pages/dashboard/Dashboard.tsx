@@ -7,11 +7,10 @@ import "./Dashboard.scss";
 import useMainContext from "../../contexts/useMainContext";
 import { toast } from "react-toastify";
 import axios from "axios";
-import netlifyIdentity from "netlify-identity-widget";
 
 function Dashboard() {
   const [twittArea, setTwittArea] = useState("");
-  const { twitterToken } = useMainContext();
+  const { twitterToken, netlifyIdentity } = useMainContext();
 
   const { refresh, isLoading } = useQuery({
     axiosFn: sendTweet,

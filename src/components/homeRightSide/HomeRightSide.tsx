@@ -2,9 +2,10 @@ import { Button, Row, Space, Typography } from "antd";
 import MaskSvg from "../../assets/svg/MaskSvg";
 import Logo from "../../assets/Logo";
 import { CaretRightOutlined } from "@ant-design/icons";
-import netlifyIdentity from "netlify-identity-widget";
+import useMainContext from "../../contexts/useMainContext";
 
 function HomeRightSide() {
+  const { netlifyIdentity } = useMainContext();
   return (
     <div className="rightSide">
       <MaskSvg className="maskSvg" />

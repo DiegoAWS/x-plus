@@ -1,17 +1,17 @@
 import { Button, Grid, Layout, Typography, theme } from "antd";
-
-import { DingtalkOutlined } from "@ant-design/icons";
+import LogOutIcon from "../../assets/svg/LogOutIcon";
+import useMainContext from "../../contexts/useMainContext";
+import type { XUser } from "../../types";
 import "./Navbar.scss";
 
-import LogOutIcon from "../../assets/svg/LogOutIcon";
-import netlifyIdentity from "netlify-identity-widget";
-
 function Navbar() {
-
+  const { netlifyIdentity } = useMainContext();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const user = netlifyIdentity.currentUser() as XUser;
+  const clientName = user?.app_metadata?.companyName;
   const { sm } = Grid.useBreakpoint();
 
   const logout = () => {
@@ -26,16 +26,9 @@ function Navbar() {
       }}
     >
       <div className="brandContainer">
-        <DingtalkOutlined
-          style={{
-            fontSize: 30,
-            color: "red",
-          }}
-        />
-
         {sm && (
           <Typography.Text ellipsis className="brandText">
-            Brand Name
+            {clientName ? "Client: " + clientName : ""}
           </Typography.Text>
         )}
       </div>
