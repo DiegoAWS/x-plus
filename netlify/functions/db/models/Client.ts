@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection";
-import { DefaulColumns } from "./types";
+import { DefaulColumns } from "../../utils/types";
+import { getUserModel } from "./User";
 
 export type Client = {
     name: string;
@@ -10,7 +11,9 @@ export type Client = {
     twitterTokenExpiresAt: string;
 }
 
+// type FullClient  is Client plus fields in   DefaulColumns;
 export type FullClient = Client & DefaulColumns;
+
 
 export const getClientModel = async () => {
 
@@ -41,6 +44,11 @@ export const getClientModel = async () => {
             allowNull: false,
         },
     });
+
+    // One client has many users
+    const userModel = await getUserModel();
+
+    client.hasMany(userModel);
 
     await sequelize.sync({
         alter: true,

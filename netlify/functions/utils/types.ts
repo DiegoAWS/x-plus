@@ -3,3 +3,8 @@ export type DefaulColumns = {
     updatedAt?: string;
     createdAt?: string;
 }
+
+export enum ROLE {
+    ADMIN = "ADMIN",
+    USER= "USER"
+}

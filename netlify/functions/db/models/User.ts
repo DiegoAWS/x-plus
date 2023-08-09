@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection";
-import { DefaulColumns } from "./types";
+import { DefaulColumns } from "../../utils/types";
+import { getClientModel } from "./Client";
 
 export type User = {
   email: string;
@@ -39,6 +40,10 @@ export const getUserModel = async () => {
   }, {
 
   });
+
+  const clientModel = await getClientModel();
+
+  user.belongsTo(clientModel);
 
   await sequelize.sync({
     alter: true,

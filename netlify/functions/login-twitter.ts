@@ -1,6 +1,9 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
 import { getTwitterOAuthToken, getTwitterUser } from "./services/twitter";
-import { getClientModel } from "./db/models/Client";
+
+import { createClient } from "./db/repositories/client";
+import { createUser } from "./db/repositories/user";
+import { ROLE } from "./utils/types";
 
 // import { requestAccessToken } from "./services/twitter";
 // import { Client, getClient } from "./db/models/Client";
@@ -56,15 +59,25 @@ const handler: Handler = async (
 
   const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString();// 1 minute before expiration
 
-  const Client = await getClientModel();
 
-  const createdClient = await Client.create({
+  const createdClient = await createClient({
     name: companyName,
     twitterId: twitterUser?.id || "UKNOWN",
     twitterToken: token.access_token,
-    twitterRefreshToken: token.refresh_token ,
+    twitterRefreshToken: token.refresh_token,
     twitterTokenExpiresAt: tokenExpiresAt,
   });
+
+
+
+  const createdUser = await createUser({
+    email: user.email,
+    role: ROLE.ADMIN,
+    clientId: createdClient.id!,
+
+  })
+
+  console.log({ createdUser })
 
 
   return {
@@ -75,6 +88,7 @@ const handler: Handler = async (
     body: JSON.stringify({
       token,
       createdClient,
+      createdUser,
       user, adminToken,
       login: "ok"
     })
