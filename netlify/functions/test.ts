@@ -1,6 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 
-import { getUser } from "./db/models/User";
 
 
 export const handler: Handler = async (
@@ -8,9 +7,6 @@ export const handler: Handler = async (
     context: HandlerContext
 ) => {
 
-    const User = await getUser();
-
-    const test= await User.sync();
 
 
     return {
@@ -18,7 +14,7 @@ export const handler: Handler = async (
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ token: context.clientContext?.identity?.token, test })
+        body: JSON.stringify({ token: context.clientContext?.identity?.token })
     }
 
 
