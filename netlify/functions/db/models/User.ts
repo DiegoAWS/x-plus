@@ -1,53 +1,30 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection";
 import { DefaulColumns } from "../../utils/types";
-import { getClientModel } from "./Client";
 
-export type User = {
+export type UserType = {
   email: string;
   role: string;
-  clientId: number;
+  clientId?: number;
 }
 
-export type FullUser = User & DefaulColumns;
+export type FullUser = UserType & DefaulColumns;
 
-export const getUserModel = async () => {
 
-  const user = sequelize.define<Model<FullUser>>('User', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    clientId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Clients',
-        key: 'id'
-      }
-    }
+export const User = sequelize.define<Model<FullUser>>('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  email: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false,
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
 
-  }, {
-
-  });
-
-  const clientModel = await getClientModel();
-
-  user.belongsTo(clientModel);
-
-  await sequelize.sync({
-    alter: true,
-  });
-
-  return user;
-}
+});

@@ -1,10 +1,9 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
 import { getTwitterOAuthToken, getTwitterUser } from "./services/twitter";
 
-import { createClient } from "./db/repositories/client";
-import { createUser } from "./db/repositories/user";
 import { ROLE } from "./utils/types";
 import { updateMetadataUser } from "./services/identity";
+import { createClient, createUser } from "./db/repository";
 
 // import { requestAccessToken } from "./services/twitter";
 // import { Client, getClient } from "./db/models/Client";
