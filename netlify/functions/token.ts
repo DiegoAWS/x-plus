@@ -7,7 +7,9 @@ export const handler: Handler = async (
     context: HandlerContext
 ) => {
 
-
+const access_token = context.clientContext?.identity?.token;
+    
+const decoded = JSON.parse(Buffer.from(access_token.split(".")[1], "base64").toString("utf-8"));
 
     return {
         statusCode: 200,
@@ -16,9 +18,9 @@ export const handler: Handler = async (
         },
         body: JSON.stringify({
             test:"auth",
-            access_token: context.clientContext?.identity?.token,
-            refresh_token: context.clientContext?.identity?.token,
-            identity: context.clientContext?.identity,
+            access_token,
+            refresh_token: access_token,
+            decoded
         })
     }
 };
