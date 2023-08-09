@@ -1,27 +1,65 @@
-import type { Handler, HandlerEvent } from "@netlify/functions";
-import { authTwitter } from "./services/authTwitter";
+import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
 
-const handler: Handler = async (event: HandlerEvent) => {
-  const { code, state } = JSON.parse(event?.body || "{}");
+import { requestAccessToken } from "./services/twitter";
+import { Client, getClient } from "./db/models/Client";
+import { getUser } from "./db/models/User";
+import axios from "axios";
 
-  if (!code || !state) {
+
+const handler: Handler = async (
+  event: HandlerEvent,
+  context: HandlerContext) => {
+  const user = context.clientContext?.user;
+ 
+  if (!user) {
     return {
-      statusCode: 400,
+      statusCode: 401,
       body: JSON.stringify({
-        message: "Missing code or state"
+        message: "You must be signed in to call this function"
       })
     }
   }
 
-  const { token, getMe } = await authTwitter({
-    authResponse: {
-      code,
-      state
+  const { code, state, companyName } = JSON.parse(event?.body || "{}");
+
+  if (!code || !state || state !== process.env.VITE_TWITTER_STATE || !companyName) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: "Missing required data { code, state, companyName }"
+      })
     }
-  });
+  }
 
-  const me = await getMe();
+  const { token, me } = await requestAccessToken(code);
 
+  const Client = await getClient();
+
+  const client = (await Client.create({
+    name: me.data?.name || "",
+    twitterId: me.data?.id || "",
+    twitterToken: token?.access_token || "",
+    twitterRefreshToken: token?.refresh_token || "",
+    twitterTokenExpiresAt: token?.expires_at || "",
+    companyName,
+  })) as unknown as Client;
+
+  const User = await getUser();
+
+  const admin = await User.create({
+    email: user.email || "",
+    role: "admin",
+    clientId: client.id
+  })
+
+  const updatedClient = await axios.put(`${process.env.VITE_API_URL}/admin/clients/${user.id}`, {
+
+    app_metadata: {
+      companyName,
+      comppanyRole: "admin",
+    }
+
+  })
 
 
 
@@ -32,7 +70,11 @@ const handler: Handler = async (event: HandlerEvent) => {
     },
     body: JSON.stringify({
       token,
-      me
+      admin,
+      updatedClient,
+      me,
+      companyName,
+      client
     })
   }
 };

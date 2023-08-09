@@ -1,8 +1,9 @@
 
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
-import { authTwitter } from "./services/authTwitter";
+import { generateAuthUrl } from "./services/twitter";
 
-const handler: Handler = async (event: HandlerEvent,
+const handler: Handler = async (
+    event: HandlerEvent,
     context: HandlerContext) => {
     const user = context.clientContext?.user;
     if (!user) {
@@ -14,9 +15,7 @@ const handler: Handler = async (event: HandlerEvent,
         }
     }
 
-    const { getAuthUrl } = await authTwitter();
-
-    const authUrl = getAuthUrl();
+    const {authUrl} = await generateAuthUrl()
 
     return {
         statusCode: 200,

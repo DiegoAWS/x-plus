@@ -15,7 +15,7 @@ function CreateClientAccount() {
         <Divider />
         <Form layout="vertical" onFinish={signInWithTwitter}>
           <Form.Item
-            name={["CompanyName"]}
+            name={["companyName"]}
             label="Organization name"
             rules={[
               {

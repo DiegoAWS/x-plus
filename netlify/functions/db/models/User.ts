@@ -15,6 +15,10 @@ export const getUser = async () => {
       unique: true,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     clientId: {
       type: DataTypes.INTEGER,
       allowNull: false,

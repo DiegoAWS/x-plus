@@ -28,25 +28,29 @@ function useQuery<T, K = void>({
             if (response?.statusText !== "OK" && response.status !== 200 && response.status !== 201) throw response;
 
             setData(response?.data);
-        } catch (error) {
-            console.log({error})
-            setError(JSON.stringify(error));
-        }
-        setIsLoading(false);
+        } catch (e ) {
+
+            type Error = {
+                message?: string;
+            }
+
+            setError(JSON.stringify((e as Error)?.message  || e ));
+}
+setIsLoading(false);
     }, [axiosFn]);
 
-    const refresh = (params: K) => {
-        fetchData(params);
-    }
-    const dependenciesString = JSON.stringify(dependencies) || "";
+const refresh = (params: K) => {
+    fetchData(params);
+}
+const dependenciesString = JSON.stringify(dependencies) || "";
 
-    useEffect(() => {
-        if (isDisabled) return;
+useEffect(() => {
+    if (isDisabled) return;
 
-        fetchData(parameters as K);
-    }, [fetchData, isDisabled, dependenciesString, parameters]);
+    fetchData(parameters as K);
+}, [fetchData, isDisabled, dependenciesString, parameters]);
 
-    return { data, isLoading, error, refresh };
+return { data, isLoading, error, refresh };
 
 }
 export default useQuery;

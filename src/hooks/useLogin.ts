@@ -1,27 +1,29 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useQuery from "./useQuery.ts";
 import { getLoginUrl, login, type LoginParams } from "../services/auth.ts";
-import useMainContext from "../contexts/useMainContext.tsx";
+// import useMainContext from "../contexts/useMainContext.tsx";
 import type { TwitterToken } from "../types/index.ts";
+import { createLocalStorage } from "../services/localStore.ts";
 
 
 type AuthUrlResponse = {
     authUrl: string;
 };
 
+const COMPANY_NAME_STORAGE_KEY = "companyNameStorageKey";
 
 function useLogin() {
 
-    const { storeTwitterToken } = useMainContext();
+    // const {? storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const [genericError, setGenericError] = useState("")
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const {
         data: getUrlResponse,
         isLoading: isLoadingGetUrl,
         error: errorGetUrl,
-        refresh: signInWithTwitter,
+        refresh: getAuthUrl,
     } = useQuery<AuthUrlResponse>({ axiosFn: getLoginUrl, isDisabled: true });
 
     const {
@@ -29,7 +31,7 @@ function useLogin() {
         isLoading: isLoadingLogin,
         error: errorLogin,
         refresh: signIn,
-    } = useQuery<TwitterToken, LoginParams>({ axiosFn: login, isDisabled: true });
+    } = useQuery<TwitterToken, LoginParams>({ axiosFn: login, isDisabled: true});
 
 
     useEffect(() => {
@@ -37,7 +39,6 @@ function useLogin() {
             window.location.replace(getUrlResponse.authUrl);
         }
     }, [getUrlResponse]);
-
 
     useEffect(() => {
         (async () => {
@@ -50,7 +51,14 @@ function useLogin() {
 
                 if (code && state) {
 
-                    signIn({ code, state });
+                    const storage = createLocalStorage(COMPANY_NAME_STORAGE_KEY)
+
+                    const companyName = storage.get() || "";
+
+                    console.log({companyName})
+                    // storage.clear();
+
+                    signIn({ code, state, companyName });
                 }
             }
             if (searchParams.has("error")) {
@@ -62,22 +70,29 @@ function useLogin() {
             setSearchParams({})
 
         })();
-    }, [searchParams, setSearchParams, signIn]);
+    }, [ searchParams, setSearchParams, signIn]);
 
 
-    useEffect(() => {
-        if (dataLogin?.token) {
-            storeTwitterToken(dataLogin);
-        }
-    }, [dataLogin, storeTwitterToken, navigate]);
+    // useEffect(() => {
+    //     if (dataLogin?.token) {
+    //         storeTwitterToken(dataLogin);
+    //     }
+    // }, [dataLogin, storeTwitterToken, navigate]);
 
+    type Params = {
+        companyName: string;
+    };
 
+    const signInWithTwitter = (form: Params) => {
+        createLocalStorage(COMPANY_NAME_STORAGE_KEY).set(form.companyName);
+        getAuthUrl();
+    }
 
     return {
         signInWithTwitter,
         isLoading: isLoadingGetUrl || isLoadingLogin,
         dataLogin,
-        error: genericError || errorLogin || errorGetUrl,
+        error:  genericError || errorLogin || errorGetUrl,
     }
 }
 

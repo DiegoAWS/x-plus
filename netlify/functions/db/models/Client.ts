@@ -35,3 +35,14 @@ export const getClient = async () => {
 
     return client;
 }
+
+export type Client = {
+    id: number;
+    name: string;
+    twitterId: string;
+    twitterToken: string;
+    twitterRefreshToken: string;
+    twitterTokenExpiresAt: string;
+    updatedAt: string;
+    createdAt: string;
+}

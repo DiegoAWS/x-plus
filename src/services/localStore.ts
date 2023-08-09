@@ -22,5 +22,5 @@ export const createLocalStorage = (key: string) => ({
 
         }
     },
-    remove: () => localStorage.removeItem(key),
+    clear: () => localStorage.removeItem(key),
 })
