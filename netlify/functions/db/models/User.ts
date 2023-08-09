@@ -25,6 +25,14 @@ export const User = sequelize.define<Model<FullUser>>('User', {
   role: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  clientId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Clients',
+      key: 'id'
+    }
   }
+  
 
 });

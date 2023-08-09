@@ -1,4 +1,5 @@
 import axios from "axios";
+import { printError } from "../utils/tools";
 
 // add your client id and secret here:
 const TWITTER_OAUTH_CLIENT_ID = process.env.VITE_TWITTER_CLIENT_ID!;
@@ -32,27 +33,21 @@ type TwitterTokenResponse = {
 
 // the main step 1 function, getting the access token from twitter using the code that twitter sent us
 export async function getTwitterOAuthToken(code: string) {
-    try {
-        // POST request to the token url to get the access token
-        const res = await axios.post<TwitterTokenResponse>(
-            TWITTER_OAUTH_TOKEN_URL,
-            new URLSearchParams({ ...twitterOauthTokenParams, code }).toString(),
-            {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization: `Basic ${BasicAuthToken}`,
-                },
-            }
-        );
 
-        console.log(res.data)
+    // POST request to the token url to get the access token
+    const res = await axios.post<TwitterTokenResponse>(
+        TWITTER_OAUTH_TOKEN_URL,
+        new URLSearchParams({ ...twitterOauthTokenParams, code }).toString(),
+        {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: `Basic ${BasicAuthToken}`,
+            },
+        }
+    ).catch(printError);
 
-        return res.data;
-    } catch (err) {
-        console.error(err);
+    return res?.data;
 
-        return null;
-    }
 }
 
 // the shape of the response we should get
@@ -64,25 +59,16 @@ export interface TwitterUser {
 
 // getting the twitter user from access token
 export async function getTwitterUser(accessToken: string): Promise<TwitterUser | null> {
-    try {
-        // request GET https://api.twitter.com/2/users/me
-        const res = await axios.get<{ data: TwitterUser }>("https://api.twitter.com/2/users/me", {
-            headers: {
-                "Content-type": "application/json",
-                // put the access token in the Authorization Bearer token
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
 
-        return res.data.data ?? null;
-    } catch (err) {
-        const error = err?.response?.data ? {
-            data: err?.response?.data,
-            headers: err?.response?.headers
-        } : err;
+    // request GET https://api.twitter.com/2/users/me
+    const res = await axios.get<{ data: TwitterUser }>("https://api.twitter.com/2/users/me", {
+        headers: {
+            "Content-type": "application/json",
+            // put the access token in the Authorization Bearer token
+            Authorization: `Bearer ${accessToken}`,
+        },
+    }).catch(printError);
 
-        console.error(error);
+    return res?.data.data ?? null;
 
-        return null;
-    }
 }

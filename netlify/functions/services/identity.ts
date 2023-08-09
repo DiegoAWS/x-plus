@@ -1,4 +1,5 @@
 import axios from "axios"
+import { printError } from "../utils/tools";
 const identityUrl = "https://x-plus.netlify.app/.netlify/identity/admin/users/";
 
 export const updateMetadataUser = async (accessToken: string,id: string, fields: Record<string, string>) => {
@@ -9,9 +10,7 @@ export const updateMetadataUser = async (accessToken: string,id: string, fields:
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
         }
-    }).catch(err => {
-        console.error(err);
-    })
+    }).catch(printError);
 
     return response?.data;
 }

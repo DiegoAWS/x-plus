@@ -1,5 +1,5 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
-import { getTwitterOAuthToken, getTwitterUser } from "./services/twitter";
+import { TwitterUser, getTwitterOAuthToken, getTwitterUser } from "./services/twitter";
 
 import { ROLE } from "./utils/types";
 import { updateMetadataUser } from "./services/identity";
@@ -55,7 +55,16 @@ const handler: Handler = async (
     }
   }
 
-  const twitterUser = await getTwitterUser(token.access_token);
+  let twitterUser = {
+    id: "UNKNOWN",
+  } as TwitterUser| null
+  
+  try {
+    twitterUser = await getTwitterUser(token.access_token);
+  }
+  catch (err) {
+    console.error(err);
+  }
 
   const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString();// 1 minute before expiration
 
@@ -80,7 +89,7 @@ const handler: Handler = async (
   console.log({ createdUser })
 
 
-  const updatedIdentityUser = updateMetadataUser(adminToken,user.sub,{
+  const updatedIdentityUser = await updateMetadataUser(adminToken,user.sub,{
     userId: createdUser?.id?.toString() || "UNKNOWN",
     role: ROLE.ADMIN,
     clienName: createdClient.name,

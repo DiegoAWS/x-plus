@@ -1,16 +1,19 @@
 import { Client, ClientType } from "./models/Client";
 import { User, UserType } from "./models/User";
 
-User.sync({
-    alter: true
-});
+User.sync({ alter: true});
 
 Client.sync({
     alter: true
 });
 
-User.belongsTo(Client);
-Client.hasMany(User);
+Client.hasMany(User, {
+    foreignKey: 'clientId'
+  });
+  
+  User.belongsTo(Client, {
+    foreignKey: 'clientId'
+  });
 
 
 
@@ -27,6 +30,18 @@ export const createClient = async (client: ClientType) => {
 
 export const createUser = async (user: UserType) => {
 
-    const createdUser = await User.create(user);
-    return createdUser.toJSON();
+    const [rawUser, created] = await User.findOrCreate({
+        where: {
+            email: user.email
+        },
+        defaults: user
+    });
+    const createdUser = rawUser.toJSON();
+
+    if (!created && createdUser.clientId !== user.clientId) {
+        throw new Error("User already exists");
+    }
+    
+
+    return createdUser;
 }
