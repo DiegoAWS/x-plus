@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export function getLoginUrl() {
-    return axios.get("/.netlify/functions/login-url",
+    return axios.get("/.netlify/functions/get-twitter-url",
     {
         headers: {
             "Content-Type": "application/json"
@@ -16,7 +16,7 @@ export type LoginParams = {
 }
 
 export function login({ code, state }: LoginParams) {
-    return axios.post("/.netlify/functions/login", { code, state }, {
+    return axios.post("/.netlify/functions/login-twitter", { code, state }, {
         headers: {
             "Content-Type": "application/json"
         }
