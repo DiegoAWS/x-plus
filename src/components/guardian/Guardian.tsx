@@ -12,7 +12,7 @@ function Guardian() {
   const navigate = useNavigate();
 
   const user = netlifyIdentity.currentUser() as XUser;
-  const companyName = user?.app_metadata?.clientName;
+  const companyName = user?.app_metadata?.companyName;
 
   
 

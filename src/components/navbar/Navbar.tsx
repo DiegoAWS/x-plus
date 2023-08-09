@@ -11,7 +11,7 @@ function Navbar() {
   } = theme.useToken();
 
   const user = netlifyIdentity.currentUser() as XUser;
-  const clientName = user?.app_metadata?.companyName;
+  const companyName = user?.app_metadata?.companyName;
   const { sm } = Grid.useBreakpoint();
 
   const logout = () => {
@@ -28,7 +28,7 @@ function Navbar() {
       <div className="brandContainer">
         {sm && (
           <Typography.Text ellipsis className="brandText">
-            {clientName ? "Client: " + clientName : ""}
+            {companyName ? "Client: " + clientName : ""}
           </Typography.Text>
         )}
       </div>

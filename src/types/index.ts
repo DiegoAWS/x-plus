@@ -22,7 +22,7 @@ export interface Data {
 
 export interface XUser extends User {
     app_metadata: {
-        clientName: string;
+        companyName: string;
         provider: string;
         roles: string[];
         role: string;
