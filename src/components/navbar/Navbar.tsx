@@ -28,7 +28,7 @@ function Navbar() {
       <div className="brandContainer">
         {sm && (
           <Typography.Text ellipsis className="brandText">
-            {companyName ? "Client: " + clientName : ""}
+            {companyName ? "Client: " + companyName : ""}
           </Typography.Text>
         )}
       </div>
