@@ -8,7 +8,7 @@ import {
   SnippetsOutlined,
 } from "@ant-design/icons";
 import Templates from "./pages/templates/Templates";
-import CreateClientAccount from "./pages/login/CreateClientAccount";
+import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
 import Guardian from "./components/guardian/Guardian";
 
 export const CREATE_CLIENT_ACCOUNT_PATH = "/create-client-account";
