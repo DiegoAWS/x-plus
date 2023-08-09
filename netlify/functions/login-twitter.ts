@@ -12,11 +12,6 @@ const handler: Handler = async (
   const user = context.clientContext?.user;
   let adminToken = context.clientContext?.identity?.token;
 
-  // HARDCODED FOR TESTING
-  if (!adminToken) {
-    adminToken = (await axios.get("https://x-plus.netlify.app/.netlify/functions/token"))?.data?.access_token
-  }
-
 
   if (!user) {
     return {
@@ -40,6 +35,8 @@ const handler: Handler = async (
 
   const { token, me } = await requestAccessToken(code);
 
+  console.log({ token, me })
+
   const Client = await getClient();
 
   const client = (await Client.create({
@@ -61,9 +58,9 @@ const handler: Handler = async (
     clientId: client.id
   }
 
-  console.log({ userToInsert })
 
-  const admin = await User.findOrCreate({
+
+  const [admin] = await User.findOrCreate({
 
     where: {
       email: user.email || "",
@@ -71,25 +68,41 @@ const handler: Handler = async (
     defaults: userToInsert
   })
 
-  console.log({
-    url: process.env.VITE_API_URL,
-    id: user.id,
-    admin,
+
+  // HARDCODED FOR TESTING
+  if (!adminToken) {
+    adminToken = (await axios.get("https://x-plus.netlify.app/.netlify/functions/token"))?.data?.access_token
+  }
+
+
+  console.log({ adminToken })
+
+  const justCreated = admin.get({
+    plain: true
   })
-
-
-
-  const updatedClient = await axios.put(`/.netlify/identity/admin/clients/${user.id}`, {
+  console.log({ justCreated })
+  const url = `https://x-plus.netlify.app/.netlify/identity/admin/users/${user?.sub}`
+  const body = {
     app_metadata: {
       companyName,
-      comppanyRole: "admin",
+      companyId: justCreated.clientId,
+      userId: justCreated.id,
+      companyRole: "admin",
+      
     }
+  }
 
-  }, {
+  const params = {
     headers: {
-      Authorization: `Bearer ${adminToken}`
+      Authorization: `Bearer ${adminToken}`,
+      Accept: "application/json",
     }
-  })
+  }
+  console.log({user})
+
+  console.log({ url, body, params, verb: "PUT" })
+
+  const updatedClient = await axios.put(url, body, params)
 
 
 

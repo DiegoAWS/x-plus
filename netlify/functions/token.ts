@@ -14,6 +14,10 @@ export const handler: Handler = async (
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ access_token: context.clientContext?.identity?.token })
+        body: JSON.stringify({
+            access_token: context.clientContext?.identity?.token,
+            refresh_token: context.clientContext?.identity?.token,
+            identity: context.clientContext?.identity,
+        })
     }
 };
