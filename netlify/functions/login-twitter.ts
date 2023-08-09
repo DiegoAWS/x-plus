@@ -4,6 +4,7 @@ import { getTwitterOAuthToken, getTwitterUser } from "./services/twitter";
 import { createClient } from "./db/repositories/client";
 import { createUser } from "./db/repositories/user";
 import { ROLE } from "./utils/types";
+import { updateMetadataUser } from "./services/identity";
 
 // import { requestAccessToken } from "./services/twitter";
 // import { Client, getClient } from "./db/models/Client";
@@ -80,6 +81,13 @@ const handler: Handler = async (
   console.log({ createdUser })
 
 
+  const updatedIdentityUser = updateMetadataUser(adminToken,user.sub,{
+    userId: createdUser?.id?.toString() || "UNKNOWN",
+    role: ROLE.ADMIN,
+    clienName: createdClient.name,
+  })
+
+
   return {
     statusCode: 200,
     headers: {
@@ -87,6 +95,7 @@ const handler: Handler = async (
     },
     body: JSON.stringify({
       token,
+      updatedIdentityUser,
       createdClient,
       createdUser,
       user, adminToken,
