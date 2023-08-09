@@ -1,9 +1,20 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection";
+import { DefaulColumns } from "./types";
 
-export const getClient = async () => {
+export type Client = {
+    name: string;
+    twitterId: string;
+    twitterToken: string;
+    twitterRefreshToken: string;
+    twitterTokenExpiresAt: string;
+}
 
-    const client = sequelize.define('Client', {
+export type FullClient = Client & DefaulColumns;
+
+export const getClientModel = async () => {
+
+    const client = sequelize.define<Model<FullClient>>('Client', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -38,13 +49,3 @@ export const getClient = async () => {
     return client;
 }
 
-export type Client = {
-    id: number;
-    name: string;
-    twitterId: string;
-    twitterToken: string;
-    twitterRefreshToken: string;
-    twitterTokenExpiresAt: string;
-    updatedAt: string;
-    createdAt: string;
-}

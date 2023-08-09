@@ -1,10 +1,18 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../connection";
+import { DefaulColumns } from "./types";
 
+export type User = {
+  email: string;
+  role: string;
+  clientId: number;
+}
 
-export const getUser = async () => {
+export type FullUser = User & DefaulColumns;
 
-  const user = sequelize.define('User', {
+export const getUserModel = async () => {
+
+  const user = sequelize.define<Model<FullUser>>('User', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,

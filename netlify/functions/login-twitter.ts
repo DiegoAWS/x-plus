@@ -1,5 +1,6 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
-import { getTwitterOAuthToken } from "./services/twitter";
+import { getTwitterOAuthToken, getTwitterUser } from "./services/twitter";
+import { getClientModel } from "./db/models/Client";
 
 // import { requestAccessToken } from "./services/twitter";
 // import { Client, getClient } from "./db/models/Client";
@@ -14,7 +15,8 @@ const handler: Handler = async (
   const adminToken = context.clientContext?.identity?.token;
 
 
-  console.log({ user })
+
+  console.log({ user, adminToken })
   if (!user) {
     return {
       statusCode: 401,
@@ -24,20 +26,46 @@ const handler: Handler = async (
     }
   }
 
-  const { code, state, companyName } = JSON.parse(event?.body || "{}");
-  console.log({ code, state, companyName })
+  const { code, companyName } = JSON.parse(event?.body || "{}");
+  console.log({ code, companyName })
 
-  if (!code || !state || !companyName || (state !== process.env.VITE_TWITTER_STATE)) {
+  if (!code || !companyName) {
     return {
       statusCode: 400,
       body: JSON.stringify({
-        message: "Missing required data { code, state, companyName }"
+        message: "Missing required data { code, companyName }"
       })
     }
   }
 
 
   const token = await getTwitterOAuthToken(code);
+
+  console.log({ token })
+
+  if (!token) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: "Invalid code"
+      })
+    }
+  }
+
+  const twitterUser = await getTwitterUser(token.access_token);
+
+  const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString();// 1 minute before expiration
+
+  const Client = await getClientModel();
+
+  const createdClient = await Client.create({
+    name: companyName,
+    twitterId: twitterUser?.id || "UKNOWN",
+    twitterToken: token.access_token,
+    twitterRefreshToken: token.refresh_token ,
+    twitterTokenExpiresAt: tokenExpiresAt,
+  });
+
 
   return {
     statusCode: 200,
@@ -46,11 +74,7 @@ const handler: Handler = async (
     },
     body: JSON.stringify({
       token,
-      // admin,
-      // updatedClient,
-      // me,
-      // companyName,
-      // client
+      createdClient,
       user, adminToken,
       login: "ok"
     })
