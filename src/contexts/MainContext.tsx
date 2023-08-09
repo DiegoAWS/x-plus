@@ -44,7 +44,7 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
 
   const logout = useCallback(() => {
     setTwitterToken(null);
-    createLocalStorage(TWITTER_TOKEN).remove();
+    createLocalStorage(TWITTER_TOKEN).clear();
   }, []);
 
   const theme = getTheme(isDarkTheme);
