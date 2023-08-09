@@ -5,12 +5,6 @@ import { ROLE } from "./utils/types";
 import { updateMetadataUser } from "./services/identity";
 import { createClient, createUser } from "./db/repository";
 
-// import { requestAccessToken } from "./services/twitter";
-// import { Client, getClient } from "./db/models/Client";
-// import { getUser } from "./db/models/User";
-// import axios from "axios";
-
-
 const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext) => {
