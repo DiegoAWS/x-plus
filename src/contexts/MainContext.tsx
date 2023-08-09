@@ -57,13 +57,6 @@ function MainContextProvider({ children }: React.PropsWithChildren) {
       setLoginCounter(loginCounter + 1);
     });
 
-    netlifyIdentity.on("init", (user) => {
-      // if (!user) {
-      //   netlifyIdentity.open();
-      // }
-      console.log("init", user);
-    });
-
     netlifyIdentity.on("logout", () => window.location.reload());
     netlifyIdentity.on("error", (err) => console.error("Error", err));
 

@@ -59,10 +59,12 @@ export const routes = [
         path: ANALYTICS_PATH,
         title: "Analytics",
         icon: <BarChartOutlined />,
+        
         element: null,
       },
       {
         path: CREATE_CLIENT_ACCOUNT_PATH,
+        title: "Link Client Account",
         element: <CreateClientAccount />,
       },
     ],
