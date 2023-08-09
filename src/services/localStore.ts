@@ -1,6 +1,6 @@
 export const THEME_KEY = 'dark_theme';
 export const TWITTER_TOKEN= 'twitter_token';
-
+export const TWITTER_STATE= 'twitter_state';
 export const createLocalStorage = (key: string) => ({
     get: () => localStorage.getItem(key),
     set: (value: string) => localStorage.setItem(key, value),

@@ -1,66 +1,53 @@
-import { Client, auth } from "twitter-api-sdk"
-import { scopes } from "../utils/constants";
-import { OAuth2UserOptions } from "twitter-api-sdk/dist/OAuth2User";
+import axios from "axios";
 
+// add your client id and secret here:
+const TWITTER_OAUTH_CLIENT_ID = process.env.VITE_TWITTER_CLIENT_ID !;
+const TWITTER_OAUTH_CLIENT_SECRET = process.env.VITE_TWITTER_CLIENT_SECRET !;
+const TWITTER_OAUTH_CALLBACK = process.env.VITE_TWITTER_CALLBACK !;
+const TWITTER_OAUTH_CHALLENGE= process.env.VITE_CODE_CHALLENGE !;
 
-type Token = OAuth2UserOptions["token"]
+const TWITTER_OAUTH_TOKEN_URL = "https://api.twitter.com/2/oauth2/token";
 
-// const token_type = "bearer";
+// we need to encrypt our twitter client id and secret here in base 64 (stated in twitter documentation)
+const BasicAuthToken = Buffer.from(`${TWITTER_OAUTH_CLIENT_ID}:${TWITTER_OAUTH_CLIENT_SECRET}`, "utf8").toString(
+  "base64"
+);
 
-const authParams = {
-    client_id: process.env.TWITTER_CLIENT_ID as string,
-    client_secret: process.env.TWITTER_CLIENT_SECRET as string,
-    callback: process.env.TWITTER_CALLBACK as string,
-    scopes
-}
-export const createAuthClient = (token?: Token) => new auth.OAuth2User({ ...authParams, token });
+// filling up the query parameters needed to request for getting the token
+export const twitterOauthTokenParams = {
+  client_id: TWITTER_OAUTH_CLIENT_ID,
+  code_verifier: TWITTER_OAUTH_CHALLENGE,
+  redirect_uri: TWITTER_OAUTH_CALLBACK,
+  grant_type: "authorization_code",
+};
 
+// the shape of the object we should recieve from twitter in the request
+type TwitterTokenResponse = {
+  token_type: "bearer";
+  expires_in: 7200;
+  access_token: string;
+  scope: string;
+};
 
-export const generateAuthUrl = () => {
+// the main step 1 function, getting the access token from twitter using the code that twitter sent us
+export async function getTwitterOAuthToken(code: string) {
+  try {
+    // POST request to the token url to get the access token
+    const res = await axios.post<TwitterTokenResponse>(
+      TWITTER_OAUTH_TOKEN_URL,
+      new URLSearchParams({ ...twitterOauthTokenParams, code }).toString(),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${BasicAuthToken}`,
+        },
+      }
+    );
 
-    const authClient = createAuthClient();
-    const authUrl = authClient.generateAuthURL({
-        state: process.env.VITE_TWITTER_STATE || "",
-        code_challenge: process.env.VITE_TWITTER_STATE || "",
-        code_challenge_method: "plain"
-    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
 
-    return {
-        authClient,
-        authUrl
-    }
-}
-
-export const requestAccessToken = async (code: string) => {
-
-
-    const {
-        authClient,
-    } = generateAuthUrl();
-
-
-
-
-
-    const accessToken = (await authClient.requestAccessToken(code)).token;
-    
-
-    const updatedAuthClient = createAuthClient(accessToken);
-    const client = new Client(updatedAuthClient);
-    const me = await client.users.findMyUser();
-    
-    
-    return {
-        token: accessToken,
-        me
-    }
-
-}
-
-export const getMe = async (token: Token) => {
-    // const token = await requestAccessToken(code);
-
-    const updatedAuthClient = createAuthClient(token);
-    const client = new Client(updatedAuthClient);
-    return client.users.findMyUser();
+    return null;
+  }
 }

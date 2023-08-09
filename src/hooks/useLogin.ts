@@ -1,15 +1,11 @@
-import {  useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useQuery from "./useQuery.ts";
-import { getLoginUrl, login, type LoginParams } from "../services/auth.ts";
-// import useMainContext from "../contexts/useMainContext.tsx";
+import { login, type LoginParams } from "../services/auth.ts";
 import type { TwitterToken } from "../types/index.ts";
-import { createLocalStorage } from "../services/localStore.ts";
+import { TWITTER_STATE, createLocalStorage } from "../services/localStore.ts";
+import { getTwitterOauthUrl } from "../services/twitter.ts";
 
-
-type AuthUrlResponse = {
-    authUrl: string;
-};
 
 const COMPANY_NAME_STORAGE_KEY = "companyNameStorageKey";
 
@@ -18,32 +14,24 @@ function useLogin() {
     // const {? storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const [genericError, setGenericError] = useState("")
-    // const navigate = useNavigate();
-    const {
-        data: getUrlResponse,
-        isLoading: isLoadingGetUrl,
-        error: errorGetUrl,
-        refresh: getAuthUrl,
-    } = useQuery<AuthUrlResponse>({ axiosFn: getLoginUrl, isDisabled: true });
 
     const {
         data: dataLogin,
         isLoading: isLoadingLogin,
         error: errorLogin,
         refresh: signIn,
-    } = useQuery<TwitterToken, LoginParams>({ axiosFn: login, isDisabled: true});
+    } = useQuery<TwitterToken, LoginParams>({ axiosFn: login, isDisabled: true });
 
 
-    useEffect(() => {
-        if (getUrlResponse?.authUrl) {
-            window.location.replace(getUrlResponse.authUrl);
-        }
-    }, [getUrlResponse]);
 
     useEffect(() => {
         (async () => {
-            const verifyState = import.meta.env.VITE_TWITTER_STATE;
+            const stateStorage = createLocalStorage(TWITTER_STATE)
+            const verifyState =stateStorage.get()
+        
             if (!searchParams.has("state") || searchParams.get("state") !== verifyState) return;
+
+            stateStorage.clear();
 
             if (searchParams.has("code")) {
                 const state = searchParams.get("state");
@@ -55,10 +43,10 @@ function useLogin() {
 
                     const companyName = storage.get() || "";
 
-                    console.log({companyName})
+                    console.log({ companyName })
                     // storage.clear();
 
-                    signIn({ code, state, companyName });
+                    signIn({ code, companyName });
                 }
             }
             if (searchParams.has("error")) {
@@ -70,7 +58,7 @@ function useLogin() {
             setSearchParams({})
 
         })();
-    }, [ searchParams, setSearchParams, signIn]);
+    }, [searchParams, setSearchParams, signIn]);
 
 
     // useEffect(() => {
@@ -85,14 +73,18 @@ function useLogin() {
 
     const signInWithTwitter = (form: Params) => {
         createLocalStorage(COMPANY_NAME_STORAGE_KEY).set(form.companyName);
-        getAuthUrl();
+
+        const authUrl = getTwitterOauthUrl()
+
+        console.log({ authUrl })
+        window.location.replace(authUrl);
     }
 
     return {
         signInWithTwitter,
-        isLoading: isLoadingGetUrl || isLoadingLogin,
+        isLoading: isLoadingLogin,
         dataLogin,
-        error:  genericError || errorLogin || errorGetUrl,
+        error: genericError || errorLogin,
     }
 }
 

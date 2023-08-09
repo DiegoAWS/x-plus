@@ -14,7 +14,7 @@ function Guardian() {
   const user = netlifyIdentity.currentUser() as XUser;
   const companyName = user?.app_metadata?.companyName;
 
-  console.log({ user, pathname, HOME_PATH, CREATE_CLIENT_ACCOUNT_PATH });
+  console.log(user, companyName);
 
   useEffect(() => {
     if (!user && pathname !== HOME_PATH) {
