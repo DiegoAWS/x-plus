@@ -53,7 +53,6 @@ const handler: Handler = async (
   })
 
   const updatedClient = await axios.put(`${process.env.VITE_API_URL}/admin/clients/${user.id}`, {
-
     app_metadata: {
       companyName,
       comppanyRole: "admin",
