@@ -20,7 +20,7 @@ const decoded = JSON.parse(Buffer.from(access_token.split(".")[1], "base64").toS
             test:"auth",
             access_token,
             refresh_token: access_token,
-            decoded
+            expires_at: decoded.exp,
         })
     }
 };
