@@ -51,13 +51,13 @@ const handler: Handler = async (
 
   let twitterUser = {
     id: "UNKNOWN",
-  } as TwitterUser| null
-  
+  } as TwitterUser | null
+
   try {
     twitterUser = await getTwitterUser(token.access_token);
   }
-  catch (err) {
-    console.error(err);
+  catch (e) {
+    console.error("Error getting twitter user");
   }
 
   const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString();// 1 minute before expiration
@@ -83,7 +83,7 @@ const handler: Handler = async (
   console.log({ createdUser })
 
 
-  const updatedIdentityUser = await updateMetadataUser(adminToken,user.sub,{
+  const updatedIdentityUser = await updateMetadataUser(adminToken, user.sub, {
     userId: createdUser?.id?.toString() || "UNKNOWN",
     role: ROLE.ADMIN,
     clienName: createdClient.name,
