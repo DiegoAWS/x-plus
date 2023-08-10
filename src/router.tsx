@@ -25,7 +25,7 @@ export const routes = [
   {
     path: HOME_PATH,
     element: <Guardian />,
-    
+    topLevel: true,
     children: [
       {
         index: true,
@@ -64,7 +64,6 @@ export const routes = [
       },
       {
         path: CREATE_CLIENT_ACCOUNT_PATH,
-        title: "Link Client Account",
         element: <CreateClientAccount />,
       },
     ],

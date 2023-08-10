@@ -67,7 +67,7 @@ function useLogin() {
     useEffect(() => {
         if (dataLogin) {
 
-            toast("Please login again to continue to company dashboard",{
+            toast("Please login again to continue to your company dashboard",{
                 onClose: async() => {
                    await  netlifyIdentity.logout()
                 }
