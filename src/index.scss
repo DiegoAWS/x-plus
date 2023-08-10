@@ -15,7 +15,10 @@ a {
 .ant-menu-root {
   border: none !important;
 }
-
+.ant-upload-list{
+  display: flex !important;
+  justify-content: center !important;
+}
 button {
   align-items: center !important;
   display: flex !important;

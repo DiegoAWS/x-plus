@@ -12,8 +12,6 @@ import { toast } from "react-toastify";
 const COMPANY_NAME_STORAGE_KEY = "companyNameStorageKey";
 
 function useLogin() {
-
-    // const {? storeTwitterToken } = useMainContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const [genericError, setGenericError] = useState("")
     const { netlifyIdentity } = useMainContext();
@@ -47,9 +45,9 @@ function useLogin() {
                     const companyName = storage.get() || "";
 
                     console.log({ companyName })
-                    // storage.clear();
-
+                    
                     signIn({ code, companyName });
+                    storage.clear();
                 }
             }
             if (searchParams.has("error")) {
@@ -82,11 +80,10 @@ function useLogin() {
     };
 
     const signInWithTwitter = (form: Params) => {
+        console.log(form)
+        
         createLocalStorage(COMPANY_NAME_STORAGE_KEY).set(form.companyName);
-
         const authUrl = getTwitterOauthUrl()
-
-        console.log({ authUrl })
         window.location.replace(authUrl);
     }
 
