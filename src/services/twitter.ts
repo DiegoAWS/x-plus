@@ -40,8 +40,6 @@ export const getTwitterOauthUrl = () => {
     };
     const qs = new URLSearchParams(options).toString();
 
-    console.log( `${rootUrl}?${qs}`)
-    throw new Error("test")
     return `${rootUrl}?${qs}`;
 }
 
