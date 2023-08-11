@@ -10,3 +10,13 @@ export const printError = (err) => {
 
     console.error(error);
 }
+
+export const createResponse = (statusCode: number, body: object) => {
+    return {
+        statusCode,
+        headers: {
+            "Content-Type": "application/json"
+          },
+        body: JSON.stringify(body)
+    }
+}

@@ -4,6 +4,7 @@ import { TwitterUser, getTwitterOAuthToken, getTwitterUser } from "./services/tw
 import { ROLE } from "./utils/types";
 import { updateMetadataUser } from "./services/identity";
 import { createClient, createUser } from "./db/repository";
+import { createResponse } from "./utils/tools";
 
 const handler: Handler = async (
   event: HandlerEvent,
@@ -11,42 +12,28 @@ const handler: Handler = async (
   const user = context.clientContext?.user;
   const adminToken = context.clientContext?.identity?.token;
 
-
-
-  console.log({ user, adminToken })
-  if (!user) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({
-        message: "You must be signed in to call this function"
-      })
-    }
-  }
-
   const { code, companyName } = JSON.parse(event?.body || "{}");
-  console.log({ code, companyName })
 
   if (!code || !companyName) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "Missing required data { code, companyName }"
-      })
-    }
+    return createResponse(400, {
+      message: "Missing required data { code, companyName }"
+    })
+  }
+
+  if (!user) {
+    return createResponse(401, {
+      message: "You must be signed in to call this function"
+    })
   }
 
 
   const token = await getTwitterOAuthToken(code);
 
-  console.log({ token })
 
   if (!token) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "Invalid code"
-      })
-    }
+    return createResponse(400, {
+      message: "Invalid code"
+    })
   }
 
   let twitterUser = {
@@ -57,11 +44,10 @@ const handler: Handler = async (
     twitterUser = await getTwitterUser(token.access_token);
   }
   catch (e) {
-    console.error("Error getting twitter user");
+    console.error("Error getting twitter user")
   }
 
-  const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString();// 1 minute before expiration
-
+  const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString(); // 1 minute before real expiration
 
   const createdClient = await createClient({
     name: companyName,
@@ -71,8 +57,6 @@ const handler: Handler = async (
     twitterTokenExpiresAt: tokenExpiresAt,
   });
 
-
-
   const createdUser = await createUser({
     email: user.email,
     role: ROLE.ADMIN,
@@ -80,30 +64,21 @@ const handler: Handler = async (
 
   })
 
-  console.log({ createdUser })
-
-
   const updatedIdentityUser = await updateMetadataUser(adminToken, user.sub, {
     userId: createdUser?.id?.toString() || "UNKNOWN",
     role: ROLE.ADMIN,
     companyName: createdClient.name,
   })
 
-
-  return {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      token,
-      updatedIdentityUser,
-      createdClient,
-      createdUser,
-      user, adminToken,
-      login: "ok"
-    })
-  }
+  return createResponse(200, {
+    token,
+    updatedIdentityUser,
+    createdClient,
+    createdUser,
+    user,
+    adminToken,
+    login: "ok"
+  })
 };
 
 export { handler };

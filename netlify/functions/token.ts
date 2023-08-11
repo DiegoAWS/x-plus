@@ -17,10 +17,10 @@ const decoded = JSON.parse(Buffer.from(access_token.split(".")[1], "base64").toS
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            test:"auth",
             access_token,
             refresh_token: access_token,
             expires_at: decoded.exp,
+            expires_in: 60,
         })
     }
 };
