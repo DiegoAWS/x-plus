@@ -3,8 +3,14 @@ import { User } from "./db/models/User";
 import { Client } from "./db/models/Client";
 
 export const handler: Handler = async () => {
-    await Client.sync();
-    await User.sync();
+    await Client.sync({
+        alter: true,
+        force: false
+    });
+    await User.sync({
+        alter: true,
+        force: false
+    });
 
     return {
         statusCode: 200,

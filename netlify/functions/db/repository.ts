@@ -1,12 +1,6 @@
 import { Client, ClientType } from "./models/Client";
 import { User, UserType } from "./models/User";
 
-User.sync({ alter: true});
-
-Client.sync({
-    alter: true
-});
-
 Client.hasMany(User, {
     foreignKey: 'clientId'
   });
