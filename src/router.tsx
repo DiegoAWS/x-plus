@@ -1,5 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import Dashboard from "./pages/dashboard/Dashboard";
+// import Dashboard from "./pages/dashboard/Dashboard";
 import {
   BarChartOutlined,
   CalendarOutlined,
@@ -10,6 +10,7 @@ import {
 import Templates from "./pages/templates/Templates";
 import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
 import Guardian from "./components/guardian/Guardian";
+import Test from "./pages/createClientAccount/Test";
 
 export const CREATE_CLIENT_ACCOUNT_PATH = "/create-client-account";
 
@@ -35,7 +36,8 @@ export const routes = [
         path: DASHBOARD_PATH,
         title: "Dashboard",
         icon: <HomeOutlined />,
-        element: <Dashboard />,
+        // element: <Dashboard />,
+        element: <Test />,
       },
       {
         path: TEMPLATES_PATH,

@@ -80,11 +80,11 @@ function useLogin() {
         logo: string;
     };
 
-    const signInWithTwitter = ({ companyName, logo }: Params) => {
+    const signInWithTwitter = ({ companyName }: Params) => {
 
         createLocalStorage(COMPANY_DATA).setObject({
             companyName,
-            logo
+           
         });
         const authUrl = getTwitterOauthUrl()
         window.location.replace(authUrl);
