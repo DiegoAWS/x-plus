@@ -6,11 +6,10 @@ import { sendTweet } from "../../services/twitter";
 import "./Dashboard.scss";
 import useMainContext from "../../contexts/useMainContext";
 import { toast } from "react-toastify";
-import axios from "axios";
 
 function Dashboard() {
   const [twittArea, setTwittArea] = useState("");
-  const { twitterToken, netlifyIdentity } = useMainContext();
+  const { twitterToken } = useMainContext();
 
   const { refresh, isLoading } = useQuery({
     axiosFn: sendTweet,
@@ -48,33 +47,6 @@ function Dashboard() {
           onClick={handleSendTweet}
         />
       </Card>
-      <Button
-        onClick={async () => {
-          const n = netlifyIdentity.currentUser();
-
-          console.log({ n });
-          // const auth = new GoTrue({
-          //   APIUrl: "/.netlify/identity",
-          // });
-
-          const result = (
-            await axios.post("./.netlify/functions/test", {
-              test: "test",
-            },{
-              headers: {
-                Authorization: `Bearer ${
-                  netlifyIdentity.currentUser()?.token?.access_token
-                }`,
-              },
-            })
-          ).data;
-          console.log(result);
-          console.log(result.headers.Authorization)
-        }}
-      >
-        {" "}
-        Test
-      </Button>
     </>
   );
 }
