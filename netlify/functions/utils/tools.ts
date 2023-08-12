@@ -5,7 +5,7 @@ export const printError = (err) => {
         data: err?.response?.data,
         headersResponse: err?.response?.headers,
         HeadersRequest: err?.request?.headers,
-        request: err?.request,
+        request: err?.request.data,
     } : err;
 
     console.error(error);
