@@ -4,6 +4,7 @@ import { DefaulColumns } from "../../utils/types";
 
 export type ClientType = {
     name: string;
+    logo?: string;
     twitterId: string;
     twitterToken: string;
     twitterRefreshToken: string;
@@ -22,6 +23,10 @@ export const Client = sequelize.define<Model<FullClient>>('Client', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    logo:{
+        type: DataTypes.STRING,
+        allowNull: true,
     },
     twitterId: {
         type: DataTypes.STRING,

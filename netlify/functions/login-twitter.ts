@@ -15,7 +15,7 @@ const handler: Handler = async (
   const adminToken = context.clientContext?.identity?.token;
 
   console.log({ client: context.clientContext, user, adminToken })
-  const { code, companyName } = JSON.parse(event?.body || "{}");
+  const { code, companyName, logo} = JSON.parse(event?.body || "{}");
 
   if (!code || !companyName) {
     console.log({ value: 'Missing data { code, companyName }' });
@@ -55,6 +55,7 @@ const handler: Handler = async (
 
   const createdClient = await createClient({
     name: companyName,
+    logo,
     twitterId: twitterUser?.id || "UKNOWN",
     twitterToken: token.access_token,
     twitterRefreshToken: token.refresh_token,
@@ -76,6 +77,7 @@ const handler: Handler = async (
     companyId: createdClient?.id?.toString() || "UNKNOWN",
     role: ROLE.ADMIN,
     companyName: createdClient.name,
+    logo: createdClient.logo || "",
   });
 
   console.log({ value: 'Updated identity user', updatedIdentityUser });

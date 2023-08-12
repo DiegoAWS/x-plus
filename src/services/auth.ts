@@ -4,6 +4,7 @@ import netlifyIdentity from "netlify-identity-widget";
 
 export type LoginParams = {
     code: string;
+    logo?: string;
     companyName: string;
 }
 

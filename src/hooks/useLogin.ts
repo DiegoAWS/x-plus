@@ -9,7 +9,7 @@ import useMainContext from "../contexts/useMainContext.tsx";
 import { toast } from "react-toastify";
 
 
-const COMPANY_NAME_STORAGE_KEY = "companyNameStorageKey";
+const COMPANY_DATA = "company_data";
 
 function useLogin() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -40,13 +40,13 @@ function useLogin() {
 
                 if (code && state) {
 
-                    const storage = createLocalStorage(COMPANY_NAME_STORAGE_KEY)
+                    const storage = createLocalStorage(COMPANY_DATA)
 
-                    const companyName = storage.get() || "";
+                    const {companyName, logo} = storage.getObject() || {};
 
-                    console.log({ companyName })
-                    
-                    signIn({ code, companyName });
+  
+
+                    signIn({ code, companyName, logo });
                     storage.clear();
                 }
             }
@@ -65,9 +65,9 @@ function useLogin() {
     useEffect(() => {
         if (dataLogin) {
 
-            toast("Please login again to continue to your company dashboard",{
-                onClose: async() => {
-                   await  netlifyIdentity.logout()
+            toast("Please login again to continue to your company dashboard", {
+                onClose: async () => {
+                    await netlifyIdentity.logout()
                 }
             })
 
@@ -77,12 +77,15 @@ function useLogin() {
 
     type Params = {
         companyName: string;
+        logo: string;
     };
 
-    const signInWithTwitter = (form: Params) => {
-        console.log(form)
-        
-        createLocalStorage(COMPANY_NAME_STORAGE_KEY).set(form.companyName);
+    const signInWithTwitter = ({ companyName, logo }: Params) => {
+
+        createLocalStorage(COMPANY_DATA).setObject({
+            companyName,
+            logo
+        });
         const authUrl = getTwitterOauthUrl()
         window.location.replace(authUrl);
     }
