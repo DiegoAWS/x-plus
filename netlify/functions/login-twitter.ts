@@ -9,31 +9,34 @@ import { createResponse } from "./utils/tools";
 const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext) => {
+  console.log({ value: 'Function start' });
+
   const user = context.clientContext?.user;
   const adminToken = context.clientContext?.identity?.token;
 
   const { code, companyName } = JSON.parse(event?.body || "{}");
 
   if (!code || !companyName) {
+    console.log({ value: 'Missing data { code, companyName }' });
     return createResponse(400, {
       message: "Missing required data { code, companyName }"
-    })
+    });
   }
 
   if (!user) {
+    console.log({ value: 'User not signed in' });
     return createResponse(401, {
       message: "You must be signed in to call this function"
-    })
+    });
   }
-
 
   const token = await getTwitterOAuthToken(code);
 
-
   if (!token) {
+    console.log({ value: 'Invalid code' });
     return createResponse(400, {
       message: "Invalid code"
-    })
+    });
   }
 
   let twitterUser = {
@@ -44,10 +47,10 @@ const handler: Handler = async (
     twitterUser = await getTwitterUser(token.access_token);
   }
   catch (e) {
-    console.error("Error getting twitter user")
+    console.error("Error getting twitter user", e);
   }
 
-  const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString(); // 1 minute before real expiration
+  const tokenExpiresAt = (new Date(Date.now() + token.expires_in * 1000 - 60 * 1000)).toISOString();
 
   const createdClient = await createClient({
     name: companyName,
@@ -57,18 +60,23 @@ const handler: Handler = async (
     twitterTokenExpiresAt: tokenExpiresAt,
   });
 
+  console.log({ value: 'Created client', createdClient });
+
   const createdUser = await createUser({
     email: user.email,
     role: ROLE.ADMIN,
     clientId: createdClient.id!,
+  });
 
-  })
+  console.log({ value: 'Created user', createdUser });
 
   const updatedIdentityUser = await updateMetadataUser(adminToken, user.sub, {
     userId: createdUser?.id?.toString() || "UNKNOWN",
     role: ROLE.ADMIN,
     companyName: createdClient.name,
-  })
+  });
+
+  console.log({ value: 'Updated identity user', updatedIdentityUser });
 
   return createResponse(200, {
     token,
@@ -78,7 +86,7 @@ const handler: Handler = async (
     user,
     adminToken,
     login: "ok"
-  })
+  });
 };
 
 export { handler };
