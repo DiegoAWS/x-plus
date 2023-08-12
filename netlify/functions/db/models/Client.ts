@@ -25,7 +25,7 @@ export const Client = sequelize.define<Model<FullClient>>('Client', {
         allowNull: false,
     },
     logo:{
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
     twitterId: {
