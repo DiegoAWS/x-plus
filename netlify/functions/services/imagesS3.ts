@@ -1,6 +1,6 @@
 import type { RcFile } from 'antd/es/upload';
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { s3Client } from '../../netlify/functions/services/s3Client';
+import { s3Client } from "./s3Client";
 
 
 
