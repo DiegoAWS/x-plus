@@ -20,7 +20,8 @@ a {
   justify-content: center !important;
 }
 
-.ant-modal-footer{
+.ant-modal-footer,
+.ant-popconfirm-buttons{
   display: flex !important;
   justify-content: flex-end !important;
 }

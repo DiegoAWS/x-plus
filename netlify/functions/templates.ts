@@ -17,6 +17,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
     const requestBody = JSON.parse(event?.body || "{}");
 
+    console.log({requestBody})
     const method = event?.httpMethod;
     const clientId = user?.app_metadata?.clientId;
 

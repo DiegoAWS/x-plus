@@ -1,64 +1,74 @@
-import { Space, Table, Button } from "antd";
-
-import { useEffect } from 'react';
-import useQuery from "../../hooks/useQuery";
-import { toast } from "react-toastify";
+import { Table, Button, Popconfirm } from "antd";
 import type { ColumnType } from "antd/es/table";
 import type { TemplateType } from "../../types";
-export const templatePath = "/.netlify/functions/templates";
+import { DeleteOutlined } from "@ant-design/icons";
 
+type Props = {
+  data: TemplateType[];
+  isLoading: boolean;
 
-export default function TemplateList() {
-  const { data, isLoading, error, refresh } = useQuery<TemplateType[]>({
-    path:templatePath,
-    method:"GET",
-    isArray: true,
-    isDisabled: false,
-  });
-
-  useEffect(() => {
-    if (error) {
-      toast.error("Failed to fetch templates. Try refreshing.");
-    }
-  }, [error]);
-
+  deleteTemplate: (id: number) => void;
+};
+export default function TemplateList({
+  data,
+  isLoading,
+  deleteTemplate,
+}: Props) {
   const columns: ColumnType<TemplateType>[] = [
     {
-      title: "Template Title",
-      dataIndex: "title",
+      dataIndex: "name",
       key: "title",
-      sorter: (a, b) => a.name.localeCompare(b.name) 
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
-      title: "Template Twitt",
+      width: "50%",
+
       dataIndex: "tweet",
       key: "tweet",
       ellipsis: true,
     },
     {
-      title: "Actions",
-      key: "action",
-      render: (_, record) => {
-        
-        console.log (record)
-        return (
-        <Space size="middle">
-          <a>Edit</a>
-          <a>Delete</a>
-        </Space>
-      )},
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (value) => new Date(value).toLocaleString(),
+    },
+    {
+      width: "50px",
+
+      key: "id",
+      dataIndex: "id",
+      render: (value) => (
+        <div onClick={(e) => e.stopPropagation()}>
+          <Popconfirm
+            title="Are you sure to delete this template?"
+            onConfirm={() => {
+              deleteTemplate(value);
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="text" icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
 
   return (
-    <div>
-      <Button onClick={()=>refresh()} loading={isLoading}>Refresh</Button>
-      <Table
-        loading={isLoading}
-        columns={columns} 
-        dataSource={data} 
-        rowKey="id" 
-      />
-    </div>
+    <Table
+      onRow={(record) => {
+        return {
+          onClick: () => {
+            console.log({ record });
+          },
+        };
+      }}
+      showHeader={false}
+      pagination={false}
+      loading={isLoading}
+      columns={columns}
+      dataSource={data}
+      rowKey="id"
+    />
   );
 }

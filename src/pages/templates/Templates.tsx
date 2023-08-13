@@ -1,29 +1,97 @@
-import { Row, Col, Card } from "antd";
+import { Card, Space, Button, Modal } from "antd";
 import TemplateForm from "../../components/templateForm/TemplateForm";
 import TemplateList from "../../components/templateList/TemplateList";
+import { templatePath } from "../../services/template";
+import useQuery from "../../hooks/useQuery";
+import type { TemplateType } from "../../types";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { PlusOutlined } from "@ant-design/icons";
 
 function Template() {
-    const handleFormFinish = (values: Record<string, string>) => {
-        console.log(values);
-    };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    data: templatesList,
+    isLoading: isLoadingList,
+    error: errorList,
+    refresh: refreshList,
+  } = useQuery<TemplateType[]>({
+    path: templatePath,
+    method: "GET",
+    isArray: true,
+    isDisabled: false,
+  });
 
-    return (
-        <Row gutter={[20, 20]}>
-            <Col sm={24} md={12}>
-                <Card>
-                    <TemplateForm handleFormFinish={handleFormFinish} />
-                </Card>
-            </Col>
-            <Col sm={24} md={12}>
-                <Card></Card>
-            </Col>
-            <Col sm={24} md={12}>
-                <Card>
-                    <TemplateList />
-                </Card>
-            </Col>
-        </Row>
-    );
+  const {
+    data: templateCreate,
+    isLoading: isLoadingCreate,
+    error: errorCreate,
+    refresh: send,
+  } = useQuery<unknown, TemplateType>({
+    path: templatePath,
+    method: "POST",
+    isDisabled: true,
+  });
+
+  const {
+    data: templateDelete,
+    isLoading: isLoadingDelete,
+    refresh: deleteTemplate,
+  } = useQuery<unknown, { id: number }>({
+    path: templatePath,
+    method: "DELETE",
+    isDisabled: true,
+  });
+
+  const deleteTemplateHandler = (id: number) => {
+    deleteTemplate({ id });
+  };
+
+  const handleFormFinish = (values: TemplateType) => {
+    setIsModalOpen(false);
+    send(values);
+  };
+
+  useEffect(() => {
+    if (errorList || errorCreate) {
+      toast.error("Something went wrong, please refresh the page.");
+    }
+  }, [errorList, errorCreate]);
+
+  useEffect(() => {
+    console.log({ templateCreate, templateDelete });
+    if (templateCreate || templateDelete) {
+      refreshList();
+    }
+  }, [templateCreate, refreshList, templateDelete]);
+
+  return (
+    <Card>
+      <Space direction="vertical">
+        <Space>
+          <Button onClick={() => setIsModalOpen(true)} loading={isLoadingList} icon={<PlusOutlined />}>
+            New
+          </Button>
+          <Button onClick={() => refreshList()} loading={isLoadingList}>
+            Refresh
+          </Button>
+        </Space>
+        <TemplateList
+          deleteTemplate={deleteTemplateHandler}
+          data={templatesList}
+          isLoading={isLoadingList || isLoadingDelete || isLoadingCreate}
+        />
+      </Space>
+      <Modal
+        open={isModalOpen}
+        footer={null}
+        destroyOnClose
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <TemplateForm handleFormFinish={handleFormFinish} />
+      </Modal>
+    </Card>
+  );
 }
 
 export default Template;

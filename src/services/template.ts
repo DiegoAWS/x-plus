@@ -1,6 +1,11 @@
 // import axios from "axios";
 // import type { TemplateType } from "../types";
 
+export const templatePath = "/.netlify/functions/templates";
+
+
+
+
 // // Create a new template
 // export const createTemplate = async (data: TemplateType) => {
 //     const response = await axios.post<TemplateType>("/.netlify/functions/templates", data);

@@ -48,7 +48,7 @@ function useQuery<T, K = void>({
                 response = await axios({
                     url: path,
                     method,
-                    params,
+                    data:params,
                     headers:{
                         ...auth,
                         "Accept": "application/json",
@@ -56,9 +56,10 @@ function useQuery<T, K = void>({
 
                 })
             }
-            if (response?.statusText !== "OK" && response.status !== 200 && response.status !== 201) throw response;
+            const isGoodResponse = [200, 201, 204].includes(response?.status);
+            if (response?.statusText !== "OK" && !isGoodResponse) throw response;
 
-            console.log(response?.data);
+
             setData(response?.data);
         } catch (e) {
 
@@ -72,9 +73,10 @@ function useQuery<T, K = void>({
         setIsLoading(false);
     }, [axiosFn, method, netlifyIdentity, path]);
 
-    const refresh = (params: K) => {
+    const refresh = useCallback((params: K) => {
         fetchData(params);
-    }
+    }, [fetchData]);
+
     const dependenciesString = JSON.stringify(dependencies) || "";
 
     useEffect(() => {

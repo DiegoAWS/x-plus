@@ -4,6 +4,7 @@ import { TemplateType } from '../../../../src/types/index';
 
 // Create
 export const createTemplate = async (template: TemplateType) => {
+    console.log({template})
     const createdTemplate = await Template.create(template);
     return createdTemplate.toJSON();
 }
@@ -22,7 +23,10 @@ export const getTemplatesByClientId = async (clientId: number) => {
     const templates = await Template.findAll({
         where: {
             clientId
-        }
+        },
+        order: [
+            ['id', 'DESC']
+        ]
     });
     return templates.map(template => template.toJSON());
 }
