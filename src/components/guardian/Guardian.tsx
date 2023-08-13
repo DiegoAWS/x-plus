@@ -13,8 +13,8 @@ function Guardian() {
 
   const user = netlifyIdentity.currentUser() as XUser;
 
-  console.log(user)
   const companyName = user?.app_metadata?.companyName;
+  console.log({user, companyName})
 
   
 

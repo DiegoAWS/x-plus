@@ -26,6 +26,7 @@ export interface XUser extends User {
         provider: string;
         roles: string[];
         role: string;
+        logo?: string;
         userId: string;
     }
 }

@@ -1,8 +1,9 @@
-import { Button, Grid, Layout, Typography, theme } from "antd";
+import { Avatar, Button, Grid, Layout, Typography, theme } from "antd";
 import LogOutIcon from "../../assets/svg/LogOutIcon";
 import useMainContext from "../../contexts/useMainContext";
 import type { XUser } from "../../types";
 import "./Navbar.scss";
+import { UserOutlined } from "@ant-design/icons";
 
 function Navbar() {
   const { netlifyIdentity } = useMainContext();
@@ -26,6 +27,9 @@ function Navbar() {
       }}
     >
       <div className="brandContainer">
+        <Avatar src={user?.app_metadata?.logo}>{
+          user?.app_metadata?.companyName?.charAt(0) || <UserOutlined />
+        }</Avatar>
         {sm && (
           <Typography.Text ellipsis className="brandText">
             {companyName ? "Client: " + companyName : ""}
