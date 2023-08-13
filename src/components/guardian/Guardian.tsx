@@ -41,6 +41,11 @@ function Guardian() {
     return <Navigate to={CREATE_CLIENT_ACCOUNT_PATH} />;
   }
 
+  if(user && companyName && pathname !== HOME_PATH) {
+    console.log("Guardian: Navigating to home due to user having companyName.");
+    return <Navigate to={HOME_PATH} />;
+  }
+
   console.log("Guardian: All checks passed, rendering MyOutlet component.");
   return <MyOutlet />;
 }
