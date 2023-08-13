@@ -14,55 +14,55 @@ import { TwitterOutlined, UploadOutlined } from "@ant-design/icons";
 import ImgCrop from "antd-img-crop";
 import type { RcFile, UploadProps } from "antd/es/upload/interface";
 import { toast } from "react-toastify";
+import useMainContext from "../../contexts/useMainContext.tsx";
+import { uploadImage } from "../../services/uploadImage.ts";
 
 function CreateClientAccount() {
-  const [form] = Form.useForm();
+  const { netlifyIdentity } = useMainContext();
   const { signInWithTwitter, isLoading, error } = useLogin();
+  const [form] = Form.useForm();
 
   const onPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-
+    const src = file.response;
     const image = new Image();
+    image.style.width = "100vmin";
+    image.style.marginInline = "auto";
+    image.style.display = "block";
     image.src = src;
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
 
   const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-     toast.error('You can only upload JPG/PNG file!');
-     return false;
-     
-    }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       toast.error('Image must smaller than 2MB!');
       return false;
     }
-    return isJpgOrPng && isLt2M;
+    return isLt2M;
   };
 
-  const onChange:UploadProps['onChange'] = async ({file}) => {
+  const customRequestHandler: UploadProps["customRequest"] = async ({
+    file,
+    onSuccess,
+  }) => {
+    const user = netlifyIdentity.currentUser()!;
+    const uploadFile = file as RcFile;
 
-    if ((file.status === "done")) {
-      const src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as RcFile);
-        reader.onload = () => resolve(reader.result as string);
-      });
+    const url = await uploadImage(uploadFile, user).catch((err) => {
+        console.log(err);
+    });
+    onSuccess && onSuccess(url);
+  };
 
-      form.setFieldsValue({
-        logo: src,
-      });
-    }
+  const onChangeHandler: UploadProps["onChange"] = (info) => {
+    console.log(info.file.status)
+   if(info.file.status === 'done') {
+      form.setFieldsValue({logo: info.file.response})
+   }
+   if(info.file.status === 'removed') {
+      form.setFieldsValue({logo: null})
+   }
   }
 
 
@@ -89,14 +89,10 @@ function CreateClientAccount() {
                 }}
                 maxCount={1}
                 name="logo"
-                customRequest={({ onSuccess }) => {
-                
-                  onSuccess && onSuccess(true);
-                }}
+                customRequest={customRequestHandler}
                 listType="picture-card"
                 beforeUpload={beforeUpload}
-                
-                onChange={onChange}
+                onChange={onChangeHandler}
                 onPreview={onPreview}
               >
                 <UploadOutlined style={{ fontSize: "2rem" }} />

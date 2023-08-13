@@ -1,5 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-// import Dashboard from "./pages/dashboard/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import {
   BarChartOutlined,
   CalendarOutlined,
@@ -8,9 +8,8 @@ import {
   SnippetsOutlined,
 } from "@ant-design/icons";
 import Templates from "./pages/templates/Templates";
-// import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
+import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
 import Guardian from "./components/guardian/Guardian";
-import Test from "./pages/createClientAccount/Test";
 
 export const CREATE_CLIENT_ACCOUNT_PATH = "/create-client-account";
 
@@ -36,8 +35,7 @@ export const routes = [
         path: DASHBOARD_PATH,
         title: "Dashboard",
         icon: <HomeOutlined />,
-        // element: <Dashboard />,
-        element: <Test />,
+        element: <Dashboard />,
       },
       {
         path: TEMPLATES_PATH,
@@ -61,20 +59,19 @@ export const routes = [
         path: ANALYTICS_PATH,
         title: "Analytics",
         icon: <BarChartOutlined />,
-        
+
         element: null,
       },
       {
         path: CREATE_CLIENT_ACCOUNT_PATH,
-        element: <Test />,
+        element: <CreateClientAccount />,
       },
     ],
-    
   },
   {
     path: "*",
     element: <Navigate to={HOME_PATH} />,
-  }
+  },
 ];
 
 export const router = createBrowserRouter(routes);

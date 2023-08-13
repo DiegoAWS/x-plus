@@ -44,8 +44,6 @@ function useLogin() {
 
                     const {companyName, logo} = storage.getObject() || {};
 
-  
-
                     signIn({ code, companyName, logo });
                     storage.clear();
                 }
@@ -80,11 +78,11 @@ function useLogin() {
         logo: string;
     };
 
-    const signInWithTwitter = ({ companyName }: Params) => {
+    const signInWithTwitter = ({ companyName, logo }: Params) => {
 
         createLocalStorage(COMPANY_DATA).setObject({
             companyName,
-           
+            logo
         });
         const authUrl = getTwitterOauthUrl()
         window.location.replace(authUrl);
