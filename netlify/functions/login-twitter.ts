@@ -14,9 +14,11 @@ const handler: Handler = async (
   const user = context.clientContext?.user;
   const adminToken = context.clientContext?.identity?.token;
 
-  const { code, companyName, logo} = JSON.parse(event?.body || "{}");
+  console.log(event?.body)
 
-  console.log({code, companyName, logo: logo.length, client: context.clientContext, user, adminToken})
+  const { code, companyName, logo } = JSON.parse(event?.body || "{}");
+
+  console.log({ code, companyName, logo: logo?.length, client: context.clientContext, user, adminToken })
   if (!code || !companyName) {
     console.log({ value: 'Missing data { code, companyName }' });
     return createResponse(400, {
