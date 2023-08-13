@@ -3,7 +3,7 @@ import { TwitterUser, getTwitterOAuthToken, getTwitterUser } from "./services/tw
 
 import { ROLE } from "./utils/types";
 import { updateMetadataUser } from "./services/identity";
-import { createClient, createUser } from "./db/repository";
+import { createClient, createUser } from "./db/repository/client";
 import { createResponse } from "./utils/tools";
 
 const handler: Handler = async (

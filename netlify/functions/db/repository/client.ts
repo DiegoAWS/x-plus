@@ -1,13 +1,12 @@
-import { Client, ClientType } from "./models/Client";
-import { User, UserType } from "./models/User";
+import { Client, ClientType } from "../models/Client";
+import { Template } from "../models/Template";
+import { User, UserType } from "../models/User";
 
-Client.hasMany(User, {
-    foreignKey: 'clientId'
-  });
-  
-  User.belongsTo(Client, {
-    foreignKey: 'clientId'
-  });
+Client.hasMany(User, { foreignKey: 'clientId' });
+User.belongsTo(Client, { foreignKey: 'clientId' });
+
+Client.hasMany(Template, { foreignKey: 'ClientId' });
+Template.belongsTo(Client, { foreignKey: 'ClientId' });
 
 
 
@@ -35,7 +34,6 @@ export const createUser = async (user: UserType) => {
     if (!created && createdUser.clientId !== user.clientId) {
         throw new Error("User already exists");
     }
-    
 
     return createdUser;
 }

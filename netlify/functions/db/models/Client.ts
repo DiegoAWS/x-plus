@@ -11,7 +11,6 @@ export type ClientType = {
     twitterTokenExpiresAt: string;
 }
 
-// type FullClient  is Client plus fields in   DefaulColumns;
 export type FullClient = ClientType & DefaulColumns;
 
 export const Client = sequelize.define<Model<FullClient>>('Client', {
