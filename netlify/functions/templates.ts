@@ -1,11 +1,10 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
-import { 
+import {
     createTemplate,
-    getTemplateById,
     getTemplatesByClientId,
     updateTemplate,
     deleteTemplate
- } from "./db/repository/template";
+} from "./db/repository/template";
 
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
     const user = context?.clientContext?.user;
@@ -40,25 +39,17 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
                 body: JSON.stringify(newTemplate)
             };
         }
-    
+
         case "GET": {
-            if (requestBody.id) {
-                // fetch a single template by its id
-                const template = await getTemplateById(requestBody.id);
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify(template)
-                };
-            } else {
-                // fetch all templates for this client
-                const templates = await getTemplatesByClientId(clientId);
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify(templates)
-                };
-            }
+            // fetch all templates for this client
+            const templates = await getTemplatesByClientId(clientId);
+            return {
+                statusCode: 200,
+                body: JSON.stringify(templates)
+            };
+
         }
-    
+
         case "PATCH": {
             if (requestBody.id) {
                 // update a template
@@ -74,7 +65,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
                 };
             }
         }
-    
+
         case "DELETE": {
             if (requestBody.id) {
                 // delete a template
@@ -90,7 +81,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
                 };
             }
         }
-    
+
         default: {
             return {
                 statusCode: 405,
@@ -98,8 +89,8 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
             };
         }
     }
-    
-    
+
+
 };
 
 export { handler };

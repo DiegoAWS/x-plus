@@ -1,5 +1,6 @@
 
-import { Template, TemplateType } from '../models/Template';  // assuming the path, adjust if necessary
+import { Template } from '../models/Template';  
+import { TemplateType } from '../../../../src/types/index';
 
 // Create
 export const createTemplate = async (template: TemplateType) => {
@@ -8,7 +9,7 @@ export const createTemplate = async (template: TemplateType) => {
 }
 
 // Read by ID
-export const getTemplateById = async (id: number) => {
+export const getTemplateById = async (id: number,) => {
     const template = await Template.findByPk(id);
 
     if (!template) return null;
