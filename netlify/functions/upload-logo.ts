@@ -1,21 +1,20 @@
 
-import type { Handler, HandlerEvent } from "@netlify/functions";
+import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions";
 
 import { uploadImage } from "./services/uploadLogo";
 
 export const handler: Handler = async (
-    event: HandlerEvent
+    event: HandlerEvent,
+    context: HandlerContext
 ) => {
-
-    // console.log(context.clientContext)
-    // //Check fro user auth
-    // const user = context.clientContext?.user;
-    // if (!user) {
-    //     return {
-    //         statusCode: 401,
-    //         body: "You must be signed in to call this function"
-    //     }
-    // }
+    //Check auth from user context
+    const user = context.clientContext?.user;
+    if (!user) {
+        return {
+            statusCode: 401,
+            body: "You must be signed in to call this function"
+        }
+    }
 
     // Check for POST method
     if (event.httpMethod !== "POST") {
@@ -26,6 +25,7 @@ export const handler: Handler = async (
     }
 
     const fileContent = event.body;
+  
     if (!fileContent) {
         return {
             statusCode: 400,
@@ -34,14 +34,9 @@ export const handler: Handler = async (
     }
 
     // Decode the Base64 encoded file content
-    const decodedFile = Buffer.from(fileContent, 'base64');
+    // const decodedFile = Buffer.from(fileContent, 'base64');
 
-
-
-    console.log(decodedFile)
-
-
-    const data = await uploadImage(decodedFile);
+    const data = await uploadImage(fileContent);
 
 
     return {

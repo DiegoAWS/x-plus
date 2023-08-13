@@ -8,7 +8,7 @@ import {
   SnippetsOutlined,
 } from "@ant-design/icons";
 import Templates from "./pages/templates/Templates";
-import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
+// import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
 import Guardian from "./components/guardian/Guardian";
 import Test from "./pages/createClientAccount/Test";
 
@@ -66,7 +66,7 @@ export const routes = [
       },
       {
         path: CREATE_CLIENT_ACCOUNT_PATH,
-        element: <CreateClientAccount />,
+        element: <Test />,
       },
     ],
     

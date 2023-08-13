@@ -1,29 +1,28 @@
-import { uuid } from "uuidv4";
-import { s3Client } from "./s3Client";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-
+import axios from "axios";
+import fs from "fs";
 export const uploadImage = async (file) => {
-    const fileKey = `${uuid()}.jpg`; // Generate a unique key for the image. Assuming jpg format, you might need to adjust.
 
-    const params = {
-        Bucket: "x-plus-bucket",
-        Key: fileKey,
-        Body: file,
-        ContentType: "image/jpeg", // Assuming jpg format, you might need to adjust
-    };
+    fs.writeFileSync('test.png', file)
+    
+    
+    const baseUrl = 'https://api.imgbb.com/1/upload'
 
     try {
-        const results = await s3Client.send(new PutObjectCommand(params));
-        console.log(results);
-        return {
-            fileKey,
-            results
+      const response = await axios.post(baseUrl, {
+        image: file,
+        key:"3c7a1ceea4e2a55740b54548f7532653"
+      },{
+        headers: {
+            'Content-Type': 'application/json',
         }
+      })
+
+
+        return response?.data
     } catch (error) {
-        console.error('Error uploading to S3:', error);
-        return {
-            statusCode: 500,
-            body: "Failed to upload image",
-        };
+
+        console.error('Error uploading:');
+        console.error(error);
+        return 
     }
 };
