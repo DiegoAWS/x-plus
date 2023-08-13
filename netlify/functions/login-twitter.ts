@@ -76,7 +76,7 @@ const handler: Handler = async (
 
   const updatedIdentityUser = await updateMetadataUser(adminToken, user.sub, {
     userId: createdUser?.id?.toString() || "UNKNOWN",
-    companyId: createdClient?.id?.toString() || "UNKNOWN",
+    clientId: createdClient?.id?.toString() || "UNKNOWN",
     role: ROLE.ADMIN,
     companyName: createdClient.name,
     logo: createdClient.logo || "",

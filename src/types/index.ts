@@ -31,7 +31,7 @@ export interface XUser extends User {
     }
 }
 
-export type TemplateType = {
+export interface TemplateType  {
     name: string;
     tweet: string;
     clientId?: number; 

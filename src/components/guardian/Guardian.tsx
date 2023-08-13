@@ -14,6 +14,7 @@ function Guardian() {
   const user = netlifyIdentity.currentUser() as XUser;
   const companyName = user?.app_metadata?.companyName;
 
+  console.log(user)
   useEffect(() => {
     if (!user && pathname !== HOME_PATH) {
       navigate(HOME_PATH);
