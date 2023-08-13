@@ -1,6 +1,6 @@
 import useMainContext from "../../contexts/useMainContext";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { CREATE_CLIENT_ACCOUNT_PATH, HOME_PATH } from "../../router";
+import { CREATE_CLIENT_ACCOUNT_PATH, DASHBOARD_PATH, HOME_PATH } from "../../router";
 import type { XUser } from "../../types";
 import MyOutlet from "../../pages/outlet/MyOutlet";
 import Home from "../../pages/home/Home";
@@ -41,9 +41,9 @@ function Guardian() {
     return <Navigate to={CREATE_CLIENT_ACCOUNT_PATH} />;
   }
 
-  if(user && companyName && pathname !== HOME_PATH) {
+  if(user && companyName && pathname !== DASHBOARD_PATH) {
     console.log("Guardian: Navigating to home due to user having companyName.");
-    return <Navigate to={HOME_PATH} />;
+    return <Navigate to={DASHBOARD_PATH} />;
   }
 
   console.log("Guardian: All checks passed, rendering MyOutlet component.");
