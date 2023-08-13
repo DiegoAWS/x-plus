@@ -2,27 +2,30 @@ import { Button, Card, Divider, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import useQuery from "../../hooks/useQuery";
-import { sendTweet } from "../../services/twitter";
 import "./Dashboard.scss";
-import useMainContext from "../../contexts/useMainContext";
 import { toast } from "react-toastify";
 
 function Dashboard() {
   const [twittArea, setTwittArea] = useState("");
-  const { twitterToken } = useMainContext();
 
-  const { refresh, isLoading } = useQuery({
-    axiosFn: sendTweet,
+  type Tweet = {
+    tweet: string;
+  };
+
+  const send_tweet_url = "/.netlify/functions/tweet";
+
+  const { refresh: sendTweet, isLoading } = useQuery<unknown, Tweet>({
+    path: send_tweet_url,
+    method: "POST",
     isDisabled: true,
   });
 
+
   const handleSendTweet = async () => {
-    if (!twitterToken) return;
-    const twitt = {
-      text: twittArea,
-      token: twitterToken,
+    const tweet = {
+      tweet: twittArea,
     };
-    await refresh(twitt);
+    await sendTweet(tweet);
     setTwittArea("");
     toast("Tweet successfully sent!");
   };
@@ -45,7 +48,9 @@ function Dashboard() {
           loading={isLoading}
           disabled={!twittArea}
           onClick={handleSendTweet}
-        />
+        >
+          Send tweet
+        </Button>
       </Card>
     </>
   );

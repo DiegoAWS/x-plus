@@ -21,6 +21,28 @@ export const createClient = async (client: ClientType) => {
     return createdClient.toJSON();
 }
 
+export const getClientById = async (clientId: number) => {
+    const client = await Client.findByPk(clientId);
+    return client?.toJSON();
+}
+
+
+export const updateClient = async (id: number, client: Partial<ClientType>) => {
+    const [updatedClient] = await Client.update(client, {
+        where: {
+            id
+        }
+    });
+    return updatedClient;
+}
+
+
+
+
+
+
+
+// move to client repo
 export const createUser = async (user: UserType) => {
 
     const [rawUser, created] = await User.findOrCreate({

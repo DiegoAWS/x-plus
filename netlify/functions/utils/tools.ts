@@ -3,6 +3,7 @@
 export const printError = (err) => {
     const error = err?.response?.data ? {
         data: err?.response?.data,
+        errors: err?.response?.data?.errors,
         headersResponse: err?.response?.headers,
         HeadersRequest: err?.request?.headers,
         request: err?.request.data,

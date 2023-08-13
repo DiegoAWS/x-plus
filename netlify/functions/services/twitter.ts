@@ -9,6 +9,8 @@ const TWITTER_OAUTH_CHALLENGE = process.env.VITE_CODE_CHALLENGE!;
 
 const TWITTER_OAUTH_TOKEN_URL = "https://api.twitter.com/2/oauth2/token";
 
+const TWITTER_SEND_TWEET_URL = "https://api.twitter.com/2/tweets";
+
 // we need to encrypt our twitter client id and secret here in base 64 (stated in twitter documentation)
 const BasicAuthToken = Buffer.from(`${TWITTER_OAUTH_CLIENT_ID}:${TWITTER_OAUTH_CLIENT_SECRET}`, "utf8").toString(
     "base64"
@@ -70,5 +72,48 @@ export async function getTwitterUser(accessToken: string): Promise<TwitterUser |
     }).catch(printError);
 
     return res?.data.data ?? null;
+
+}
+
+export async function refreshTwitterToken(refreshToken: string) {
+
+    // POST request to the token url to get the access token
+    const res = await axios.post<TwitterTokenResponse>(
+        TWITTER_OAUTH_TOKEN_URL,
+       {
+            client_id: TWITTER_OAUTH_CLIENT_ID,
+            grant_type: "refresh_token",
+            refresh_token: refreshToken,
+
+        },
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${BasicAuthToken}`,
+            },
+        }
+    ).catch(printError);
+
+    return res?.data;
+
+}
+
+export async function sendTweet(text, token) {
+
+    // POST request to the token url to get the access token
+    const res = await axios.post<TwitterTokenResponse>(
+        TWITTER_SEND_TWEET_URL,
+        {
+            text
+        },
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    ).catch(printError);
+
+    return res?.data;
 
 }

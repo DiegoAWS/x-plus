@@ -1,22 +1,7 @@
-import axios from "axios"
-import type { TwitterToken } from "../types";
 import { TWITTER_STATE, createLocalStorage } from "./localStore";
 
 const scopes = ["tweet.read", "users.read", "tweet.write", "offline.access"];
 
-export type TwittSend = {
-    text: string;
-    token: TwitterToken
-
-}
-export const sendTweet = async (tweet: TwittSend) => {
-    return axios.post("/.netlify/functions/twitt", tweet,
-        {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-}
 
 const TWITTER_CLIENT_ID = import.meta.env.VITE_TWITTER_CLIENT_ID as string
 const CODE_CHALLENGE = import.meta.env.VITE_CODE_CHALLENGE as string
