@@ -3,13 +3,14 @@ import { Menu, type MenuProps } from "antd";
 import useMainContext from "../../contexts/useMainContext";
 // import { HOME_PATH } from "../../router";
 // import { routes } from "../../router";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../router";
 import type { XUser } from "../../types";
 
 function NavigationMenu() {
   const { isDarkTheme } = useMainContext();
   const navigate = useNavigate();
+  const {pathname} =useLocation();
 
   const { netlifyIdentity } = useMainContext();
 
@@ -37,13 +38,13 @@ function NavigationMenu() {
     <Menu
       theme={isDarkTheme ? "dark" : "light"}
       mode="inline"
+      selectedKeys={[pathname]}
       items={[
         ...(items || []),
         {
           type: "divider",
         },
       ]}
-      selectedKeys={["1"]}
     />
   );
 }

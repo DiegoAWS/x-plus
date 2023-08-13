@@ -4,12 +4,12 @@ import {
   BarChartOutlined,
   CalendarOutlined,
   HomeOutlined,
-  MenuUnfoldOutlined,
   SnippetsOutlined,
 } from "@ant-design/icons";
 import Templates from "./pages/templates/Templates";
 import CreateClientAccount from "./pages/createClientAccount/CreateClientAccount";
 import Guardian from "./components/guardian/Guardian";
+import Tasks from "./pages/tasks/Tasks";
 
 export const CREATE_CLIENT_ACCOUNT_PATH = "/create-client-account";
 
@@ -46,14 +46,8 @@ export const routes = [
       {
         path: TASKS_PATH,
         title: "Tasks",
-        icon: <MenuUnfoldOutlined />,
-        element: null,
-      },
-      {
-        path: RECURRENT_TASKS_PATH,
-        title: "Recurrent Tasks",
         icon: <CalendarOutlined />,
-        element: null,
+        element: <Tasks />,
       },
       {
         path: ANALYTICS_PATH,

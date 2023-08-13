@@ -52,6 +52,10 @@ function Template() {
     send(values);
   };
 
+  const sendTemplateHandler = (id: number) => {
+    console.log({ id })
+  }
+
   useEffect(() => {
     if (errorList || errorCreate) {
       toast.error("Something went wrong, please refresh the page.");
@@ -79,6 +83,7 @@ function Template() {
         <TemplateList
           deleteTemplate={deleteTemplateHandler}
           data={templatesList}
+          sendTemplate={sendTemplateHandler}
           isLoading={isLoadingList || isLoadingDelete || isLoadingCreate}
         />
       </Space>
