@@ -9,9 +9,10 @@ export const templatePath = "/.netlify/functions/templates";
 
 
 export default function TemplateList() {
-  const { data, isLoading, error, refresh } = useQuery<TemplateType>({
+  const { data, isLoading, error, refresh } = useQuery<TemplateType[]>({
     path:templatePath,
     method:"GET",
+    isArray: true,
     isDisabled: false,
   });
 
@@ -56,7 +57,7 @@ export default function TemplateList() {
         loading={isLoading}
         columns={columns} 
         dataSource={data} 
-        rowKey="id"  // Assuming your TemplateType has an "id" field. Adjust accordingly if not.
+        rowKey="id" 
       />
     </div>
   );

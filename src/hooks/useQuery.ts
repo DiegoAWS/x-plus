@@ -10,18 +10,22 @@ type Props<K> = {
     isDisabled?: boolean;
     dependencies?: unknown;
     parameters?: K;
+    isArray?: boolean;
 }
 
 function useQuery<T, K = void>({
     axiosFn=undefined,
     path,
     method,
+    isArray = false,
     parameters= defaultParameters as K,
     isDisabled = false,
     dependencies,
 }: Props<K>) {
 
-    const [data, setData] = useState<T[]>([]);
+
+
+    const [data, setData] = useState<T>( (isArray? [] : undefined )as unknown as T);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>();
     const { netlifyIdentity } = useMainContext();
@@ -31,7 +35,6 @@ function useQuery<T, K = void>({
         setError('');
 
         try {
-            console.log("FETCHING")
             
             let response;
             if (axiosFn) {
@@ -52,8 +55,6 @@ function useQuery<T, K = void>({
                     }
 
                 })
-
-                console.log(response?.data);
             }
             if (response?.statusText !== "OK" && response.status !== 200 && response.status !== 201) throw response;
 
