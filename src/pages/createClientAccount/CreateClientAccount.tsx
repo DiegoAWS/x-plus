@@ -96,9 +96,6 @@ function CreateClientAccount() {
         <Form
           form={form}
           layout="vertical"
-          initialValues={{
-            companyName: "Lorem Ipsum LCC",
-          }}
           onFinish={signInWithTwitter}
         >
           <Form.Item name={["logo"]} label="Organization logo">
