@@ -25,6 +25,12 @@ function Guardian() {
       console.log("Guardian: User exists but lacks companyName, redirecting...");
       navigate(CREATE_CLIENT_ACCOUNT_PATH);
     }
+
+    if (user && companyName && pathname == CREATE_CLIENT_ACCOUNT_PATH) {
+      console.log("Guardian: User exists and has companyName, redirecting...");
+      navigate(DASHBOARD_PATH);
+    }
+
   }, [user, companyName, pathname, navigate]);
     
   if (!user) {
@@ -39,11 +45,6 @@ function Guardian() {
   ) {
     console.log("Guardian: Navigating due to user missing companyName.");
     return <Navigate to={CREATE_CLIENT_ACCOUNT_PATH} />;
-  }
-
-  if(user && companyName && pathname !== DASHBOARD_PATH) {
-    console.log("Guardian: Navigating to home due to user having companyName.");
-    return <Navigate to={DASHBOARD_PATH} />;
   }
 
   console.log("Guardian: All checks passed, rendering MyOutlet component.");
