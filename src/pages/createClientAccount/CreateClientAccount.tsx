@@ -70,6 +70,7 @@ function CreateClientAccount() {
 
     if (dataLogin) {
       toast.success("Registration completed successfully");
+      toast.info("Please wait, you will be redirected to the login page....");
 
       timer = setTimeout(() => {
         netlifyIdentity.logout();
