@@ -73,8 +73,8 @@ function useQuery<T, K = void>({
         setIsLoading(false);
     }, [axiosFn, method, netlifyIdentity, path]);
 
-    const refresh = useCallback((params: K) => {
-        fetchData(params);
+    const refresh = useCallback(async(params: K) => {
+       return  fetchData(params);
     }, [fetchData]);
 
     const dependenciesString = JSON.stringify(dependencies) || "";

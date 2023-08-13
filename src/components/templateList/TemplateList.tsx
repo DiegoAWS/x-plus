@@ -49,7 +49,7 @@ export default function TemplateList({
           >
             <Button type="text" icon={<DeleteOutlined />} />
           </Popconfirm>
-          <Button type="text" icon={<SendOutlined />} onClick={()=>sendTemplate(id)}/>
+          <Button disabled type="text" icon={<SendOutlined />} onClick={()=>sendTemplate(id)}/>
         </Space>
       ),
     },
