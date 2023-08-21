@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { PlusOutlined } from "@ant-design/icons";
 
 function Template() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     data: templatesList,
     isLoading: isLoadingList,

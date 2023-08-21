@@ -3,18 +3,20 @@ import { User } from "./db/models/User";
 import { Client } from "./db/models/Client";
 import { Template } from "./db/models/Template";
 
+const alter = false;
+const force = false;
 export const handler: Handler = async () => {
     await Client.sync({
-        // alter: true,
-        force: true
+        alter,
+        force
     });
     await User.sync({
-        // alter: true,
-        force: true
+        alter,
+        force
     });
     await Template.sync({
-        // alter: true,
-        force: true
+        alter,
+        force
     });
 
     return {
@@ -23,7 +25,7 @@ export const handler: Handler = async () => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-           synced: true
+           synced: "true"
         })
     }
 };

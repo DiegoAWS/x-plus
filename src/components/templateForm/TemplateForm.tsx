@@ -19,7 +19,7 @@ type Props = {
 function TemplateForm({ handleFormFinish }: Props) {
   const [form] = Form.useForm();
 
-  const [isVisibleScheduler, setIsVisibleScheduler] = useState(true);
+  const [isVisibleScheduler, setIsVisibleScheduler] = useState(false);
 
   const handleFormFinishHandler = (values: TemplateFormType) => {
     handleFormFinish({
