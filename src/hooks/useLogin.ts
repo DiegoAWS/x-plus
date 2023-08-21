@@ -17,7 +17,11 @@ function useLogin() {
         isLoading: isLoadingLogin,
         error: errorLogin,
         refresh: signIn,
-    } = useQuery<TwitterToken, LoginParams>({ path: "/.netlify/functions/login-twitter", isDisabled: true });
+    } = useQuery<TwitterToken, LoginParams>({
+        path: "/.netlify/functions/login-twitter",
+        method: "POST"
+        , isDisabled: true
+    });
 
     useEffect(() => {
         (async () => {

@@ -28,7 +28,7 @@ export const Template = sequelize.define<Model<FullTemplate>>('Template', {
         type: DataTypes.TEXT,
     },
     scheduleTime: {
-        type: DataTypes.TEXT,
+        type: DataTypes.DATE,
     },
 
     weekDay: {
