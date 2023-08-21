@@ -39,6 +39,13 @@ export type TemplateType = {
     clientId?: number;
 }
 
-export type TemplateFormType  = TemplateType & {
+export type TemplateFormType = TemplateType & {
     scheduleTime: Dayjs
+}
+
+export const SCHEDULE = {
+    ONCE: "once",
+    DAILY: "daily",
+    WEEKLY: "weekly",
+    MONTHLY: "monthly",
 }

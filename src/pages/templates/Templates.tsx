@@ -49,7 +49,7 @@ function Template() {
 
   const handleFormFinish = (values: TemplateType) => {
     setIsModalOpen(false);
-    console.log({ values })
+    console.log( values)
     send(values);
   };
 

@@ -2,10 +2,10 @@ import { Table, Button, Popconfirm, Space } from "antd";
 import type { ColumnType } from "antd/es/table";
 import type { TemplateType } from "../../types";
 import {
-  CalendarOutlined,
   ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
+  PauseCircleOutlined,
   ScheduleOutlined,
   SendOutlined,
 } from "@ant-design/icons";
@@ -48,18 +48,13 @@ export default function TemplateList({
       width: "40px",
       dataIndex: "schedule",
       key: "schedule",
-      render: (schedule: string) =>(
+      render: (schedule: string) => (
         <>
-          {schedule === "once" && <ClockCircleOutlined title="Schedule once"/>}
-          {schedule && schedule !== "once" && <ScheduleOutlined title={`Schedule ${schedule}`}/>}
-          {!schedule && (
-            <Button
-              disabled
-              title="This template is not scheduled"
-              type="text"
-              icon={<CalendarOutlined />}
-            />
+          {schedule === "once" && <ClockCircleOutlined title="Schedule once" />}
+          {schedule && schedule !== "once" && (
+            <ScheduleOutlined title={`Schedule ${schedule}`} />
           )}
+          {!schedule && <PauseCircleOutlined title="Not schedule" />}
         </>
       ),
     },
