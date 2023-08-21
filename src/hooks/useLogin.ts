@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useQuery from "./useQuery.ts";
-import { login, type LoginParams } from "../services/auth.ts";
+import { type LoginParams } from "../services/auth.ts";
 import type { TwitterToken } from "../types/index.ts";
 import { TWITTER_STATE, createLocalStorage } from "../services/localStore.ts";
 import { getTwitterOauthUrl } from "../services/twitter.ts";
@@ -17,7 +17,7 @@ function useLogin() {
         isLoading: isLoadingLogin,
         error: errorLogin,
         refresh: signIn,
-    } = useQuery<TwitterToken, LoginParams>({ axiosFn: login, isDisabled: true });
+    } = useQuery<TwitterToken, LoginParams>({ path: "/.netlify/functions/login-twitter", isDisabled: true });
 
     useEffect(() => {
         (async () => {

@@ -1,6 +1,6 @@
 import { Button, Card, Divider, Input } from "antd";
 import { SendOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useQuery from "../../hooks/useQuery";
 import "./Dashboard.scss";
 import { toast } from "react-toastify";
@@ -14,21 +14,34 @@ function Dashboard() {
 
   const send_tweet_url = "/.netlify/functions/tweet";
 
-  const { refresh: sendTweet, isLoading } = useQuery<unknown, Tweet>({
+  const {
+    refresh: sendTweet,
+    error,
+    isLoading,
+  } = useQuery<unknown, Tweet>({
     path: send_tweet_url,
     method: "POST",
     isDisabled: true,
   });
 
-
   const handleSendTweet = async () => {
     const tweet = {
       tweet: twittArea,
     };
-    await sendTweet(tweet);
-    setTwittArea("");
-    toast("Tweet successfully sent!");
+    const result = await sendTweet(tweet);
+
+    if (result?.statusText === "OK") {
+      setTwittArea("");
+      toast("Tweet successfully sent!");
+    }
   };
+
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      toast.error("Error sending tweet");
+    }
+  }, [error]);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { refreshTwitterToken, sendTweet } from "./services/twitter";
 
 const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
 
-    const {tweet} = JSON.parse(event?.body || "{}");
+    const { tweet } = JSON.parse(event?.body || "{}");
 
 
     const user = context?.clientContext?.user;
@@ -19,43 +19,48 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
 
     const client = await getClientById(clientId);
-    if(!client) {
+    if (!client) {
         return {
             statusCode: 404,
             body: "Client not found"
         };
     }
+    // console.log(client)
     const tokenExpireAt = client?.twitterTokenExpiresAt;
 
-    const isTokenValid = tokenExpireAt && new Date(tokenExpireAt) < new Date();
+    const isTokenValid = tokenExpireAt && (Date.now() < new Date(tokenExpireAt).getTime());
 
 
     let access_token = client?.twitterToken || "";
 
+
     if (!isTokenValid) {
+
         const refreshToken = client?.twitterRefreshToken || "";
 
         const updatedToken = await refreshTwitterToken(refreshToken);
 
-        if(!updatedToken) {
+        if (!updatedToken) {
             return {
                 statusCode: 500,
                 body: "Error refreshing token"
             };
         }
-        
-      await updateClient(client?.id || 0, {
+
+        await updateClient(client?.id || 0, {
             twitterToken: updatedToken?.access_token || "",
             twitterRefreshToken: updatedToken?.refresh_token || "",
             twitterTokenExpiresAt: (new Date(Date.now() + (updatedToken?.expires_in || 2 * 1000) * 1000 - 60 * 1000)).toISOString(),
         })
-       
+
+
+
         access_token = updatedToken?.access_token || "";
     }
 
     const responseTweet = await sendTweet(tweet, access_token);
 
-    if(!responseTweet) {
+    if (!responseTweet) {
         return {
             statusCode: 500,
             body: "Error sending tweet"

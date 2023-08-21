@@ -1,4 +1,4 @@
-import type { AxiosResponse } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import useMainContext from "../contexts/useMainContext";
@@ -14,67 +14,72 @@ type Props<K> = {
 }
 
 function useQuery<T, K = void>({
-    axiosFn=undefined,
+    axiosFn = undefined,
     path,
     method,
     isArray = false,
-    parameters= defaultParameters as K,
+    parameters = defaultParameters as K,
     isDisabled = false,
     dependencies,
 }: Props<K>) {
 
 
 
-    const [data, setData] = useState<T>( (isArray? [] : undefined )as unknown as T);
+    const [data, setData] = useState<T>((isArray ? [] : undefined) as unknown as T);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>();
     const { netlifyIdentity } = useMainContext();
 
-    const fetchData = useCallback(async (params: K) => {
+    const fetchData = useCallback(async (params: K): Promise<AxiosResponse> => {
         setIsLoading(true);
         setError('');
 
+        let response;
         try {
-            
-            let response;
+
             if (axiosFn) {
                 response = await axiosFn(params);
             } else {
                 const token = netlifyIdentity?.currentUser()?.token?.access_token;
 
-                const auth = token? {
+                const auth = token ? {
                     Authorization: `Bearer ${token}`
                 } : {};
                 response = await axios({
                     url: path,
                     method,
-                    data:params,
-                    headers:{
+                    data: params,
+                    headers: {
                         ...auth,
                         "Accept": "application/json",
                     }
 
-                })
+                });
             }
             const isGoodResponse = [200, 201, 204].includes(response?.status);
             if (response?.statusText !== "OK" && !isGoodResponse) throw response;
 
 
             setData(response?.data);
+            return response;
         } catch (e) {
 
             console.log("ERRROR")
-            type Error = {
-                message?: string;
-            }
 
-            setError(JSON.stringify((e as Error)?.message || e));
+
+            const error = (e as AxiosError);
+
+            setError(JSON.stringify(error?.message || e));
+            return error?.response as AxiosResponse;
+
+        } finally {
+            setIsLoading(false);
+
         }
-        setIsLoading(false);
     }, [axiosFn, method, netlifyIdentity, path]);
 
-    const refresh = useCallback(async(params: K) => {
-       return  fetchData(params);
+    const refresh = useCallback(async (params: K) => {
+        return fetchData(params);
     }, [fetchData]);
 
     const dependenciesString = JSON.stringify(dependencies) || "";
