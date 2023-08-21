@@ -26,6 +26,11 @@ a {
   justify-content: flex-end !important;
 }
 
+.ant-picker,
+.ant-select{
+  width: 100% !important;
+}
+
 button {
   align-items: center !important;
   display: flex !important;

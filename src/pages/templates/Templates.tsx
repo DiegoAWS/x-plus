@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { PlusOutlined } from "@ant-design/icons";
 
 function Template() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const {
     data: templatesList,
     isLoading: isLoadingList,
@@ -49,6 +49,7 @@ function Template() {
 
   const handleFormFinish = (values: TemplateType) => {
     setIsModalOpen(false);
+    console.log({ values })
     send(values);
   };
 
@@ -63,7 +64,6 @@ function Template() {
   }, [errorList, errorCreate]);
 
   useEffect(() => {
-    console.log({ templateCreate, templateDelete });
     if (templateCreate || templateDelete) {
       refreshList();
     }
@@ -91,6 +91,7 @@ function Template() {
         open={isModalOpen}
         footer={null}
         destroyOnClose
+        maskClosable={false}
         onCancel={() => setIsModalOpen(false)}
       >
         <TemplateForm handleFormFinish={handleFormFinish} />

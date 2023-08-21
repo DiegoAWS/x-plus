@@ -14,27 +14,26 @@ function Guardian() {
   const user = netlifyIdentity.currentUser() as XUser;
   const companyName = user?.app_metadata?.companyName;
 
-  console.log('Guardian: Current user:', user);
   useEffect(() => {
     if (!user && pathname !== HOME_PATH) {
-      console.log("Guardian: User is undefined, redirecting to home...");
+      
       navigate(HOME_PATH);
     }
 
     if (user && !companyName && pathname !== CREATE_CLIENT_ACCOUNT_PATH) {
-      console.log("Guardian: User exists but lacks companyName, redirecting...");
+      
       navigate(CREATE_CLIENT_ACCOUNT_PATH);
     }
 
     if (user && companyName && pathname == CREATE_CLIENT_ACCOUNT_PATH) {
-      console.log("Guardian: User exists and has companyName, redirecting...");
+      
       navigate(DASHBOARD_PATH);
     }
 
   }, [user, companyName, pathname, navigate]);
     
   if (!user) {
-    console.log("Guardian: Rendering Home component due to lack of user.");
+    
     return <Home />;
   }
 
@@ -43,11 +42,11 @@ function Guardian() {
     !companyName &&
     pathname !== CREATE_CLIENT_ACCOUNT_PATH
   ) {
-    console.log("Guardian: Navigating due to user missing companyName.");
+    
     return <Navigate to={CREATE_CLIENT_ACCOUNT_PATH} />;
   }
 
-  console.log("Guardian: All checks passed, rendering MyOutlet component.");
+  
   return <MyOutlet />;
 }
 

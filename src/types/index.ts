@@ -1,5 +1,5 @@
 import type { User } from "netlify-identity-widget";
-
+import type { Dayjs } from "dayjs";
 export interface TwitterToken {
     token: Token;
     me: Me;
@@ -34,5 +34,11 @@ export interface XUser extends User {
 export type TemplateType = {
     name: string;
     tweet: string;
-    clientId?: number; 
+    schedule?: string;
+    scheduleTime?: string;
+    clientId?: number;
+}
+
+export type TemplateFormType  = TemplateType & {
+    scheduleTime: Dayjs
 }

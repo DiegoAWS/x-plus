@@ -1,11 +1,23 @@
 
-import { Template } from '../models/Template';  
+import { ExtraCronColumns, Template } from '../models/Template';
 import { TemplateType } from '../../../../src/types/index';
 
 // Create
 export const createTemplate = async (template: TemplateType) => {
-    console.log({template})
-    const createdTemplate = await Template.create(template);
+
+    const schedule = template?.schedule;
+    const scheduleTime = new Date(template?.scheduleTime || Date.now());
+
+    const cronFields: ExtraCronColumns = schedule && schedule !== 'once' ? {
+        weekDay: scheduleTime.getDay(),
+        monthDay: scheduleTime.getDate(),
+        longHour: scheduleTime.getHours()
+    } : {};
+
+    const createdTemplate = await Template.create({
+        ...template,
+        ...cronFields
+    });
     return createdTemplate.toJSON();
 }
 
@@ -32,7 +44,7 @@ export const getTemplatesByClientId = async (clientId: number) => {
 }
 
 // Update
-export const updateTemplate = async (id: number,clientId: number, updatedTemplate: Partial<TemplateType>) => {
+export const updateTemplate = async (id: number, clientId: number, updatedTemplate: Partial<TemplateType>) => {
     await Template.update(updatedTemplate, {
         where: {
             id,
