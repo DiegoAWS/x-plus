@@ -5,16 +5,16 @@ import { Template } from "./db/models/Template";
 
 export const handler: Handler = async () => {
     await Client.sync({
-        alter: true,
-        force: false
+        // alter: true,
+        force: true
     });
     await User.sync({
-        alter: true,
-        force: false
+        // alter: true,
+        force: true
     });
     await Template.sync({
-        alter: true,
-        force: false
+        // alter: true,
+        force: true
     });
 
     return {
