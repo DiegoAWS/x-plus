@@ -1,12 +1,13 @@
-import React from "react";
+import { useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { CellRenderInfo } from "rc-picker/lib/interface";
 import type { BadgeProps } from "antd";
 import { Badge, Button, Calendar, Card, Space } from "antd";
 import "./Tasks.scss";
 import { PlusOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
+
 const getListData = (value: Dayjs) => {
-  console.log(value);
   let listData;
   switch (value.date()) {
     case 8:
@@ -38,7 +39,19 @@ const getListData = (value: Dayjs) => {
 };
 
 
-const Tasks: React.FC = () => {
+
+
+
+type MonthYear = {
+  month: number; // 0 - 11
+  year: number;
+};
+
+const Tasks = () => {
+  const [monthYear, setMonthYear] = useState<MonthYear>({
+    month: dayjs().month(),
+    year: dayjs().year(),
+  });
 
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
@@ -62,8 +75,9 @@ const Tasks: React.FC = () => {
     return info.originNode;
   };
 
+  console.log({ monthYear });
   return (
-    <Card>
+    <Card className="tasksWrapper">
       <Space direction="vertical">
         <Space>
           <Button onClick={() => {}} loading={false} icon={<PlusOutlined />}>
@@ -75,9 +89,16 @@ const Tasks: React.FC = () => {
         </Space>
         <Calendar
           cellRender={cellRender}
-          // style={{
-          //   minWidth: "1200px",
-          // }}
+          mode="month"
+          onPanelChange={(date) => {
+            setMonthYear({
+              month: date.month(), 
+              year: date.year(),
+            })
+          }}
+          style={{
+            minWidth: "1200px",
+          }}
         />
       </Space>
     </Card>
