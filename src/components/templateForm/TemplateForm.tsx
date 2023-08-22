@@ -11,6 +11,7 @@ import {
 } from "antd";
 import type { TemplateFormType, TemplateType } from "../../types";
 import { useState } from "react";
+import './TemplateForm.scss';
 
 type Props = {
   handleFormFinish: (values: TemplateType) => void;
@@ -30,6 +31,7 @@ function TemplateForm({ handleFormFinish }: Props) {
 
   return (
     <Form
+    className="templateFormWrapper"
       layout="vertical"
       form={form}
       onFinish={handleFormFinishHandler}

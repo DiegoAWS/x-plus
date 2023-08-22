@@ -6,6 +6,7 @@ import { Badge, Button, Calendar, Card, Space } from "antd";
 import "./Tasks.scss";
 import { PlusOutlined } from "@ant-design/icons";
 const getListData = (value: Dayjs) => {
+  console.log(value);
   let listData;
   switch (value.date()) {
     case 8:
@@ -36,22 +37,8 @@ const getListData = (value: Dayjs) => {
   return listData || [];
 };
 
-const getMonthData = (value: Dayjs) => {
-  if (value.month() === 8) {
-    return 1394;
-  }
-};
 
 const Tasks: React.FC = () => {
-  const monthCellRender = (value: Dayjs) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  };
 
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
@@ -71,7 +58,7 @@ const Tasks: React.FC = () => {
 
   const cellRender = (current: Dayjs, info: CellRenderInfo<Dayjs>) => {
     if (info.type === "date") return dateCellRender(current);
-    if (info.type === "month") return monthCellRender(current);
+
     return info.originNode;
   };
 
@@ -88,9 +75,9 @@ const Tasks: React.FC = () => {
         </Space>
         <Calendar
           cellRender={cellRender}
-          style={{
-            minWidth: "1200px",
-          }}
+          // style={{
+          //   minWidth: "1200px",
+          // }}
         />
       </Space>
     </Card>
